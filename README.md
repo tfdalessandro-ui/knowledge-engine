@@ -1,71 +1,137 @@
-# CPU-First Knowledge Engine — P0+P1: Foundations, Eval Harness, BM25 MVP
+# CPU-First Knowledge Engine
 
-This is a retrieval-first search system: BM25 + hybrid search over documents,
-a knowledge graph, and an optional small-LLM layer on top, all designed to
-run acceptably on ordinary CPU cores rather than requiring a GPU. Full
-roadmap: 8 phases, P0 and P5 are hard gates, every other phase can reorder or
-run in parallel.
+A retrieval-first search system — BM25 + hybrid search over documents, a
+knowledge graph, and an optional small-LLM layer — built to run acceptably
+on ordinary CPU cores instead of requiring a GPU.
 
-## P0 — Foundations & evaluation harness
+**Status:** Phase P1 complete (P0 foundations + P1 BM25 MVP). See
+[Roadmap](#roadmap).
 
-**P0 does not build a search engine.** It builds the thing every later phase
-needs before it can be trusted: a way to measure whether a change to the
-search backend actually made results better.
+## Table of contents
 
-- **A relevance-judgment set** ([data/judgments/judgments.json](data/judgments/judgments.json)):
-  79 hand-labeled (query, document, relevance-grade) triples over a
-  33-document seed corpus ([data/corpus/](data/corpus/)) spanning every P1
-  format (txt/md/html/csv/json/xml/docx/xlsx/pptx). This is the ground truth
-  every ranking change gets measured against.
-- **An eval harness** ([src/eval/](src/eval/)): computes three standard
-  retrieval-quality metrics —
-  - **nDCG@10** — rewards putting the *most* relevant results at the top of
-    the first page, not just any relevant result.
-  - **MRR** (Mean Reciprocal Rank) — how quickly the first relevant result
-    shows up.
-  - **recall@20** — of everything relevant, how much was found at all.
+- [Features](#features)
+- [Quick start](#quick-start)
+- [Usage](#usage)
+- [Project structure](#project-structure)
+- [Testing](#testing)
+- [Roadmap](#roadmap)
+- [Documentation](#documentation)
 
-  It can run against three deterministic stub indices (`perfect`, `shuffled`,
-  `null`, proving the metric math itself is correct) or the real BM25 index
-  (`real`, P1's actual deliverable).
-- **A benchmark script** ([src/bench/benchmark.py](src/bench/benchmark.py)):
-  a generic wrapper — `benchmark(fn, *args, **kwargs)` — that times any
-  function's p50/p95 latency and tracks peak resident memory (RSS) while it
-  runs. Every later phase reuses this to keep "CPU-efficient" a measured
-  number, not an assumption.
+## Features
 
-## P1 — Ingestion & BM25 MVP
+- **Evaluation harness** — nDCG@10, MRR, and recall@20 computed against a
+  hand-labeled judgment set, so every later ranking change is measured, not
+  guessed at.
+- **Multi-format ingestion** — PDF, DOCX, XLSX, PPTX, HTML, Markdown, and CSV
+  via [Docling](https://github.com/docling-project/docling); TXT, JSON, and
+  XML via dedicated lightweight readers.
+- **Incremental indexing** — a SQLite content-hash registry means an
+  unchanged file is never re-parsed or re-indexed; a changed file only
+  replaces its own chunks.
+- **BM25 search** — powered by [Tantivy](https://github.com/quickwit-oss/tantivy),
+  embedded directly (no separate search server process).
+- **`/search` REST endpoint** — a minimal FastAPI service over the index.
+- **Benchmarking** — a generic `benchmark(fn, *args, **kwargs)` wrapper
+  reports p50/p95 latency and peak RSS for any operation, reused across every
+  phase so "CPU-efficient" stays a measured claim.
 
-One source type — local documents — indexed and searchable end to end, with
-incremental re-indexing from day one.
+## Quick start
 
-- **Parsers** ([src/ingest/parsers.py](src/ingest/parsers.py)): PDF, DOCX,
-  XLSX, PPTX, HTML, MD, CSV via [Docling](https://github.com/docling-project/docling)
-  (one library, one unified document model); TXT/JSON/XML via small dedicated
-  readers, since those formats are flat data, not laid-out documents.
-- **Chunking** ([src/ingest/chunking.py](src/ingest/chunking.py)):
-  paragraph-level, ~250–400 tokens (whitespace-word count) per chunk, 15%
-  overlap between consecutive chunks.
-- **Incremental indexing** ([src/ingest/pipeline.py](src/ingest/pipeline.py),
-  [src/ingest/registry.py](src/ingest/registry.py)): a SQLite registry tracks
-  each file's content hash; unchanged files are skipped entirely, a changed
-  file's old chunks are deleted and replaced, new files are added, deleted
-  files are removed — never a full-corpus rebuild.
-- **BM25 index** ([src/ingest/index_tantivy.py](src/ingest/index_tantivy.py)):
-  [Tantivy](https://github.com/quickwit-oss/tantivy), Rust BM25 search
-  embedded via Python bindings, no separate server process.
-- **`/search` endpoint** ([src/api/main.py](src/api/main.py)): FastAPI,
-  chunk-level results (`doc_id`, `chunk_id`, score, text).
+Requires Python 3.11+ (developed against 3.12/3.13; see
+[HELP.md](HELP.md#reproducing-on-a-fresh-ubuntu-2404-box-eg-ccx23-once-it-exists)
+for exact version notes).
 
-## How this fits the roadmap
+```bash
+python3 -m venv .venv
 
-BM25 indexing, hybrid search, learning-to-rank, the knowledge graph,
-connectors, web crawl, and the optional LLM layer (P2 onward) all ship
-changes to *how search ranks results*. None of those changes are meaningful
-without the P0 harness to score them against the judgment set, and P2's
-"hybrid beats BM25-only by +5% nDCG@10" exit criterion needs P1's real BM25
-baseline to compare against — that's why P1's exit criterion is recording
-that baseline number, not just making search technically work.
+# Install torch's CPU wheels FIRST (see the CRITICAL note in requirements.txt —
+# plain PyPI torch on Linux pulls ~1GB+ of unused CUDA packages otherwise):
+.venv/bin/pip install torch==2.14.0 torchvision==0.29.0 --index-url https://download.pytorch.org/whl/cpu
+.venv/bin/pip install -r requirements.txt
 
-See `HELP.md` for how to run everything, and the timestamped `LOGBOOK_*.md`
-files for what was actually measured and any decisions made along the way.
+# Build the BM25 index over data/corpus/
+PYTHONPATH=src .venv/bin/python -m ingest.pipeline
+
+# Run the test suite (44 passed, 1 skipped by default)
+PYTHONPATH=src .venv/bin/python -m pytest -q
+```
+
+On Windows, substitute `.venv\Scripts\pip` / `.venv\Scripts\python`.
+
+## Usage
+
+**Search the index from the CLI:**
+
+```bash
+PYTHONPATH=src .venv/bin/python -m eval.run --index real
+```
+
+**Serve the `/search` API:**
+
+```bash
+cd src && PYTHONPATH=. ../.venv/bin/uvicorn api.main:app --host 127.0.0.1 --port 8000
+curl "http://127.0.0.1:8000/search?q=bm25+ranking&k=5"
+```
+
+**Benchmark any function:**
+
+```python
+from bench.benchmark import benchmark, print_report
+result = benchmark(my_function, arg1, arg2, iterations=100, label="my_op")
+print_report(result)
+```
+
+Full command reference, including how to add corpus documents and judgment
+entries, is in [HELP.md](HELP.md).
+
+## Project structure
+
+```
+src/
+  api/        FastAPI /search endpoint
+  bench/      generic latency + peak-RSS benchmark wrapper
+  config/     env-var-driven settings (no hardcoded paths/ports)
+  eval/       nDCG@10 / MRR / recall@20 harness, stub + real indices
+  ingest/     parsers, chunking, content-hash registry, Tantivy BM25 index
+tests/        pytest suite mirroring src/
+data/
+  corpus/     seed documents (multi-format)
+  judgments/  hand-labeled query/document relevance judgments
+scripts/      one-time corpus-seeding generators
+```
+
+## Testing
+
+```bash
+PYTHONPATH=src .venv/bin/python -m pytest -q
+```
+
+Runs fully offline by default. One test (PDF parsing) is gated behind
+`KE_ENABLE_PDF_TESTS=1` because it triggers a one-time ML model download —
+see [HELP.md](HELP.md#network-dependency-pdf-only) for why.
+
+## Roadmap
+
+| Phase | Scope | Status |
+|-------|-------|--------|
+| P0 | Foundations & evaluation harness | ✅ Done |
+| P1 | Ingestion & BM25 MVP | ✅ Done |
+| P2 | Hybrid retrieval (BGE-Small + FAISS/HNSW) | Not started |
+| P3 | Usage capture & learning-to-rank (LightGBM) | Not started |
+| P4 | Entity extraction & knowledge graph v1 (spaCy + Memgraph) | Not started |
+| P5 | Enterprise connectors & access control | Not started (hard gate) |
+| P6 | Web crawl expansion (allowlisted sources) | Not started |
+| P7 | Optional small-LLM answer layer (llama.cpp) | Not started |
+
+P0 and P5 are hard gates — every other phase can be reordered or run in
+parallel with an adjacent one. P2's exit criterion ("hybrid beats BM25-only
+by +5% nDCG@10") is measured directly against P1's recorded baseline
+(nDCG@10 = 0.8911).
+
+## Documentation
+
+- [HELP.md](HELP.md) — full setup, run, and troubleshooting reference,
+  including the repo/execution split (repo on laptop, execution on
+  sensalis-node) and the torch CPU-wheel install gotcha.
+- `LOGBOOK_*.md` — timestamped, append-only record of what was measured and
+  decided at each phase. Never overwritten in place.
