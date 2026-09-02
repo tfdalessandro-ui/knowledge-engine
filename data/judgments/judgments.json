@@ -80,5 +80,29 @@
   {"query": "p50 p95 latency percentiles", "doc_id": "doc16_rss_memory", "relevance": 1},
 
   {"query": "index freshness incremental updates", "doc_id": "doc25_index_freshness", "relevance": 3},
-  {"query": "index freshness incremental updates", "doc_id": "doc19_document_chunking", "relevance": 0}
+  {"query": "index freshness incremental updates", "doc_id": "doc19_document_chunking", "relevance": 0},
+
+  {"query": "hierarchical navigable small world graph search", "doc_id": "doc26_hnsw", "relevance": 3},
+  {"query": "hierarchical navigable small world graph search", "doc_id": "doc09_vector_embeddings", "relevance": 1},
+
+  {"query": "robots exclusion protocol crawler rules", "doc_id": "doc27_robots_protocol", "relevance": 3},
+  {"query": "robots exclusion protocol crawler rules", "doc_id": "doc20_web_crawling", "relevance": 2},
+
+  {"query": "compare server vcpu and ram specs", "doc_id": "doc28_server_comparison", "relevance": 3},
+  {"query": "compare server vcpu and ram specs", "doc_id": "doc15_hetzner_ccx", "relevance": 1},
+
+  {"query": "project manifest json metadata", "doc_id": "doc29_project_manifest", "relevance": 3},
+  {"query": "project manifest json metadata", "doc_id": "doc14_pip_pinning", "relevance": 0},
+
+  {"query": "sitemap xml for crawler prioritization", "doc_id": "doc30_sitemap_structure", "relevance": 3},
+  {"query": "sitemap xml for crawler prioritization", "doc_id": "doc20_web_crawling", "relevance": 1},
+
+  {"query": "docling unified document parsing library", "doc_id": "doc31_docling_parsers", "relevance": 3},
+  {"query": "docling unified document parsing library", "doc_id": "doc22_evaluation_harness", "relevance": 0},
+
+  {"query": "benchmark results spreadsheet p50 p95", "doc_id": "doc32_benchmark_results", "relevance": 3},
+  {"query": "benchmark results spreadsheet p50 p95", "doc_id": "doc17_latency_percentiles", "relevance": 2},
+
+  {"query": "roadmap phases and hard gates", "doc_id": "doc33_roadmap_overview", "relevance": 3},
+  {"query": "roadmap phases and hard gates", "doc_id": "doc22_evaluation_harness", "relevance": 1}
 ]

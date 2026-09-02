@@ -1,7 +1,10 @@
-"""Eval harness CLI: python -m eval.run [--judgments PATH] [--corpus DIR] [--index perfect|shuffled|null]
+"""Eval harness CLI: python -m eval.run [--judgments PATH] [--index perfect|shuffled|null|real]
 
-Runs the judgment set against a chosen stub index (P1 will add a --index real
-option once BM25 exists) and prints an nDCG@10 / MRR / recall@20 report.
+Runs the judgment set against a chosen index and prints an nDCG@10 / MRR /
+recall@20 report. `perfect`/`shuffled`/`null` are deterministic stubs used to
+prove the metric computation itself is correct (P0). `real` scores the
+actual Tantivy BM25 index built by `ingest.pipeline` (P1) -- run the ingest
+pipeline over data/corpus/ first, or this will just show an empty index.
 """
 from __future__ import annotations
 
@@ -15,14 +18,15 @@ from config import get_settings
 from eval.metrics import mean, ndcg_at_k, reciprocal_rank, recall_at_k
 from eval.stub_index import NullStubIndex, PerfectStubIndex, ShuffledStubIndex, load_judgments
 
-INDEX_CHOICES = {
+STUB_INDEX_CHOICES = {
     "perfect": PerfectStubIndex,
     "shuffled": ShuffledStubIndex,
     "null": NullStubIndex,
 }
+INDEX_CHOICES = sorted(STUB_INDEX_CHOICES) + ["real"]
 
 
-def build_index(name: str, judgments_by_query: dict[str, dict[str, int]]):
+def build_index(name: str, judgments_by_query: dict[str, dict[str, int]], settings=None):
     all_doc_ids = sorted({doc_id for docs in judgments_by_query.values() for doc_id in docs})
     if name == "perfect":
         return PerfectStubIndex(judgments_by_query, all_doc_ids)
@@ -30,7 +34,12 @@ def build_index(name: str, judgments_by_query: dict[str, dict[str, int]]):
         return ShuffledStubIndex(all_doc_ids)
     if name == "null":
         return NullStubIndex(all_doc_ids)
-    raise ValueError(f"unknown stub index {name!r}, choose from {sorted(INDEX_CHOICES)}")
+    if name == "real":
+        from eval.real_index import RealBM25Index
+
+        settings = settings or get_settings()
+        return RealBM25Index(settings.tantivy_index_dir)
+    raise ValueError(f"unknown index {name!r}, choose from {INDEX_CHOICES}")
 
 
 def run_eval(index, judgments_by_query: dict[str, dict[str, int]], k_ndcg: int = 10, k_recall: int = 20):
@@ -49,7 +58,7 @@ def run_eval(index, judgments_by_query: dict[str, dict[str, int]], k_ndcg: int =
 
 
 def print_report(index_name: str, results: dict) -> None:
-    print(f"=== Eval report (stub index: {index_name}) ===")
+    print(f"=== Eval report (index: {index_name}) ===")
     print(f"queries judged : {results['queries']}")
     for key, value in results.items():
         if key == "queries":
@@ -58,16 +67,16 @@ def print_report(index_name: str, results: dict) -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Retrieval eval harness (P0: stub index only)")
+    parser = argparse.ArgumentParser(description="Retrieval eval harness")
     parser.add_argument("--judgments", type=Path, default=None, help="path to judgments.json (default: config)")
-    parser.add_argument("--index", choices=sorted(INDEX_CHOICES), default="perfect")
+    parser.add_argument("--index", choices=INDEX_CHOICES, default="perfect")
     args = parser.parse_args(argv)
 
     settings = get_settings()
     judgments_path = args.judgments or settings.judgments_path
     judgments_by_query = load_judgments(judgments_path)
 
-    index = build_index(args.index, judgments_by_query)
+    index = build_index(args.index, judgments_by_query, settings)
     results = run_eval(index, judgments_by_query)
     print_report(args.index, results)
     return 0

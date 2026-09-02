@@ -1,0 +1,11 @@
+{
+  "project": "cpu-first-knowledge-engine",
+  "phase": "P1",
+  "components": [
+    "docling",
+    "tantivy",
+    "fastapi",
+    "sqlite"
+  ],
+  "description": "Ingestion and BM25 MVP over local documents, with incremental re-indexing."
+}

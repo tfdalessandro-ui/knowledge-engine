@@ -25,9 +25,12 @@ tar --exclude=.venv --exclude=.git --exclude=__pycache__ --exclude=.pytest_cache
 
 ```bash
 python3 -m venv .venv
-# Linux/node:
+# Linux/node/CCX23 -- torch CPU wheels FIRST (see CRITICAL note in requirements.txt:
+# plain PyPI torch on Linux pulls ~1GB+ of unused CUDA/nvidia-* packages):
+.venv/bin/pip install torch==2.14.0 torchvision==0.29.0 --index-url https://download.pytorch.org/whl/cpu
 .venv/bin/pip install -r requirements.txt
-# Windows/laptop:
+# Windows/laptop (no CUDA-pull issue there, but same two-step order for consistency):
+.venv\Scripts\pip install torch==2.14.0 torchvision==0.29.0 --index-url https://download.pytorch.org/whl/cpu
 .venv\Scripts\pip install -r requirements.txt
 ```
 
@@ -35,21 +38,52 @@ python3 -m venv .venv
 comment block, transitive deps below). Installing it in a clean venv should
 reproduce the exact same versions on any machine — that's what makes moving
 this to CCX23 later a `git clone` + `pip install`, not a re-derivation.
+Verify after install with `pip list | grep torch` — it should say `2.14.0+cpu`
+/ `0.29.0+cpu`, not a bare version number (which means the CUDA build slipped
+through).
+
+## Running the ingestion pipeline (P1)
+
+```bash
+PYTHONPATH=src .venv/bin/python -m ingest.pipeline
+```
+
+Scans `data/corpus/`, parses+chunks anything new or content-changed (via a
+SQLite registry keyed on SHA-256 content hash), and updates the Tantivy BM25
+index at `data/tantivy_index/` incrementally. Prints a report:
+`scanned=.. unchanged=.. added=.. updated=.. removed=..`. Run it again with
+no changes and everything should show up as `unchanged` — that's the
+incremental-indexing exit criterion made visible.
+
+### Network dependency (PDF only)
+
+Docling's PDF backend downloads OCR/layout model weights from
+HuggingFace/ModelScope **the first time it parses a PDF**, not at
+`pip install` time. Every other format (DOCX/XLSX/PPTX/HTML/MD/CSV/TXT/JSON/
+XML) is fully offline. The default `data/corpus/` has no `.pdf` file for
+exactly this reason — dropping one in and running the pipeline will trigger
+that download on first use (cached under `~/.cache/huggingface` afterward).
 
 ## Running the eval harness
 
 ```bash
-# Linux/node
-PYTHONPATH=src .venv/bin/python -m eval.run --index perfect
-PYTHONPATH=src .venv/bin/python -m eval.run --index shuffled
-PYTHONPATH=src .venv/bin/python -m eval.run --index null
+PYTHONPATH=src .venv/bin/python -m eval.run --index perfect   # stub, proves the metric math
+PYTHONPATH=src .venv/bin/python -m eval.run --index shuffled  # stub
+PYTHONPATH=src .venv/bin/python -m eval.run --index null      # stub
+PYTHONPATH=src .venv/bin/python -m eval.run --index real      # the actual BM25 index -- run ingest.pipeline first
 ```
 
-`--index` picks which stub index to score against (`perfect` sorts judged
-docs by relevance and should always print 1.0000 for all three metrics;
-`shuffled` returns a fixed query-agnostic order; `null` returns nothing
-relevant — a deterministic worst case). There's no `real` option yet because
-no real search backend exists — that's P1.
+`--index real` scores whatever is currently in `data/tantivy_index/` — run
+`python -m ingest.pipeline` first or it'll score an empty index.
+
+## Running the /search API
+
+```bash
+PYTHONPATH=. .venv/bin/uvicorn api.main:app --host 127.0.0.1 --port 8000   # run from src/
+curl "http://127.0.0.1:8000/search?q=bm25+ranking&k=5"
+```
+
+`KE_HOST` / `KE_PORT` env vars override the default bind address if needed.
 
 ## Running the full test suite (this is the "single documented command")
 
@@ -57,11 +91,24 @@ no real search backend exists — that's P1.
 PYTHONPATH=src .venv/bin/python -m pytest -q
 ```
 
-`tests/eval/test_metrics.py` has known-answer unit tests for each metric
-(hand-computed expected values). `tests/eval/test_harness.py` runs the real
-judgment set against all three stub indices and asserts `null <= shuffled <=
-perfect`, with `perfect` pinned to exactly 1.0. `tests/bench/test_benchmark.py`
-sanity-checks the benchmark wrapper itself (latency ordering, positive RSS).
+Runs fully offline (44 passed, 1 skipped — the PDF test, see above) with no
+prior ingest run needed: `tests/eval/test_real_index_baseline.py` builds its
+own throwaway index in a temp directory. To also run the PDF test:
+`KE_ENABLE_PDF_TESTS=1 PYTHONPATH=src .venv/bin/python -m pytest -q` (needs
+network on first run).
+
+- `tests/eval/test_metrics.py` — known-answer unit tests per metric.
+- `tests/eval/test_harness.py` — real judgment set against the three stubs,
+  asserts `null <= shuffled <= perfect`.
+- `tests/eval/test_real_index_baseline.py` — builds the real BM25 index over
+  `data/corpus/` and asserts/prints the P1 baseline nDCG@10/MRR/recall@20.
+- `tests/bench/test_benchmark.py` — sanity-checks the benchmark wrapper.
+- `tests/ingest/test_chunking.py` — chunk size bounds, overlap, hard-split
+  of an over-long paragraph.
+- `tests/ingest/test_parsers.py` — one test per format (except PDF).
+- `tests/ingest/test_parsers_pdf.py` — PDF parsing, network-gated (see above).
+- `tests/ingest/test_pipeline_incremental.py` — the incremental-indexing exit
+  criterion: edit one file, re-run, assert only that one file was touched.
 
 ## Running the benchmark script
 
@@ -98,18 +145,25 @@ directly instead of re-implementing timing/RSS logic.
 3. Run `pytest` — `test_judgment_set_size` enforces the 50-100 pair range
    from the P0 spec; if you blow past 100, that's a sign to trim or split.
 
-`scripts/seed_corpus.py` is a one-time generator for the initial 25-document
-demo corpus and does not need to be re-run — real usage is dropping your own
-documents into `data/corpus/` directly.
+`scripts/seed_corpus.py` (P0, 25 `.txt` docs) and `scripts/seed_corpus_p1.py`
+(P1, 8 more docs in md/html/csv/json/xml/docx/xlsx/pptx) are one-time
+generators for the demo corpus and don't need to be re-run — real usage is
+dropping your own documents into `data/corpus/` directly. `doc_id` is
+derived from the filename stem, so keep corpus filenames unique by stem.
 
 ## Reproducing on a fresh Ubuntu 24.04 box (e.g. CCX23, once it exists)
 
 1. `git clone` this repo.
 2. Confirm `python3 --version` — Ubuntu 24.04 ships Python 3.12 by default,
    matching sensalis-node's 3.12.3; no version shims needed.
-3. `python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`.
-4. `PYTHONPATH=src .venv/bin/python -m pytest -q` — should print `21 passed`
-   with no network access required (everything here is local/offline).
+3. `python3 -m venv .venv`, then install torch/torchvision from the CPU wheel
+   index FIRST, then `.venv/bin/pip install -r requirements.txt` (see the
+   CRITICAL note in `requirements.txt` — skipping this order pulls ~1GB+ of
+   unused CUDA packages on Linux). Docling's ML stack itself is a real ~1.8GB
+   install — that's expected, not a mistake.
+4. `PYTHONPATH=src .venv/bin/python -m pytest -q` — should print
+   `44 passed, 1 skipped` with no network access required for the default run
+   (see "Network dependency (PDF only)" above for the one skipped test).
 5. Nothing in this repo hardcodes a path, host, or port — `src/config/__init__.py`
    reads everything from `KE_*` environment variables (or a `.env` file) with
    local-relative defaults, so no config edits should be needed for a basic run.

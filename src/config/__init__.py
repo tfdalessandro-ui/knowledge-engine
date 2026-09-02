@@ -14,7 +14,8 @@ class Settings(BaseSettings):
     data_dir: Path = REPO_ROOT / "data"
     corpus_dir: Path = REPO_ROOT / "data" / "corpus"
     judgments_path: Path = REPO_ROOT / "data" / "judgments" / "judgments.json"
-    db_path: Path = REPO_ROOT / "data" / "index.db"
+    registry_db_path: Path = REPO_ROOT / "data" / "registry.db"
+    tantivy_index_dir: Path = REPO_ROOT / "data" / "tantivy_index"
     bench_log_dir: Path = REPO_ROOT / "data" / "bench_logs"
     host: str = "127.0.0.1"
     port: int = 8000

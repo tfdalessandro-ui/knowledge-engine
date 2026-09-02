@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<sitemap><entry><url>https://example.com/docs/bm25</url><note>A sitemap XML file lists canonical URLs for a crawler to fetch, often with a last-modified date, so a crawler can prioritize changed pages instead of re-fetching an entire site.</note></entry></sitemap>

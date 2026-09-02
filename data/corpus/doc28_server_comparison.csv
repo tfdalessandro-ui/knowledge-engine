@@ -1,0 +1,4 @@
+server,vcpu,vcpu_type,ram_gb,disk_gb,region
+sensalis-node,2,shared,15,-,LAN (dev)
+CX23,4,shared,16,160,Helsinki
+CCX23,4,dedicated,16,160,Helsinki
