@@ -5,4 +5,6 @@ __pycache__/
 data/bench_logs/
 data/registry.db
 data/tantivy_index/
+data/faiss_index/
+data/vectors.db
 .env

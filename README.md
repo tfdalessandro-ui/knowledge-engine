@@ -4,8 +4,8 @@ A retrieval-first search system — BM25 + hybrid search over documents, a
 knowledge graph, and an optional small-LLM layer — built to run acceptably
 on ordinary CPU cores instead of requiring a GPU.
 
-**Status:** Phase P1 complete (P0 foundations + P1 BM25 MVP). See
-[Roadmap](#roadmap).
+**Status:** Phase P2 complete (P0 foundations, P1 BM25 MVP, P2 hybrid
+retrieval). See [Roadmap](#roadmap).
 
 ## Table of contents
 
@@ -30,6 +30,10 @@ on ordinary CPU cores instead of requiring a GPU.
   replaces its own chunks.
 - **BM25 search** — powered by [Tantivy](https://github.com/quickwit-oss/tantivy),
   embedded directly (no separate search server process).
+- **Hybrid search** — [BGE-Small](https://huggingface.co/BAAI/bge-small-en-v1.5)
+  CPU embeddings at ingest time, a [FAISS](https://github.com/facebookresearch/faiss)
+  HNSW vector index, and Reciprocal Rank Fusion merging BM25 + vector
+  results. Measured +6.6% nDCG@10 over BM25-only on the judgment set.
 - **`/search` REST endpoint** — a minimal FastAPI service over the index.
 - **Benchmarking** — a generic `benchmark(fn, *args, **kwargs)` wrapper
   reports p50/p95 latency and peak RSS for any operation, reused across every
@@ -63,7 +67,8 @@ On Windows, substitute `.venv\Scripts\pip` / `.venv\Scripts\python`.
 **Search the index from the CLI:**
 
 ```bash
-PYTHONPATH=src .venv/bin/python -m eval.run --index real
+PYTHONPATH=src .venv/bin/python -m eval.run --index real     # BM25 only
+PYTHONPATH=src .venv/bin/python -m eval.run --index hybrid   # BM25 + vector, RRF-fused
 ```
 
 **Serve the `/search` API:**
@@ -91,13 +96,13 @@ src/
   api/        FastAPI /search endpoint
   bench/      generic latency + peak-RSS benchmark wrapper
   config/     env-var-driven settings (no hardcoded paths/ports)
-  eval/       nDCG@10 / MRR / recall@20 harness, stub + real indices
-  ingest/     parsers, chunking, content-hash registry, Tantivy BM25 index
+  eval/       nDCG@10 / MRR / recall@20 harness, stub + real + hybrid indices, RRF fusion
+  ingest/     parsers, chunking, content-hash registry, Tantivy BM25 + FAISS vector indices
 tests/        pytest suite mirroring src/
 data/
   corpus/     seed documents (multi-format)
   judgments/  hand-labeled query/document relevance judgments
-scripts/      one-time corpus-seeding generators
+scripts/      one-time corpus-seeding generators, P2 benchmark script
 ```
 
 ## Testing
@@ -106,9 +111,12 @@ scripts/      one-time corpus-seeding generators
 PYTHONPATH=src .venv/bin/python -m pytest -q
 ```
 
-Runs fully offline by default. One test (PDF parsing) is gated behind
-`KE_ENABLE_PDF_TESTS=1` because it triggers a one-time ML model download —
-see [HELP.md](HELP.md#network-dependency-pdf-only) for why.
+One test (PDF parsing) is gated behind `KE_ENABLE_PDF_TESTS=1` because it
+triggers a one-time ML model download — see
+[HELP.md](HELP.md#network-dependency-pdf-only) for why. Unlike PDF, the P2
+embedding tests are NOT gated — embeddings are P2's actual deliverable, so
+the first test run (or `ingest.pipeline` run) needs network once to fetch
+the BGE-Small model (~130MB, cached afterward).
 
 ## Roadmap
 
@@ -116,7 +124,7 @@ see [HELP.md](HELP.md#network-dependency-pdf-only) for why.
 |-------|-------|--------|
 | P0 | Foundations & evaluation harness | ✅ Done |
 | P1 | Ingestion & BM25 MVP | ✅ Done |
-| P2 | Hybrid retrieval (BGE-Small + FAISS/HNSW) | Not started |
+| P2 | Hybrid retrieval (BGE-Small + FAISS/HNSW) | ✅ Done |
 | P3 | Usage capture & learning-to-rank (LightGBM) | Not started |
 | P4 | Entity extraction & knowledge graph v1 (spaCy + Memgraph) | Not started |
 | P5 | Enterprise connectors & access control | Not started (hard gate) |
@@ -125,8 +133,13 @@ see [HELP.md](HELP.md#network-dependency-pdf-only) for why.
 
 P0 and P5 are hard gates — every other phase can be reordered or run in
 parallel with an adjacent one. P2's exit criterion ("hybrid beats BM25-only
-by +5% nDCG@10") is measured directly against P1's recorded baseline
-(nDCG@10 = 0.8911).
+by +5% nDCG@10") is measured directly against P1's recorded baseline: BM25
+alone scores nDCG@10 = 0.8912, hybrid scores 0.9502 — **+6.6% relative**,
+comfortably clearing the bar. Hybrid query p95 latency = 66ms, well under
+the 500ms ceiling stated for this hardware; embedding throughput at ingest
+time is ~6.6 chunks/sec on sensalis-node's 2-core Celeron (the flagged risk
+in the roadmap — ingest-time embedding cost genuinely dominates on weak
+hardware, see `LOGBOOK_09032026_*.md`).
 
 ## Documentation
 

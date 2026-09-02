@@ -16,6 +16,9 @@ class Settings(BaseSettings):
     judgments_path: Path = REPO_ROOT / "data" / "judgments" / "judgments.json"
     registry_db_path: Path = REPO_ROOT / "data" / "registry.db"
     tantivy_index_dir: Path = REPO_ROOT / "data" / "tantivy_index"
+    faiss_index_path: Path = REPO_ROOT / "data" / "faiss_index" / "index.faiss"
+    vector_registry_db_path: Path = REPO_ROOT / "data" / "vectors.db"
+    vector_compact_threshold: float = 0.2  # tombstoned fraction that triggers a FAISS rebuild
     bench_log_dir: Path = REPO_ROOT / "data" / "bench_logs"
     host: str = "127.0.0.1"
     port: int = 8000

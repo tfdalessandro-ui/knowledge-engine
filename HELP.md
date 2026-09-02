@@ -42,27 +42,49 @@ Verify after install with `pip list | grep torch` — it should say `2.14.0+cpu`
 / `0.29.0+cpu`, not a bare version number (which means the CUDA build slipped
 through).
 
-## Running the ingestion pipeline (P1)
+## Running the ingestion pipeline (P1 BM25 + P2 vectors)
 
 ```bash
-PYTHONPATH=src .venv/bin/python -m ingest.pipeline
+PYTHONPATH=src .venv/bin/python -m ingest.pipeline              # builds/updates BOTH indices
+PYTHONPATH=src .venv/bin/python -m ingest.pipeline --no-vectors  # BM25 only, skips embedding
 ```
 
 Scans `data/corpus/`, parses+chunks anything new or content-changed (via a
 SQLite registry keyed on SHA-256 content hash), and updates the Tantivy BM25
-index at `data/tantivy_index/` incrementally. Prints a report:
-`scanned=.. unchanged=.. added=.. updated=.. removed=..`. Run it again with
-no changes and everything should show up as `unchanged` — that's the
-incremental-indexing exit criterion made visible.
+index at `data/tantivy_index/` AND the FAISS vector index at
+`data/faiss_index/` incrementally. Prints a report:
+`scanned=.. unchanged=.. added=.. updated=.. removed=.. vectors_added=.. compacted=..`.
+Run it again with no changes and everything should show up as `unchanged` —
+that's the incremental-indexing exit criterion made visible.
 
-### Network dependency (PDF only)
+**Vector-index deletion is a tombstone, not a real delete.** FAISS's HNSW
+index doesn't support `remove_ids` (confirmed directly — it raises
+`RuntimeError: remove_ids not implemented for this type of index`). So a
+changed/removed document's old vectors are marked deleted in
+`data/vectors.db` (filtered out of every search) but stay physically in the
+FAISS graph until a **compaction** rebuilds the whole vector index from only
+the live vectors — this fires automatically once the tombstoned fraction
+crosses `KE_VECTOR_COMPACT_THRESHOLD` (default 0.2, i.e. 20%). BM25 (Tantivy)
+has no such limitation — it deletes and re-adds cleanly, no tombstoning
+needed. See `src/ingest/index_faiss.py` for the full explanation.
 
-Docling's PDF backend downloads OCR/layout model weights from
-HuggingFace/ModelScope **the first time it parses a PDF**, not at
-`pip install` time. Every other format (DOCX/XLSX/PPTX/HTML/MD/CSV/TXT/JSON/
-XML) is fully offline. The default `data/corpus/` has no `.pdf` file for
-exactly this reason — dropping one in and running the pipeline will trigger
-that download on first use (cached under `~/.cache/huggingface` afterward).
+### Network dependencies
+
+- **PDF (P1):** Docling's PDF backend downloads OCR/layout model weights from
+  HuggingFace/ModelScope **the first time it parses a PDF**, not at
+  `pip install` time. Every other format (DOCX/XLSX/PPTX/HTML/MD/CSV/TXT/JSON/
+  XML) is fully offline. The default `data/corpus/` has no `.pdf` file for
+  exactly this reason — dropping one in and running the pipeline will trigger
+  that download on first use (cached under `~/.cache/huggingface` afterward).
+- **Embeddings (P2):** the BGE-Small model (~130MB) downloads from
+  HuggingFace on the first `embed_texts()` call, same caching mechanism.
+  Unlike PDF, this is **not gated/optional** — embeddings are P2's actual
+  deliverable, so the first `ingest.pipeline` run (and the P2 tests) need
+  network once. Model load itself also takes several seconds even when
+  cached (confirmed ~15s on the dev laptop) — call `embed_texts()` once to
+  warm it up before timing anything, or that one-time cost will dominate
+  your measurement (this bit `scripts/benchmark_p2.py` during P2 development;
+  see the P2 logbook).
 
 ## Running the eval harness
 
@@ -70,11 +92,13 @@ that download on first use (cached under `~/.cache/huggingface` afterward).
 PYTHONPATH=src .venv/bin/python -m eval.run --index perfect   # stub, proves the metric math
 PYTHONPATH=src .venv/bin/python -m eval.run --index shuffled  # stub
 PYTHONPATH=src .venv/bin/python -m eval.run --index null      # stub
-PYTHONPATH=src .venv/bin/python -m eval.run --index real      # the actual BM25 index -- run ingest.pipeline first
+PYTHONPATH=src .venv/bin/python -m eval.run --index real      # BM25 only -- run ingest.pipeline first
+PYTHONPATH=src .venv/bin/python -m eval.run --index hybrid     # BM25 + vector, RRF-fused -- run ingest.pipeline first
 ```
 
-`--index real` scores whatever is currently in `data/tantivy_index/` — run
-`python -m ingest.pipeline` first or it'll score an empty index.
+`--index real`/`--index hybrid` score whatever is currently in
+`data/tantivy_index/` (and `data/faiss_index/` for hybrid) — run
+`python -m ingest.pipeline` first or they'll score an empty index.
 
 ## Running the /search API
 
@@ -91,24 +115,36 @@ curl "http://127.0.0.1:8000/search?q=bm25+ranking&k=5"
 PYTHONPATH=src .venv/bin/python -m pytest -q
 ```
 
-Runs fully offline (44 passed, 1 skipped — the PDF test, see above) with no
-prior ingest run needed: `tests/eval/test_real_index_baseline.py` builds its
-own throwaway index in a temp directory. To also run the PDF test:
-`KE_ENABLE_PDF_TESTS=1 PYTHONPATH=src .venv/bin/python -m pytest -q` (needs
-network on first run).
+70 passed, 1 skipped (the PDF test, see above). No prior ingest run needed —
+every test that needs an index builds its own throwaway one in a temp
+directory. First run needs network once, for the BGE-Small model download
+(see above); after that it's fully offline. To also run the PDF test:
+`KE_ENABLE_PDF_TESTS=1 PYTHONPATH=src .venv/bin/python -m pytest -q`.
 
 - `tests/eval/test_metrics.py` — known-answer unit tests per metric.
 - `tests/eval/test_harness.py` — real judgment set against the three stubs,
   asserts `null <= shuffled <= perfect`.
 - `tests/eval/test_real_index_baseline.py` — builds the real BM25 index over
   `data/corpus/` and asserts/prints the P1 baseline nDCG@10/MRR/recall@20.
+- `tests/eval/test_fusion.py` — Reciprocal Rank Fusion unit tests.
+- `tests/eval/test_hybrid_vs_bm25.py` — the P2 exit criterion: builds both
+  indices fresh and asserts hybrid beats BM25-only by >= 5% relative nDCG@10.
 - `tests/bench/test_benchmark.py` — sanity-checks the benchmark wrapper.
 - `tests/ingest/test_chunking.py` — chunk size bounds, overlap, hard-split
   of an over-long paragraph.
 - `tests/ingest/test_parsers.py` — one test per format (except PDF).
 - `tests/ingest/test_parsers_pdf.py` — PDF parsing, network-gated (see above).
-- `tests/ingest/test_pipeline_incremental.py` — the incremental-indexing exit
-  criterion: edit one file, re-run, assert only that one file was touched.
+- `tests/ingest/test_pipeline_incremental.py` — the P1 incremental-indexing
+  exit criterion: edit one file, re-run, assert only that one file was
+  touched (BM25 side).
+- `tests/ingest/test_embeddings.py` — BGE-Small embedding shape/normalization,
+  and why `vector_id_for_chunk` hashes text content, not just position.
+- `tests/ingest/test_index_faiss.py` — FAISS add/search/persist/rebuild,
+  using synthetic vectors (no network needed for this one).
+- `tests/ingest/test_vector_registry.py` — the tombstone/compaction metadata
+  logic in isolation.
+- `tests/ingest/test_pipeline_vectors.py` — the vector side of incremental
+  ingestion: tombstoning on edit, compaction firing above threshold.
 
 ## Running the benchmark script
 
@@ -128,8 +164,24 @@ result = benchmark(my_function, arg1, arg2, iterations=100, label="my_op")
 print_report(result)
 ```
 
-Later phases (BM25 query latency, hybrid search, etc.) call `benchmark()`
-directly instead of re-implementing timing/RSS logic.
+Later phases call `benchmark()` directly instead of re-implementing
+timing/RSS logic — see `scripts/benchmark_p2.py`, which uses it for both of
+P2's flagged measurements:
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/benchmark_p2.py
+```
+
+Reports embedding throughput at ingest time (chunks/sec — the roadmap's
+flagged risk: "embedding cost at ingest, not just query time") and hybrid
+query p95 latency against a stated 500ms ceiling
+(`QUERY_P95_CEILING_MS` in the script), printing PASS/FAIL. Measured on
+sensalis-node: ~6.6 chunks/sec embedding throughput (genuinely slow on a
+2-core Celeron — this is real, not a bug) and 66ms p95 query latency
+(comfortably under the ceiling). **Always warm up the embedding model with
+one throwaway call before timing** — the first call pays a one-time ~15s
+model-load cost that will otherwise swamp your measurement (this script
+does it; a lesson learned live during P2, see the logbook).
 
 ## Adding new judgment-set entries
 
@@ -162,8 +214,10 @@ derived from the filename stem, so keep corpus filenames unique by stem.
    unused CUDA packages on Linux). Docling's ML stack itself is a real ~1.8GB
    install — that's expected, not a mistake.
 4. `PYTHONPATH=src .venv/bin/python -m pytest -q` — should print
-   `44 passed, 1 skipped` with no network access required for the default run
-   (see "Network dependency (PDF only)" above for the one skipped test).
+   `70 passed, 1 skipped`. First run needs network once (BGE-Small model
+   download, ~130MB); after that it's fully offline except the one
+   PDF-parsing test, which stays gated/skipped by default (see "Network
+   dependencies" above).
 5. Nothing in this repo hardcodes a path, host, or port — `src/config/__init__.py`
    reads everything from `KE_*` environment variables (or a `.env` file) with
    local-relative defaults, so no config edits should be needed for a basic run.

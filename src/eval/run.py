@@ -23,7 +23,7 @@ STUB_INDEX_CHOICES = {
     "shuffled": ShuffledStubIndex,
     "null": NullStubIndex,
 }
-INDEX_CHOICES = sorted(STUB_INDEX_CHOICES) + ["real"]
+INDEX_CHOICES = sorted(STUB_INDEX_CHOICES) + ["real", "hybrid"]
 
 
 def build_index(name: str, judgments_by_query: dict[str, dict[str, int]], settings=None):
@@ -39,6 +39,11 @@ def build_index(name: str, judgments_by_query: dict[str, dict[str, int]], settin
 
         settings = settings or get_settings()
         return RealBM25Index(settings.tantivy_index_dir)
+    if name == "hybrid":
+        from eval.hybrid_index import HybridIndex
+
+        settings = settings or get_settings()
+        return HybridIndex(settings.tantivy_index_dir, settings.faiss_index_path, settings.vector_registry_db_path)
     raise ValueError(f"unknown index {name!r}, choose from {INDEX_CHOICES}")
 
 
