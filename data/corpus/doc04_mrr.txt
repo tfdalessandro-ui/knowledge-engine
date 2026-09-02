@@ -1,0 +1,1 @@
+Mean Reciprocal Rank (MRR) scores a ranked list by the reciprocal of the rank of the first relevant result. It is simple to compute and works well when a user only cares about finding one good answer quickly, such as a factoid question-answering system.

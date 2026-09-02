@@ -1,0 +1,1 @@
+Pinning exact package versions in a requirements file, typically produced with pip freeze inside a clean virtual environment, ensures that installing the same requirements file on a different machine reproduces the same dependency versions rather than picking up whatever the latest releases happen to be.

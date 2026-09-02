@@ -1,0 +1,1 @@
+Ubuntu 24.04 LTS (Noble Numbat) is a long-term-support release that ships with Python 3.12 as its default system Python interpreter, and receives security updates for five years from its release date, making it a common choice for production server deployments.

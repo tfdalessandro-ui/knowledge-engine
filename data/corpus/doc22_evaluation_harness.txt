@@ -1,0 +1,1 @@
+An evaluation harness runs a fixed set of relevance judgments -- query and document pairs with a human-assigned relevance grade -- against a search backend, and computes standard metrics like nDCG, MRR, and recall. Building this harness before the real search backend exists lets every later ranking change be measured against a stable baseline instead of judged by eye.

@@ -1,0 +1,1 @@
+Hetzner's CCX line offers dedicated-vCPU cloud servers, as opposed to the shared-vCPU CX line. A CCX23 instance provides 4 dedicated vCPU cores and 16GB RAM, which avoids the noisy-neighbor CPU contention that shared-core instances can experience under sustained load.

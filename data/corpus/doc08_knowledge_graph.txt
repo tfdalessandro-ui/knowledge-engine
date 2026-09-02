@@ -1,0 +1,1 @@
+A knowledge graph represents entities as nodes and relationships between them as edges, allowing queries that traverse connections rather than just matching keywords. Combining a knowledge graph with text search lets a system answer questions that require joining facts across multiple documents.

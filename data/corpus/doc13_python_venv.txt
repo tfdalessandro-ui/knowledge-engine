@@ -1,0 +1,1 @@
+A Python virtual environment (venv) isolates a project's dependencies from the system Python installation. Creating one with python -m venv and installing pinned versions from a requirements file is the standard way to make a Python project's setup reproducible on a different machine.

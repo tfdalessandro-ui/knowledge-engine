@@ -1,0 +1,84 @@
+[
+  {"query": "what is bm25 ranking algorithm", "doc_id": "doc01_bm25", "relevance": 3},
+  {"query": "what is bm25 ranking algorithm", "doc_id": "doc02_tfidf", "relevance": 2},
+  {"query": "what is bm25 ranking algorithm", "doc_id": "doc06_sqlite_fts5", "relevance": 1},
+  {"query": "what is bm25 ranking algorithm", "doc_id": "doc22_evaluation_harness", "relevance": 1},
+  {"query": "what is bm25 ranking algorithm", "doc_id": "doc16_rss_memory", "relevance": 0},
+
+  {"query": "how does ndcg measure search quality", "doc_id": "doc03_ndcg", "relevance": 3},
+  {"query": "how does ndcg measure search quality", "doc_id": "doc22_evaluation_harness", "relevance": 2},
+  {"query": "how does ndcg measure search quality", "doc_id": "doc04_mrr", "relevance": 1},
+  {"query": "how does ndcg measure search quality", "doc_id": "doc05_recall", "relevance": 1},
+  {"query": "how does ndcg measure search quality", "doc_id": "doc17_latency_percentiles", "relevance": 0},
+
+  {"query": "sqlite full text search", "doc_id": "doc06_sqlite_fts5", "relevance": 3},
+  {"query": "sqlite full text search", "doc_id": "doc01_bm25", "relevance": 1},
+  {"query": "sqlite full text search", "doc_id": "doc14_pip_pinning", "relevance": 0},
+
+  {"query": "fastapi framework basics", "doc_id": "doc07_fastapi", "relevance": 3},
+  {"query": "fastapi framework basics", "doc_id": "doc13_python_venv", "relevance": 0},
+
+  {"query": "knowledge graph vs vector search", "doc_id": "doc08_knowledge_graph", "relevance": 3},
+  {"query": "knowledge graph vs vector search", "doc_id": "doc09_vector_embeddings", "relevance": 3},
+  {"query": "knowledge graph vs vector search", "doc_id": "doc10_hybrid_search", "relevance": 2},
+  {"query": "knowledge graph vs vector search", "doc_id": "doc23_reciprocal_rank_fusion", "relevance": 1},
+
+  {"query": "cpu efficient machine learning inference", "doc_id": "doc12_cpu_inference", "relevance": 3},
+  {"query": "cpu efficient machine learning inference", "doc_id": "doc24_quantized_models", "relevance": 3},
+  {"query": "cpu efficient machine learning inference", "doc_id": "doc15_hetzner_ccx", "relevance": 1},
+  {"query": "cpu efficient machine learning inference", "doc_id": "doc16_rss_memory", "relevance": 0},
+
+  {"query": "python virtual environments", "doc_id": "doc13_python_venv", "relevance": 3},
+  {"query": "python virtual environments", "doc_id": "doc14_pip_pinning", "relevance": 2},
+  {"query": "python virtual environments", "doc_id": "doc18_ubuntu_2404", "relevance": 1},
+
+  {"query": "hetzner cloud server specs", "doc_id": "doc15_hetzner_ccx", "relevance": 3},
+  {"query": "hetzner cloud server specs", "doc_id": "doc18_ubuntu_2404", "relevance": 1},
+  {"query": "hetzner cloud server specs", "doc_id": "doc16_rss_memory", "relevance": 0},
+
+  {"query": "resident memory rss measurement", "doc_id": "doc16_rss_memory", "relevance": 3},
+  {"query": "resident memory rss measurement", "doc_id": "doc17_latency_percentiles", "relevance": 1},
+  {"query": "resident memory rss measurement", "doc_id": "doc12_cpu_inference", "relevance": 0},
+
+  {"query": "recall and precision in information retrieval", "doc_id": "doc05_recall", "relevance": 3},
+  {"query": "recall and precision in information retrieval", "doc_id": "doc21_precision", "relevance": 3},
+  {"query": "recall and precision in information retrieval", "doc_id": "doc03_ndcg", "relevance": 1},
+  {"query": "recall and precision in information retrieval", "doc_id": "doc22_evaluation_harness", "relevance": 1},
+
+  {"query": "ubuntu 24.04 python version", "doc_id": "doc18_ubuntu_2404", "relevance": 3},
+  {"query": "ubuntu 24.04 python version", "doc_id": "doc14_pip_pinning", "relevance": 1},
+  {"query": "ubuntu 24.04 python version", "doc_id": "doc13_python_venv", "relevance": 1},
+
+  {"query": "hybrid search combining keyword and vector", "doc_id": "doc10_hybrid_search", "relevance": 3},
+  {"query": "hybrid search combining keyword and vector", "doc_id": "doc23_reciprocal_rank_fusion", "relevance": 2},
+  {"query": "hybrid search combining keyword and vector", "doc_id": "doc09_vector_embeddings", "relevance": 2},
+  {"query": "hybrid search combining keyword and vector", "doc_id": "doc01_bm25", "relevance": 1},
+
+  {"query": "reciprocal rank fusion", "doc_id": "doc23_reciprocal_rank_fusion", "relevance": 3},
+  {"query": "reciprocal rank fusion", "doc_id": "doc10_hybrid_search", "relevance": 2},
+  {"query": "reciprocal rank fusion", "doc_id": "doc04_mrr", "relevance": 1},
+
+  {"query": "document chunking for indexing", "doc_id": "doc19_document_chunking", "relevance": 3},
+  {"query": "document chunking for indexing", "doc_id": "doc25_index_freshness", "relevance": 1},
+  {"query": "document chunking for indexing", "doc_id": "doc20_web_crawling", "relevance": 0},
+
+  {"query": "web crawling and robots.txt", "doc_id": "doc20_web_crawling", "relevance": 3},
+  {"query": "web crawling and robots.txt", "doc_id": "doc25_index_freshness", "relevance": 0},
+
+  {"query": "mean reciprocal rank metric", "doc_id": "doc04_mrr", "relevance": 3},
+  {"query": "mean reciprocal rank metric", "doc_id": "doc03_ndcg", "relevance": 1},
+  {"query": "mean reciprocal rank metric", "doc_id": "doc22_evaluation_harness", "relevance": 1},
+
+  {"query": "learning to rank with labeled judgments", "doc_id": "doc11_learning_to_rank", "relevance": 3},
+  {"query": "learning to rank with labeled judgments", "doc_id": "doc22_evaluation_harness", "relevance": 2},
+  {"query": "learning to rank with labeled judgments", "doc_id": "doc01_bm25", "relevance": 1},
+
+  {"query": "quantized language models on cpu", "doc_id": "doc24_quantized_models", "relevance": 3},
+  {"query": "quantized language models on cpu", "doc_id": "doc12_cpu_inference", "relevance": 2},
+
+  {"query": "p50 p95 latency percentiles", "doc_id": "doc17_latency_percentiles", "relevance": 3},
+  {"query": "p50 p95 latency percentiles", "doc_id": "doc16_rss_memory", "relevance": 1},
+
+  {"query": "index freshness incremental updates", "doc_id": "doc25_index_freshness", "relevance": 3},
+  {"query": "index freshness incremental updates", "doc_id": "doc19_document_chunking", "relevance": 0}
+]

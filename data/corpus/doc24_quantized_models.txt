@@ -1,0 +1,1 @@
+Quantizing a neural network reduces the numeric precision of its weights, for example from 32-bit floats to 8-bit integers, shrinking its memory footprint and speeding up inference on CPUs at some cost to accuracy. This is one of the main techniques for running small language models without a GPU.

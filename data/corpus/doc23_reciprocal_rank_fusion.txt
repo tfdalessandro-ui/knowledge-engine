@@ -1,0 +1,1 @@
+Reciprocal rank fusion combines multiple ranked lists into one by scoring each document by the sum of 1 divided by (a constant plus its rank) across the lists it appears in. It requires no score calibration between the source rankers, which makes it a common default for merging lexical and vector search results.

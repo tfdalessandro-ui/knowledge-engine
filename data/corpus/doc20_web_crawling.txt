@@ -1,0 +1,1 @@
+A web crawler systematically fetches pages starting from a set of seed URLs, following links while respecting robots.txt and rate limits, to build a corpus for indexing. Crawling is a separate concern from ranking: a crawler decides what gets indexed, not how it gets ranked.

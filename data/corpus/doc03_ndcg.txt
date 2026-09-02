@@ -1,0 +1,1 @@
+Normalized Discounted Cumulative Gain (nDCG) is a ranking-quality metric that rewards placing highly relevant documents near the top of a result list. It discounts relevance logarithmically by rank position and normalizes against the ideal ordering, so scores are comparable across queries with different numbers of relevant documents.

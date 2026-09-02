@@ -1,0 +1,1 @@
+CPU-first inference means designing a system so that its core retrieval path runs acceptably fast on ordinary CPU cores, without requiring a GPU. This usually means favoring lexical search and small, quantized models over large transformer models for the default path, and treating an LLM layer as optional.

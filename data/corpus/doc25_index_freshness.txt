@@ -1,0 +1,1 @@
+Index freshness describes how quickly a search index reflects changes to the underlying documents. A batch-rebuilt index may lag hours or days behind source changes, while an incrementally updated index can reflect new or edited documents within seconds, at the cost of more complex update logic.

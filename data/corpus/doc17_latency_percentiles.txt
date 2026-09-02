@@ -1,0 +1,1 @@
+p50 and p95 latency are percentile summaries of a set of measured response times: p50 is the median, and p95 is the value below which 95 percent of requests fall. Reporting both, rather than just an average, exposes tail latency that an average would hide.

@@ -1,0 +1,1 @@
+Learning-to-rank uses machine learning to combine many ranking signals -- BM25 score, vector similarity, click history, freshness -- into a single relevance score, typically trained on labeled query-document judgment pairs like the ones in this repository's eval harness.

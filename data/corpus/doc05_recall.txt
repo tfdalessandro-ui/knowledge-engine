@@ -1,0 +1,1 @@
+Recall at k measures what fraction of all relevant documents for a query were retrieved within the top k results. Unlike precision, recall does not penalize irrelevant results in the list -- it only asks whether the relevant ones were found at all.

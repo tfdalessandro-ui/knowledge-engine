@@ -1,0 +1,1 @@
+SQLite's FTS5 extension provides full-text search directly inside a SQLite database file, with BM25-style ranking built in via the bm25() auxiliary function. It is a practical choice for CPU-first, single-node search systems that want to avoid running a separate search server.

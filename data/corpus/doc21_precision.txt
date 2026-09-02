@@ -1,0 +1,1 @@
+Precision measures what fraction of the documents retrieved by a search were actually relevant. It is the counterpart to recall: a system can have perfect precision by returning only one correct result, or perfect recall by returning every document in the collection, so the two are usually reported together.

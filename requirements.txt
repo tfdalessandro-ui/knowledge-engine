@@ -1,0 +1,34 @@
+# Pinned via `pip freeze` inside a clean venv (see HELP.md for the exact recreation steps).
+# Direct dependencies are marked; everything else is a transitive pin kept for
+# byte-for-byte reproducibility between the dev laptop and CCX23.
+
+# --- direct ---
+fastapi==0.141.1          # web framework scaffold (used from P1 onward)
+uvicorn[standard]==0.52.4 # ASGI server for fastapi
+pytest==9.1.1             # eval harness test runner
+numpy==2.5.2               # metric math (nDCG/MRR/recall)
+psutil==7.2.2              # RSS sampling in the benchmark script
+pydantic-settings==2.15.0  # env-var/config loading
+
+# --- transitive (pinned for reproducibility) ---
+annotated-doc==0.0.5
+annotated-types==0.8.0
+anyio==4.14.2
+click==8.5.0
+colorama==0.4.6
+h11==0.16.0
+httptools==0.8.0
+idna==3.19
+iniconfig==2.3.0
+packaging==26.3
+pluggy==1.6.0
+pydantic==2.13.5
+pydantic_core==2.46.5
+Pygments==2.21.0
+python-dotenv==1.2.3
+PyYAML==6.0.3
+starlette==1.6.0
+typing-inspection==0.4.4
+typing_extensions==4.16.0
+watchfiles==1.2.0
+websockets==17.1

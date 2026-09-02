@@ -1,0 +1,1 @@
+Vector embeddings map text into a fixed-size numeric vector such that semantically similar text ends up close together in the vector space. Approximate nearest-neighbor search over embeddings is the basis of semantic search, and is often combined with keyword search in a hybrid retrieval pipeline.

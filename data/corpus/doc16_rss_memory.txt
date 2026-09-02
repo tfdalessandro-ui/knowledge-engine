@@ -1,0 +1,1 @@
+Resident Set Size (RSS) is the portion of a process's memory that is held in physical RAM, as opposed to swapped out or never-touched virtual memory. Measuring peak RSS during a benchmark run reveals a program's real memory footprint under load, which matters on memory-constrained servers.

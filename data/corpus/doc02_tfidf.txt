@@ -1,0 +1,1 @@
+TF-IDF weighs a term by how often it appears in a document (term frequency) against how rare it is across the whole collection (inverse document frequency). It is the classical predecessor to BM25 and still shows up as a feature in modern hybrid ranking pipelines.

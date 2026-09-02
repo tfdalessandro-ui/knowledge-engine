@@ -1,0 +1,1 @@
+Document chunking splits long text into smaller passages before indexing, so that a search system can return a focused excerpt rather than an entire long document. Chunk size is a tradeoff: too small loses context, too large dilutes relevance signal and wastes index space.

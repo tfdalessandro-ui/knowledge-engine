@@ -1,0 +1,1 @@
+Hybrid search combines a lexical method like BM25 with a semantic method like vector similarity, then merges the two ranked lists -- often with reciprocal rank fusion -- to get results that are strong on both exact keyword matches and conceptual similarity.

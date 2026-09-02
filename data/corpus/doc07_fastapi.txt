@@ -1,0 +1,1 @@
+FastAPI is a Python web framework for building HTTP APIs, built on top of Starlette and Pydantic. It generates OpenAPI documentation automatically from type-annotated function signatures and supports async request handlers out of the box.

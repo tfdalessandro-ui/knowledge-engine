@@ -1,0 +1,1 @@
+BM25 is a bag-of-words ranking function used by search engines to estimate the relevance of a document to a query. It builds on TF-IDF by adding term frequency saturation and document length normalization, controlled by the parameters k1 and b. BM25 remains a strong, cheap baseline for keyword search and is the standard first stage before any learning-to-rank layer.
