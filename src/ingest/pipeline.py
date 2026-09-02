@@ -110,7 +110,7 @@ def run_ingest(
                 report.added += 1
 
             index.add_chunks(doc_id, chunks)
-            registry.upsert(rel_path, doc_id, new_hash, len(chunks))
+            registry.upsert(rel_path, doc_id, new_hash, len(chunks), source_type=ext.lstrip("."))
 
             if build_vectors and chunks:
                 chunk_ids = [f"{doc_id}::{i}" for i in range(len(chunks))]

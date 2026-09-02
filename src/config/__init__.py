@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     faiss_index_path: Path = REPO_ROOT / "data" / "faiss_index" / "index.faiss"
     vector_registry_db_path: Path = REPO_ROOT / "data" / "vectors.db"
     vector_compact_threshold: float = 0.2  # tombstoned fraction that triggers a FAISS rebuild
+    query_log_db_path: Path = REPO_ROOT / "data" / "query_log.db"
+    ltr_min_interactions: int = 500  # roadmap's stated minimum before training a reranker is meaningful
+    ltr_model_path: Path = REPO_ROOT / "data" / "ltr_model.txt"
     bench_log_dir: Path = REPO_ROOT / "data" / "bench_logs"
     host: str = "127.0.0.1"
     port: int = 8000

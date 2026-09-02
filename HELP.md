@@ -100,7 +100,7 @@ PYTHONPATH=src .venv/bin/python -m eval.run --index hybrid     # BM25 + vector, 
 `data/tantivy_index/` (and `data/faiss_index/` for hybrid) — run
 `python -m ingest.pipeline` first or they'll score an empty index.
 
-## Running the /search API
+## Running the /search + /select API (P3 query-log capture)
 
 ```bash
 PYTHONPATH=. .venv/bin/uvicorn api.main:app --host 127.0.0.1 --port 8000   # run from src/
@@ -109,13 +109,46 @@ curl "http://127.0.0.1:8000/search?q=bm25+ranking&k=5"
 
 `KE_HOST` / `KE_PORT` env vars override the default bind address if needed.
 
+Every `/search` call now logs the query and its ranked candidates (BM25
+score, vector score, RRF score, source type, ingestion recency) to
+`data/query_log.db`, and returns a `query_id` in the response. Report a
+selection against it:
+
+```bash
+curl -X POST http://127.0.0.1:8000/select -H 'Content-Type: application/json' \
+  -d '{"query_id": 1, "doc_id": "doc01_bm25", "rank": 0}'
+```
+
+Check how much signal has accumulated toward the LTR training gate:
+
+```bash
+PYTHONPATH=src .venv/bin/python -m ltr.status
+```
+
+**On a real Linux server, this API is normally run under a real ASGI server
+with multiple worker threads (uvicorn's default), and each request can land
+on a different thread.** The three SQLite-backed singletons the API holds
+(`QueryLog`, `DocumentRegistry`, the `HybridIndex`'s internal
+`VectorRegistry`) are built to handle that correctly (`check_same_thread=False`
++ an explicit lock per connection) -- caught live via a test that made two
+requests back-to-back and hit `sqlite3.ProgrammingError: SQLite objects
+created in a thread can only be used in that same thread` before the fix.
+See the comment at the top of `src/ltr/query_log.py` for the full story.
+
+**Why P3's reranker isn't trained:** the roadmap explicitly flags starting
+LTR before enough logged signal exists as a risk. This repo's query log
+starts empty and stays empty until real usage happens -- `ltr.train` refuses
+to fit a model below `KE_LTR_MIN_INTERACTIONS` (default 500) logged
+selections and returns a clear "blocked" result instead of training on too
+little data. See `src/ltr/train.py`'s module docstring.
+
 ## Running the full test suite (this is the "single documented command")
 
 ```bash
 PYTHONPATH=src .venv/bin/python -m pytest -q
 ```
 
-70 passed, 1 skipped (the PDF test, see above). No prior ingest run needed —
+92 passed, 1 skipped (the PDF test, see above). No prior ingest run needed —
 every test that needs an index builds its own throwaway one in a temp
 directory. First run needs network once, for the BGE-Small model download
 (see above); after that it's fully offline. To also run the PDF test:
@@ -145,6 +178,18 @@ directory. First run needs network once, for the BGE-Small model download
   logic in isolation.
 - `tests/ingest/test_pipeline_vectors.py` — the vector side of incremental
   ingestion: tombstoning on edit, compaction firing above threshold.
+- `tests/ltr/test_query_log.py` — logging queries/candidates/selections,
+  training_rows() grouping and binary-label assignment.
+- `tests/ltr/test_features.py` — LTR feature extraction (score defaults,
+  recency computation, source-type vocab).
+- `tests/ltr/test_train.py` — confirms `train_reranker` stays BLOCKED at the
+  real config threshold against an empty log (production behavior), and
+  separately proves the LightGBM plumbing works against synthetic data with
+  a deliberately lowered threshold (not a claim the exit criterion is met).
+- `tests/ltr/test_rerank.py` — loading a trained model and reordering
+  candidates by predicted relevance.
+- `tests/api/test_main.py` — end-to-end: builds a real index, hits `/search`
+  and `/select` through a `TestClient`, confirms both get logged.
 
 ## Running the benchmark script
 
@@ -214,7 +259,7 @@ derived from the filename stem, so keep corpus filenames unique by stem.
    unused CUDA packages on Linux). Docling's ML stack itself is a real ~1.8GB
    install — that's expected, not a mistake.
 4. `PYTHONPATH=src .venv/bin/python -m pytest -q` — should print
-   `70 passed, 1 skipped`. First run needs network once (BGE-Small model
+   `92 passed, 1 skipped`. First run needs network once (BGE-Small model
    download, ~130MB); after that it's fully offline except the one
    PDF-parsing test, which stays gated/skipped by default (see "Network
    dependencies" above).

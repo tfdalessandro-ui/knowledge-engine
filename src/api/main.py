@@ -1,4 +1,5 @@
-"""FastAPI app exposing the P1 BM25 index. Run with:
+"""FastAPI app exposing hybrid search plus P3's query-log/selection capture.
+Run with:
 
     uvicorn api.main:app --host <KE_HOST> --port <KE_PORT>   (from src/, with PYTHONPATH=.)
 """
@@ -9,36 +10,64 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from config import get_settings
-from ingest.index_tantivy import BM25Index
+from eval.hybrid_index import HybridIndex
+from ingest.registry import DocumentRegistry
+from ltr.query_log import CandidateRecord, QueryLog
 
-app = FastAPI(title="CPU-First Knowledge Engine", version="0.1.0")
+app = FastAPI(title="CPU-First Knowledge Engine", version="0.3.0")
 
 _settings = get_settings()
-_index: BM25Index | None = None
+_index: HybridIndex | None = None
+_query_log: QueryLog | None = None
+_registry: DocumentRegistry | None = None
 
 
-def _get_index() -> BM25Index:
+def _get_index() -> HybridIndex:
     global _index
     if _index is None:
-        _index = BM25Index(_settings.tantivy_index_dir)
+        _index = HybridIndex(_settings.tantivy_index_dir, _settings.faiss_index_path, _settings.vector_registry_db_path)
     return _index
+
+
+def _get_query_log() -> QueryLog:
+    global _query_log
+    if _query_log is None:
+        _query_log = QueryLog(_settings.query_log_db_path)
+    return _query_log
+
+
+def _get_registry() -> DocumentRegistry:
+    global _registry
+    if _registry is None:
+        _registry = DocumentRegistry(_settings.registry_db_path)
+    return _registry
 
 
 class SearchHit(BaseModel):
     doc_id: str
-    chunk_id: str
-    chunk_index: int
-    score: float
-    text: str
+    chunk_id: str | None
+    rank: int
+    bm25_score: float | None
+    vector_score: float | None
+    rrf_score: float
+    text: str | None
 
 
 class SearchResponse(BaseModel):
+    query_id: int
     query: str
     hits: list[SearchHit]
+
+
+class SelectRequest(BaseModel):
+    query_id: int
+    doc_id: str
+    chunk_id: str | None = None
+    rank: int | None = None
 
 
 @app.get("/health")
@@ -48,8 +77,44 @@ def health() -> dict:
 
 @app.get("/search", response_model=SearchResponse)
 def search(q: str, k: int = 10) -> SearchResponse:
-    hits = _get_index().search(q, limit=k)
+    hits = _get_index().search_detailed(q, k=k)
+    registry = _get_registry()
+
+    candidates = []
+    for h in hits:
+        record = registry.get_by_doc_id(h.doc_id)
+        candidates.append(
+            CandidateRecord(
+                doc_id=h.doc_id,
+                chunk_id=h.chunk_id,
+                rank=h.rank,
+                bm25_score=h.bm25_score,
+                vector_score=h.vector_score,
+                rrf_score=h.rrf_score,
+                source_type=record.source_type if record else None,
+                ingested_at=record.ingested_at if record else None,
+            )
+        )
+    query_id = _get_query_log().log_query(q, "hybrid", candidates)
+
     return SearchResponse(
+        query_id=query_id,
         query=q,
-        hits=[SearchHit(doc_id=h.doc_id, chunk_id=h.chunk_id, chunk_index=h.chunk_index, score=h.score, text=h.text) for h in hits],
+        hits=[
+            SearchHit(doc_id=h.doc_id, chunk_id=h.chunk_id, rank=h.rank, bm25_score=h.bm25_score,
+                       vector_score=h.vector_score, rrf_score=h.rrf_score, text=h.text)
+            for h in hits
+        ],
     )
+
+
+@app.post("/select")
+def select(body: SelectRequest) -> dict:
+    """Records which result a client selected for a prior /search's
+    query_id -- the "result-selection capture" half of P3's deliverable.
+    This is what accumulates into `ltr.train`'s training data once there's
+    enough of it (see /ltr/status)."""
+    if body.query_id <= 0:
+        raise HTTPException(status_code=400, detail="invalid query_id")
+    _get_query_log().log_selection(body.query_id, body.doc_id, body.chunk_id, body.rank)
+    return {"status": "recorded"}
