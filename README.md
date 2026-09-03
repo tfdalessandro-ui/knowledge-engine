@@ -4,10 +4,14 @@ A retrieval-first search system — BM25 + hybrid search over documents, a
 knowledge graph, and an optional small-LLM layer — built to run acceptably
 on ordinary CPU cores instead of requiring a GPU.
 
-**Status:** All 8 phases (P0-P7) addressed. P3's reranker training and P5's
-SharePoint/OneDrive/Outlook/Teams connectors are explicitly **not** done,
-and P7's sampled citation-correctness check found a real (not hallucinated,
-but misattributed) citation error in 1 of 3 sampled answers — see
+**Status:** All 8 phases (P0-P7) addressed, and running live on
+sensalis-node as a persistent service (see `deploy/`). P3's reranker
+training and P5's SharePoint/OneDrive/Outlook/Teams connectors are
+explicitly **not** done; P7's sampled citation-correctness check found a
+real (not hallucinated, but misattributed) citation error in 1 of 3 sampled
+answers; and P2's exit criterion, which held at build time, **no longer
+holds** after a deliberate later merge of P6's crawled content into the
+main corpus (+6.6%→+4.8%, just under the 5% bar) — see
 [Roadmap](#roadmap) for the honest detail on each.
 
 ## Table of contents
@@ -219,7 +223,7 @@ Roadmap below for why it can't even install there).
 |-------|-------|--------|
 | P0 | Foundations & evaluation harness | ✅ Done |
 | P1 | Ingestion & BM25 MVP | ✅ Done |
-| P2 | Hybrid retrieval (BGE-Small + FAISS/HNSW) | ✅ Done |
+| P2 | Hybrid retrieval (BGE-Small + FAISS/HNSW) | ⚠️ Built; exit criterion later regressed by a P6 merge |
 | P3 | Usage capture & learning-to-rank (LightGBM) | ⚠️ Infra done, training blocked |
 | P4 | Entity extraction & knowledge graph v1 (spaCy + Memgraph) | ✅ Done |
 | P5 | Enterprise connectors & access control (hard gate) | ⚠️ ACL core + Git done, 4 connectors not configured |
@@ -228,13 +232,22 @@ Roadmap below for why it can't even install there).
 
 P0 and P5 are hard gates — every other phase can be reordered or run in
 parallel with an adjacent one. P2's exit criterion ("hybrid beats BM25-only
-by +5% nDCG@10") is measured directly against P1's recorded baseline: BM25
-alone scores nDCG@10 = 0.8912, hybrid scores 0.9502 — **+6.6% relative**,
-comfortably clearing the bar. Hybrid query p95 latency = 66ms, well under
-the 500ms ceiling stated for this hardware; embedding throughput at ingest
-time is ~6.6 chunks/sec on sensalis-node's 2-core Celeron (the flagged risk
-in the roadmap — ingest-time embedding cost genuinely dominates on weak
-hardware, see `LOGBOOK_09032026_000504.md`).
+by +5% nDCG@10") **held at +6.6% when P2 was built** (BM25 nDCG@10=0.8912,
+hybrid=0.9502, over the original 35-document corpus), **but no longer
+holds as of the P6 merge below**: after merging 5 crawled pages into
+`data/corpus/`, it measures **+4.8%** (BM25=0.8748, hybrid=0.9165) — just
+under the 5% bar, because the crawled Wikipedia articles on BM25/TF-IDF/
+HNSW now compete for top-k slots on both sides of the comparison, for
+several judgment-set queries. This was a deliberate operator decision (see
+`LOGBOOK_09032026_142903.md`), not an accidental regression — kept the
+merge, disclosed the number rather than reverting or masking it;
+`tests/eval/test_hybrid_vs_bm25.py` is marked `xfail(strict=True)` so this
+stays visible rather than silently red or silently "fixed" by loosening the
+threshold. Hybrid query p95 latency = 66ms, well under the 500ms ceiling
+stated for this hardware; embedding throughput at ingest time is ~6.6
+chunks/sec on sensalis-node's 2-core Celeron (the flagged risk in the
+roadmap — ingest-time embedding cost genuinely dominates on weak hardware,
+see `LOGBOOK_09032026_000504.md`).
 
 **P3's own exit criterion ("reranking the top-50 improves nDCG@10 over RRF
 alone on held-out logged queries") is explicitly NOT met, on purpose.** The

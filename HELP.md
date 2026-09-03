@@ -109,6 +109,27 @@ curl "http://127.0.0.1:8000/search?q=bm25+ranking&k=5"
 
 `KE_HOST` / `KE_PORT` env vars override the default bind address if needed.
 
+**Running it as a persistent service** (so it survives SSH disconnects and
+reboots, not just a foreground process): a `systemctl --user` unit, not a
+system-wide one under `/etc/systemd/system/` -- `sudo` on sensalis-node
+needs a password this session doesn't have, so anything requiring root gets
+staged for the operator rather than assumed. A user unit needs no root at
+all:
+
+```bash
+mkdir -p ~/.config/systemd/user
+cp deploy/knowledge-engine.service ~/.config/systemd/user/   # adjust paths inside if your checkout isn't at ~/work/knowledge_engine
+systemctl --user daemon-reload
+systemctl --user enable --now knowledge-engine.service
+loginctl enable-linger $(whoami)   # survives logout/reboot; succeeded without sudo on this node
+systemctl --user status knowledge-engine.service --no-pager
+```
+
+Verify it's actually live, not just "should work": `ps aux | grep uvicorn`,
+`ss -tlnp | grep 8000`, `curl -i localhost:8000/health`, and a real query
+against `/search` -- "the code exists" and "the service is running" are
+different claims, and only the commands above prove the second one.
+
 Every `/search` call now logs the query and its ranked candidates (BM25
 score, vector score, RRF score, source type, ingestion recency) to
 `data/query_log.db`, and returns a `query_id` in the response. Report a
@@ -337,6 +358,31 @@ index (`data/web_tantivy_index/`/`data/web_registry.db`), not the main one,
 same reasoning as P5's `enterprise_*` split. Re-running skips URLs already
 fetched (`data/crawl_state.db` tracks canonical URLs). `--skip-ingest` runs
 the crawl only.
+
+**Merging crawled pages into the live/main index is a deliberate, separate
+step -- and it's easy to get wrong.** `ingest.pipeline.run_ingest(corpus_dir,
+...)` treats `corpus_dir` as the *complete* contents for that index: any
+previously-registered doc not found there gets deleted as stale. Pointing
+it at `data/crawled/` (5 files) while targeting the *main* registry (which
+tracked 35 files) deleted all 35 -- confirmed live via `eval.run --index
+real` suddenly reporting `nDCG@10=0.0000` -- not because of a bug in that
+logic, but because of pointing it at the wrong directory for the intent.
+**The correct way to merge:** copy the crawled files into `data/corpus/`
+itself (the one true corpus dir for the main index), then re-run
+`ingest.pipeline` with no `--corpus` override:
+```bash
+cp data/crawled/*.html data/corpus/
+PYTHONPATH=src .venv/bin/python -m ingest.pipeline
+```
+Also **restart** any running `/search` service afterward if you merge
+vectors too -- Tantivy live-reloads on every query (`BM25Index.search()`
+calls `.reload()`), but the FAISS vector index is loaded once into process
+memory at construction with no reload path, so a running process won't see
+newly-added vectors until restarted. Expect the P1/P2 recorded baseline
+numbers to shift slightly once crawled content covering the same topics as
+judgment-set queries is merged in (measured: nDCG@10 0.8877→0.8749,
+recall@20 0.9048→0.8958 after merging these 5 pages) -- real competition
+for top-k slots, not a defect.
 
 **The allowlist IS the deliverable** (the roadmap's own framing -- treat it
 as such, not a formality, since scope drift here is a legal/ToS exposure

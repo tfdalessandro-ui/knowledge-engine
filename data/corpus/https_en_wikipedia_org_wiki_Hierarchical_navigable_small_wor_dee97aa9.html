@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html class="client-nojs vector-feature-language-in-header-enabled vector-feature-language-in-main-menu-disabled vector-feature-language-in-main-page-header-disabled vector-feature-page-tools-pinned-disabled vector-feature-toc-pinned-clientpref-1 vector-feature-main-menu-pinned-disabled vector-feature-limited-width-clientpref-1 vector-feature-limited-width-content-enabled vector-feature-custom-font-size-clientpref-1 vector-feature-appearance-pinned-clientpref-1 skin-theme-clientpref-day vector-sticky-header-enabled vector-toc-available skin-thumbsize-clientpref-standard" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<title>Hierarchical navigable small world - Wikipedia</title>
+<script>(function(){var className="client-js vector-feature-language-in-header-enabled vector-feature-language-in-main-menu-disabled vector-feature-language-in-main-page-header-disabled vector-feature-page-tools-pinned-disabled vector-feature-toc-pinned-clientpref-1 vector-feature-main-menu-pinned-disabled vector-feature-limited-width-clientpref-1 vector-feature-limited-width-content-enabled vector-feature-custom-font-size-clientpref-1 vector-feature-appearance-pinned-clientpref-1 skin-theme-clientpref-day vector-sticky-header-enabled vector-toc-available skin-thumbsize-clientpref-standard";var cookie=document.cookie.match(/(?:^|; )enwikimwclientpreferences=([^;]+)/);if(cookie){cookie[1].split('%2C').forEach(function(pref){className=className.replace(new RegExp('(^| )'+pref.replace(/-clientpref-\w+$|[^\w-]+/g,'')+'-clientpref-\\w+( |$)'),'$1'+pref+'$2');});}document.documentElement.className=className;}());RLCONF={"wgBreakFrames":false,"wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgRequestId":"7fbdd856-fcef-4972-8a07-479c1d2e793d","wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Hierarchical_navigable_small_world","wgTitle":"Hierarchical navigable small world","wgCurRevisionId":1369131893,"wgRevisionId":1369131893,"wgArticleId":76162223,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Articles with short description","Short description is different from Wikidata","Graphs","Network science","Search algorithms","Database index techniques","Data mining","Machine learning"],"wgPageViewLanguage":"en","wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgRelevantPageName":"Hierarchical_navigable_small_world","wgRelevantArticleId":76162223,"wgTempUserName":null,"wgIsProbablyEditable":true,"wgRelevantPageIsProbablyEditable":true,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgNoticeProject":"wikipedia","wgFlaggedRevsParams":{"tags":{"status":{"levels":1}},"namespaces":[0,4]},"wgConfirmEditCaptchaNeededForGenericEdit":"hcaptcha","wgConfirmEditForceShowCaptcha":false,"wgConfirmEditHCaptchaSiteKey":"5d0c670e-a5f4-4258-ad16-1f42792c9c62","wgMediaViewerOnClick":true,"wgMediaViewerEnabledByDefault":true,"wgMediaViewerMobileBeta":false,"wgPopupsFlags":0,"wgVisualEditor":{"pageLanguageCode":"en","pageLanguageDir":"ltr","pageVariantFallbacks":"en"},"wgMFDisplayWikibaseDescriptions":{"search":true,"watchlist":true,"tagline":false,"nearby":true},"wgWMESchemaEditAttemptStepOversample":false,"wgWMEPageLength":10000,"wgParsoidHtmlVersion":"2.8.0","parsermigration-parsoid":true,"wgTestKitchenUserExperiments":{"overrides":[],"enrolled":[],"assigned":[],"subject_ids":[]},"wgEditSubmitButtonLabelPublish":true,"wgVisualEditorPageIsDisambiguation":false,"wgULSPosition":"interlanguage","wgULSisCompactLinksEnabled":false,"wgVector2022LanguageInHeader":true,"wgULSisLanguageSelectorEmpty":false,"wgULSLanguageSelectorV2Enabled":true,"wgWikibaseItemId":"Q124785393","wgCheckUserClientHintsHeadersJsApi":["brands","architecture","bitness","fullVersionList","mobile","model","platform","platformVersion"],"wgPersonalDashboardMenuVisible":false};
+RLSTATE={"ext.globalCssJs.user.styles":"ready","site.styles":"ready","user.styles":"ready","ext.globalCssJs.user":"ready","user":"ready","user.options":"loading","ext.cite.parsoid.styles":"ready","ext.cite.styles":"ready","mediawiki.skinning.content.parsoid":"ready","ext.wikimediamessages.styles":"ready","skins.vector.search.codex.styles":"ready","skins.vector.styles":"ready","skins.vector.icons":"ready","ext.visualEditor.desktopArticleTarget.noscript":"ready","ext.uls.interlanguage":"ready","wikibase.client.init":"ready"};RLPAGEMODULES=["ext.cite.ux-enhancements","mediawiki.page.media","site","mediawiki.page.ready","mediawiki.toc","skins.vector.js","ext.centralNotice.geoIP","ext.centralNotice.startUp","ext.gadget.ReferenceTooltips","ext.gadget.switcher","ext.urlShortener.toolbar","ext.centralauth.centralautologin","ext.testKitchen","mmv.bootstrap","ext.popups","ext.visualEditor.desktopArticleTarget.init","ext.echo.centralauth","ext.eventLogging","ext.wikimediaEvents","ext.navigationTiming","ext.uls.interface","ext.cx.eventlogging.campaigns","ext.cx.uls.quick.actions","wikibase.client.vector-2022","wikibase.databox.fromWikidata","ext.checkUser.clientHints","ext.quicksurveys.init"];</script>
+<script>(RLQ=window.RLQ||[]).push(function(){mw.loader.impl(function(){return["user.options@12s5i",function($,jQuery,require,module){mw.user.tokens.set({"patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+}];});});</script>
+<link rel="stylesheet" href="/w/load.php?lang=en&amp;modules=ext.cite.parsoid.styles%7Cext.cite.styles%7Cext.uls.interlanguage%7Cext.visualEditor.desktopArticleTarget.noscript%7Cext.wikimediamessages.styles%7Cmediawiki.skinning.content.parsoid%7Cskins.vector.icons%2Cstyles%7Cskins.vector.search.codex.styles%7Cwikibase.client.init&amp;only=styles&amp;skin=vector-2022">
+<script async="" src="/w/load.php?lang=en&amp;modules=startup&amp;only=scripts&amp;raw=1&amp;skin=vector-2022"></script>
+<meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="/w/load.php?lang=en&amp;modules=site.styles&amp;only=styles&amp;skin=vector-2022">
+<meta name="generator" content="MediaWiki 1.47.0-wmf.17">
+<meta name="referrer" content="origin">
+<meta name="referrer" content="origin-when-cross-origin">
+<meta name="robots" content="max-image-preview:standard">
+<meta name="format-detection" content="telephone=no">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/d/d2/Internet_map_1024.jpg?utm_source=en.wikipedia.org&amp;utm_campaign=index&amp;utm_content=thumbnail_unscaled">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="1200">
+<meta name="viewport" content="width=1120">
+<meta property="og:title" content="Hierarchical navigable small world - Wikipedia">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="//upload.wikimedia.org">
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="/w/index.php?title=Hierarchical_navigable_small_world&amp;action=edit">
+<link rel="apple-touch-icon" href="/static/apple-touch/wikipedia.png">
+<link rel="icon" href="/static/favicon/wikipedia.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="/w/rest.php/v1/search" title="Wikipedia (en)">
+<link rel="EditURI" type="application/rsd+xml" href="//en.wikipedia.org/w/api.php?action=rsd">
+<link rel="canonical" href="https://en.wikipedia.org/wiki/Hierarchical_navigable_small_world">
+<link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">
+<link rel="alternate" type="application/atom+xml" title="Wikipedia Atom feed" href="/w/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="dns-prefetch" href="//meta.wikimedia.org" />
+<link rel="dns-prefetch" href="auth.wikimedia.org">
+</head>
+<body class="skin--responsive skin-vector skin-vector-search-vue mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject mw-editable page-Hierarchical_navigable_small_world rootpage-Hierarchical_navigable_small_world skin-vector-2022 action-view">
+<div id="mw-aria-live-region" class="mw-aria-live-region" aria-live="polite"></div><a class="mw-jump-link" href="#bodyContent">Jump to content</a>
+<div class="vector-header-container">
+	<header class="vector-header mw-header no-font-mode-scale">
+		<div class="vector-header-start">
+			<nav class="vector-main-menu-landmark" aria-label="Site">
+				
+<div id="vector-main-menu-dropdown" class="vector-dropdown vector-main-menu-dropdown vector-button-flush-left vector-button-flush-right"  title="Main menu" >
+	<input type="checkbox" id="vector-main-menu-dropdown-checkbox" role="button" aria-haspopup="true" data-event-name="ui.dropdown-vector-main-menu-dropdown" class="vector-dropdown-checkbox "  aria-label="Main menu"   >
+	<label id="vector-main-menu-dropdown-label" for="vector-main-menu-dropdown-checkbox" class="vector-dropdown-label cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only " aria-hidden="true"  ><span class="vector-icon mw-ui-icon-menu mw-ui-icon-wikimedia-menu cdx-button__icon"></span>
+
+<span class="vector-dropdown-label-text">Main menu</span>
+	</label>
+	<div class="vector-dropdown-content">
+
+
+				<div id="vector-main-menu-unpinned-container" class="vector-unpinned-container">
+		
+<div id="vector-main-menu" class="vector-main-menu vector-pinnable-element">
+	<div
+	class="vector-pinnable-header vector-main-menu-pinnable-header vector-pinnable-header-unpinned"
+	data-feature-name="main-menu-pinned"
+	data-pinnable-element-id="vector-main-menu"
+	data-pinned-container-id="vector-main-menu-pinned-container"
+	data-unpinned-container-id="vector-main-menu-unpinned-container"
+>
+	<div class="vector-pinnable-header-label">Main menu</div>
+	<button class="vector-pinnable-header-toggle-button vector-pinnable-header-pin-button" data-event-name="pinnable-header.vector-main-menu.pin" aria-label="Move Main menu to sidebar">move to sidebar</button>
+	<button class="vector-pinnable-header-toggle-button vector-pinnable-header-unpin-button" data-event-name="pinnable-header.vector-main-menu.unpin" aria-label="Hide Main menu">hide</button>
+</div>
+
+	
+<div id="p-navigation" class="vector-menu mw-portlet mw-portlet-navigation"  >
+	<div class="vector-menu-heading">
+		Navigation
+	</div>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="n-mainpage-description" class="mw-list-item"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z"><span>Main page</span></a></li><li id="n-contents" class="mw-list-item"><a href="/wiki/Wikipedia:Contents" title="Guides to browsing Wikipedia"><span>Contents</span></a></li><li id="n-currentevents" class="mw-list-item"><a href="/wiki/Portal:Current_events" title="Articles related to current events"><span>Current events</span></a></li><li id="n-randompage" class="mw-list-item"><a href="/wiki/Special:Random" title="Visit a randomly selected article [x]" accesskey="x"><span>Random article</span></a></li><li id="n-aboutsite" class="mw-list-item"><a href="/wiki/Wikipedia:About" title="Learn about Wikipedia and how it works"><span>About Wikipedia</span></a></li><li id="n-contactpage" class="mw-list-item"><a href="//en.wikipedia.org/wiki/Wikipedia:Contact_us" title="How to contact Wikipedia"><span>Contact us</span></a></li>
+		</ul>
+		
+	</div>
+</div>
+
+	
+<div id="p-interaction" class="vector-menu mw-portlet mw-portlet-interaction"  >
+	<div class="vector-menu-heading">
+		Contribute
+	</div>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="n-help" class="mw-list-item"><a href="/wiki/Help:Contents" title="Guidance on how to use and edit Wikipedia"><span>Help</span></a></li><li id="n-introduction" class="mw-list-item"><a href="/wiki/Help:Introduction" title="Learn how to edit Wikipedia"><span>Learn to edit</span></a></li><li id="n-portal" class="mw-list-item"><a href="/wiki/Wikipedia:Community_portal" title="The hub for editors"><span>Community portal</span></a></li><li id="n-recentchanges" class="mw-list-item"><a href="/wiki/Special:RecentChanges" title="A list of recent changes to Wikipedia [r]" accesskey="r"><span>Recent changes</span></a></li><li id="n-upload" class="mw-list-item"><a href="/wiki/Wikipedia:File_upload_wizard" title="Add images or other media for use on Wikipedia"><span>Upload file</span></a></li><li id="n-specialpages" class="mw-list-item"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q"><span>Special pages</span></a></li>
+		</ul>
+		
+	</div>
+</div>
+
+</div>
+
+				</div>
+
+	</div>
+</div>
+
+		</nav>
+			
+<a href="/wiki/Main_Page" class="mw-logo">
+	<img class="mw-logo-icon" src="/static/images/icons/enwiki-25.svg" alt="" aria-hidden="true" height="50" width="50">
+	<span class="mw-logo-container skin-invert">
+		<img class="mw-logo-wordmark" alt="Wikipedia" src="/static/images/mobile/copyright/wikipedia-wordmark-en-25.svg" style="width: 8.75em; height: 1.375em;">
+		<img class="mw-logo-tagline" alt="The Free Encyclopedia" src="/static/images/mobile/copyright/wikipedia-tagline-en-25.svg" width="140" height="11" style="width: 8.75em; height: 0.6875em;">
+	</span>
+</a>
+
+		</div>
+		<div class="vector-header-end">
+			
+<div id="p-search" role="search" class="vector-search-box-vue  vector-search-box-collapses vector-search-box-show-thumbnail vector-search-box-auto-expand-width vector-search-box">
+	<a href="/wiki/Special:Search" class="cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only search-toggle" title="Search Wikipedia [f]" accesskey="f"><span class="vector-icon mw-ui-icon-search mw-ui-icon-wikimedia-search cdx-button__icon"></span>
+
+<span>Search</span>
+	</a>
+	<div class="vector-typeahead-search-container">
+		<div class="cdx-typeahead-search cdx-typeahead-search--show-thumbnail cdx-typeahead-search--auto-expand-width">
+			<form action="/w/index.php" id="searchform" class="cdx-search-input cdx-search-input--has-end-button">
+				<div id="simpleSearch" class="cdx-search-input__input-wrapper"  data-search-loc="header-moved">
+					<div class="cdx-text-input cdx-text-input--has-start-icon">
+						<input
+							class="cdx-text-input__input mw-searchInput" autocomplete="off"
+							 type="search" name="search" placeholder="Search Wikipedia" aria-label="Search Wikipedia" autocapitalize="none" spellcheck="false" title="Search Wikipedia [f]" accesskey="f" id="searchInput"
+							>
+						<span class="cdx-text-input__icon cdx-text-input__start-icon"></span>
+					</div>
+					<input type="hidden" name="title" value="Special:Search">
+				</div>
+				<button class="cdx-button cdx-search-input__end-button">Search</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+			<nav class="vector-user-links vector-user-links-wide" aria-label="Personal tools">
+	<div class="vector-user-links-main">
+	
+<div id="p-vector-user-menu-preferences" class="vector-menu mw-portlet emptyPortlet"  >
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			
+		</ul>
+		
+	</div>
+</div>
+
+	
+<div id="p-vector-user-menu-userpage" class="vector-menu mw-portlet emptyPortlet"  >
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			
+		</ul>
+		
+	</div>
+</div>
+
+	<nav class="vector-appearance-landmark" aria-label="Appearance">
+		
+<div id="vector-appearance-dropdown" class="vector-dropdown "  title="Change the appearance of the page&#039;s font size, width, and color" >
+	<input type="checkbox" id="vector-appearance-dropdown-checkbox" role="button" aria-haspopup="true" data-event-name="ui.dropdown-vector-appearance-dropdown" class="vector-dropdown-checkbox "  aria-label="Appearance"   >
+	<label id="vector-appearance-dropdown-label" for="vector-appearance-dropdown-checkbox" class="vector-dropdown-label cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only " aria-hidden="true"  ><span class="vector-icon mw-ui-icon-appearance mw-ui-icon-wikimedia-appearance cdx-button__icon"></span>
+
+<span class="vector-dropdown-label-text">Appearance</span>
+	</label>
+	<div class="vector-dropdown-content">
+
+
+			<div id="vector-appearance-unpinned-container" class="vector-unpinned-container">
+				
+			</div>
+		
+	</div>
+</div>
+
+	</nav>
+	
+<div id="p-vector-user-menu-notifications" class="vector-menu mw-portlet emptyPortlet"  >
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			
+		</ul>
+		
+	</div>
+</div>
+
+	
+<div id="p-vector-user-menu-overflow" class="vector-menu mw-portlet"  >
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			<li id="pt-sitesupport-2" class="mw-list-item vector-menu-item--collapsible"><a data-mw-interface  href="https://donate.wikimedia.org/?wmf_source=donate&amp;wmf_medium=sidebar&amp;wmf_campaign=en.wikipedia.org&amp;uselang=en" data-mw-donate-attempt="top_link" class=""><span>Donate</span></a>
+</li>
+<li id="pt-createaccount-2" class="mw-list-item vector-menu-item--collapsible"><a data-mw-interface  href="/w/index.php?title=Special:CreateAccount&amp;returnto=Hierarchical+navigable+small+world" title="You are encouraged to create an account and log in; however, it is not mandatory" class=""><span>Create account</span></a>
+</li>
+<li id="pt-login-2" class="mw-list-item vector-menu-item--collapsible"><a data-mw-interface  href="/w/index.php?title=Special:UserLogin&amp;returnto=Hierarchical+navigable+small+world" title="You&#039;re encouraged to log in; however, it&#039;s not mandatory. [o]" accesskey="o" class=""><span>Log in</span></a>
+</li>
+
+			
+		</ul>
+		
+	</div>
+</div>
+
+	</div>
+	
+<div id="vector-user-links-dropdown" class="vector-dropdown vector-user-menu vector-button-flush-right vector-user-menu-logged-out vector-user-links-dropdown--collapsible"  title="Log in and more options" >
+	<input type="checkbox" id="vector-user-links-dropdown-checkbox" role="button" aria-haspopup="true" data-event-name="ui.dropdown-vector-user-links-dropdown" class="vector-dropdown-checkbox "  aria-label="Personal tools"   >
+	<label id="vector-user-links-dropdown-label" for="vector-user-links-dropdown-checkbox" class="vector-dropdown-label cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only " aria-hidden="true"  ><span class="vector-icon mw-ui-icon-userAvatar mw-ui-icon-wikimedia-userAvatar cdx-button__icon"></span>
+
+<span class="vector-dropdown-label-text">Personal tools</span>
+	</label>
+	<div class="vector-dropdown-content">
+
+
+		
+<div id="p-personal" class="vector-menu mw-portlet mw-portlet-personal"  title="User menu" >
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			<li id="pt-sitesupport" class="mw-list-item vector-menu-item--collapsible"><a data-mw-interface  href="https://donate.wikimedia.org/?wmf_source=donate&amp;wmf_medium=sidebar&amp;wmf_campaign=en.wikipedia.org&amp;uselang=en" data-mw-donate-attempt="top_link" class=""><span class="vector-icon mw-ui-icon-heart mw-ui-icon-wikimedia-heart cdx-button__icon"></span>
+
+<span>Donate</span></a>
+</li>
+<li id="pt-createaccount" class="mw-list-item vector-menu-item--collapsible"><a data-mw-interface  href="/w/index.php?title=Special:CreateAccount&amp;returnto=Hierarchical+navigable+small+world" title="You are encouraged to create an account and log in; however, it is not mandatory" class=""><span class="vector-icon mw-ui-icon-userAvatar mw-ui-icon-wikimedia-userAvatar cdx-button__icon"></span>
+
+<span>Create account</span></a>
+</li>
+<li id="pt-login" class="mw-list-item vector-menu-item--collapsible"><a data-mw-interface  href="/w/index.php?title=Special:UserLogin&amp;returnto=Hierarchical+navigable+small+world" title="You&#039;re encouraged to log in; however, it&#039;s not mandatory. [o]" accesskey="o" class=""><span class="vector-icon mw-ui-icon-logIn mw-ui-icon-wikimedia-logIn cdx-button__icon"></span>
+
+<span>Log in</span></a>
+</li>
+
+			
+		</ul>
+		
+	</div>
+</div>
+
+	
+	</div>
+</div>
+
+</nav>
+
+		</div>
+	</header>
+</div>
+<div class="mw-page-container">
+	<div class="mw-page-container-inner">
+		<div class="vector-sitenotice-container">
+			<div id="siteNotice"><!-- CentralNotice --></div>
+		</div>
+		<div class="vector-column-start">
+			<div class="vector-main-menu-container">
+		<div id="mw-navigation">
+			<nav id="mw-panel" class="vector-main-menu-landmark" aria-label="Site">
+				<div id="vector-main-menu-pinned-container" class="vector-pinned-container">
+				
+				</div>
+		</nav>
+		</div>
+	</div>
+	<div class="vector-sticky-pinned-container">
+				<nav id="mw-panel-toc" aria-label="Contents" data-event-name="ui.sidebar-toc" class="mw-table-of-contents-container vector-toc-landmark">
+					<div id="vector-toc-pinned-container" class="vector-pinned-container">
+					<div id="vector-toc" class="vector-toc vector-pinnable-element">
+	<div
+	class="vector-pinnable-header vector-toc-pinnable-header vector-pinnable-header-pinned"
+	data-feature-name="toc-pinned"
+	data-pinnable-element-id="vector-toc"
+	data-pinned-container-id="vector-toc-pinned-container"
+	data-unpinned-container-id="vector-toc-unpinned-container"
+>
+	<h2 class="vector-pinnable-header-label">Contents</h2>
+	<button class="vector-pinnable-header-toggle-button vector-pinnable-header-pin-button" data-event-name="pinnable-header.vector-toc.pin" aria-label="Move Contents to sidebar">move to sidebar</button>
+	<button class="vector-pinnable-header-toggle-button vector-pinnable-header-unpin-button" data-event-name="pinnable-header.vector-toc.unpin" aria-label="Hide Contents">hide</button>
+</div>
+
+
+	<ul class="vector-toc-contents" id="mw-panel-toc-list">
+		<li id="toc-mw-content-text"
+			class="vector-toc-list-item vector-toc-level-1">
+			<a href="#" class="vector-toc-link">
+				<div class="vector-toc-text">(Top)</div>
+			</a>
+		</li>
+		<li id="toc-Background"
+		class="vector-toc-list-item vector-toc-level-1 vector-toc-list-item-expanded">
+		<a class="vector-toc-link" href="#Background">
+			<div class="vector-toc-text">
+				<span class="vector-toc-numb">1</span>
+				<span>Background</span>
+			</div>
+		</a>
+		
+		<ul id="toc-Background-sublist" class="vector-toc-list">
+		</ul>
+	</li>
+	<li id="toc-Algorithm"
+		class="vector-toc-list-item vector-toc-level-1 vector-toc-list-item-expanded">
+		<a class="vector-toc-link" href="#Algorithm">
+			<div class="vector-toc-text">
+				<span class="vector-toc-numb">2</span>
+				<span>Algorithm</span>
+			</div>
+		</a>
+		
+		<ul id="toc-Algorithm-sublist" class="vector-toc-list">
+		</ul>
+	</li>
+	<li id="toc-Construction_and_parameters"
+		class="vector-toc-list-item vector-toc-level-1 vector-toc-list-item-expanded">
+		<a class="vector-toc-link" href="#Construction_and_parameters">
+			<div class="vector-toc-text">
+				<span class="vector-toc-numb">3</span>
+				<span>Construction and parameters</span>
+			</div>
+		</a>
+		
+		<ul id="toc-Construction_and_parameters-sublist" class="vector-toc-list">
+		</ul>
+	</li>
+	<li id="toc-Use_in_vector_search_systems"
+		class="vector-toc-list-item vector-toc-level-1 vector-toc-list-item-expanded">
+		<a class="vector-toc-link" href="#Use_in_vector_search_systems">
+			<div class="vector-toc-text">
+				<span class="vector-toc-numb">4</span>
+				<span>Use in vector search systems</span>
+			</div>
+		</a>
+		
+		<ul id="toc-Use_in_vector_search_systems-sublist" class="vector-toc-list">
+		</ul>
+	</li>
+	<li id="toc-See_also"
+		class="vector-toc-list-item vector-toc-level-1 vector-toc-list-item-expanded">
+		<a class="vector-toc-link" href="#See_also">
+			<div class="vector-toc-text">
+				<span class="vector-toc-numb">5</span>
+				<span>See also</span>
+			</div>
+		</a>
+		
+		<ul id="toc-See_also-sublist" class="vector-toc-list">
+		</ul>
+	</li>
+	<li id="toc-References"
+		class="vector-toc-list-item vector-toc-level-1 vector-toc-list-item-expanded">
+		<a class="vector-toc-link" href="#References">
+			<div class="vector-toc-text">
+				<span class="vector-toc-numb">6</span>
+				<span>References</span>
+			</div>
+		</a>
+		
+		<ul id="toc-References-sublist" class="vector-toc-list">
+		</ul>
+	</li>
+</ul>
+</div>
+
+					</div>
+		</nav>
+			</div>
+		</div>
+		<div class="mw-content-container">
+			<main id="content" class="mw-body">
+				<header class="mw-body-header vector-page-titlebar no-font-mode-scale">
+					<nav aria-label="Contents" class="vector-toc-landmark">
+						
+<div id="vector-page-titlebar-toc" class="vector-dropdown vector-page-titlebar-toc vector-button-flush-left"  title="Table of Contents" >
+	<input type="checkbox" id="vector-page-titlebar-toc-checkbox" role="button" aria-haspopup="true" data-event-name="ui.dropdown-vector-page-titlebar-toc" class="vector-dropdown-checkbox "  aria-label="Toggle the table of contents"   >
+	<label id="vector-page-titlebar-toc-label" for="vector-page-titlebar-toc-checkbox" class="vector-dropdown-label cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only " aria-hidden="true"  ><span class="vector-icon mw-ui-icon-listBullet mw-ui-icon-wikimedia-listBullet cdx-button__icon"></span>
+
+<span class="vector-dropdown-label-text">Toggle the table of contents</span>
+	</label>
+	<div class="vector-dropdown-content">
+
+
+							<div id="vector-page-titlebar-toc-unpinned-container" class="vector-unpinned-container">
+			</div>
+		
+	</div>
+</div>
+
+					</nav>
+					<h1 id="firstHeading" class="firstHeading mw-first-heading"><span lang="en" dir="ltr"><span class="mw-page-title-main">Hierarchical navigable small world</span></span></h1>
+			
+<div id="p-lang-btn" class="vector-dropdown mw-portlet mw-portlet-lang"  >
+	<input type="checkbox" id="p-lang-btn-checkbox" role="button" aria-haspopup="true" data-event-name="ui.dropdown-p-lang-btn" class="vector-dropdown-checkbox mw-interlanguage-selector"  aria-label="2 languages" aria-description="Go to an article in another language. Available in 2 languages"  >
+	<label id="p-lang-btn-label" for="p-lang-btn-checkbox" class="vector-dropdown-label cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--action-progressive mw-portlet-lang-heading-2" aria-hidden="true"  ><span class="vector-icon mw-ui-icon-language-progressive mw-ui-icon-wikimedia-language-progressive cdx-button__icon"></span>
+
+<span class="vector-dropdown-label-text">2 languages</span>
+	</label>
+	<div class="vector-dropdown-content">
+
+		<div class="vector-menu-content">
+			
+			<ul class="vector-menu-content-list">
+				
+				<li class="interlanguage-link interwiki-es mw-list-item"><a href="https://es.wikipedia.org/wiki/Peque%C3%B1o_mundo_navegable_jerarquizado_o_estratificado" title="Pequeño mundo navegable jerarquizado o estratificado – Spanish" lang="es" hreflang="es" data-title="Pequeño mundo navegable jerarquizado o estratificado" data-language-autonym="Español" data-language-local-name="Spanish" class="interlanguage-link-target"><span>Español</span></a></li><li class="interlanguage-link interwiki-pt mw-list-item"><a href="https://pt.wikipedia.org/wiki/Mundo_pequeno_hier%C3%A1rquico_naveg%C3%A1vel" title="Mundo pequeno hierárquico navegável – Portuguese" lang="pt" hreflang="pt" data-title="Mundo pequeno hierárquico navegável" data-language-autonym="Português" data-language-local-name="Portuguese" class="interlanguage-link-target"><span>Português</span></a></li>
+			</ul>
+			<div class="after-portlet after-portlet-lang"><span class="wb-langlinks-edit wb-langlinks-link"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q124785393#sitelinks-wikipedia" title="Edit interlanguage links" class="wbc-editpage">Edit links</a></span></div>
+		</div>
+
+	</div>
+</div>
+</header>
+				<div class="vector-page-toolbar">
+					<div class="vector-page-toolbar-container">
+						<div id="left-navigation">
+							<nav aria-label="Namespaces">
+								
+<div id="p-associated-pages" class="vector-menu vector-menu-tabs mw-portlet mw-portlet-associated-pages"  >
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			<li id="ca-nstab-main" class="selected mw-list-item vector-tab-noicon"><a data-mw-interface  href="/wiki/Hierarchical_navigable_small_world" title="View the content page [c]" accesskey="c" class=""><span>Article</span></a>
+</li>
+<li id="ca-talk" class="mw-list-item vector-tab-noicon"><a data-mw-interface  href="/wiki/Talk:Hierarchical_navigable_small_world" rel="discussion" title="Discuss improvements to the content page [t]" accesskey="t" class=""><span>Talk</span></a>
+</li>
+
+			
+		</ul>
+		
+	</div>
+</div>
+
+								
+<div id="vector-variants-dropdown" class="vector-dropdown emptyPortlet"  >
+	<input type="checkbox" id="vector-variants-dropdown-checkbox" role="button" aria-haspopup="true" data-event-name="ui.dropdown-vector-variants-dropdown" class="vector-dropdown-checkbox " aria-label="Change language variant"    >
+	<label id="vector-variants-dropdown-label" for="vector-variants-dropdown-checkbox" class="vector-dropdown-label cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet" aria-hidden="true"  ><span class="vector-dropdown-label-text">English</span>
+	</label>
+	<div class="vector-dropdown-content">
+
+
+					
+<div id="p-variants" class="vector-menu mw-portlet mw-portlet-variants emptyPortlet"  >
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			
+		</ul>
+		
+	</div>
+</div>
+
+				
+	</div>
+</div>
+
+							</nav>
+						</div>
+						<div id="right-navigation" class="vector-collapsible">
+							<nav aria-label="Views">
+			    
+<div id="p-views" class="vector-menu vector-menu-tabs mw-portlet mw-portlet-views"  >
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			<li id="ca-view" class="selected mw-list-item vector-menu-item--collapsible vector-tab-noicon"><a data-mw-interface  href="/wiki/Hierarchical_navigable_small_world" class=""><span>Read</span></a>
+</li>
+<li id="ca-edit" class="mw-list-item vector-menu-item--collapsible vector-tab-noicon"><a data-mw-interface  href="/w/index.php?title=Hierarchical_navigable_small_world&amp;action=edit" title="Edit this page [e]" accesskey="e" class=""><span>Edit</span></a>
+</li>
+<li id="ca-history" class="mw-list-item vector-menu-item--collapsible vector-tab-noicon"><a data-mw-interface  href="/w/index.php?title=Hierarchical_navigable_small_world&amp;action=history" title="Past revisions of this page [h]" accesskey="h" class=""><span>View history</span></a>
+</li>
+
+			
+		</ul>
+		
+	</div>
+</div>
+
+			</nav>
+
+							<nav class="vector-page-tools-landmark" aria-label="Page tools">
+								
+<div id="vector-page-tools-dropdown" class="vector-dropdown vector-page-tools-dropdown"  >
+	<input type="checkbox" id="vector-page-tools-dropdown-checkbox" role="button" aria-haspopup="true" data-event-name="ui.dropdown-vector-page-tools-dropdown" class="vector-dropdown-checkbox "  aria-label="Tools"   >
+	<label id="vector-page-tools-dropdown-label" for="vector-page-tools-dropdown-checkbox" class="vector-dropdown-label cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only " aria-hidden="true"  ><span class="vector-icon mw-ui-icon-verticalEllipsis mw-ui-icon-wikimedia-verticalEllipsis cdx-button__icon"></span>
+
+<span class="vector-dropdown-label-text">Tools</span>
+	</label>
+	<div class="vector-dropdown-content">
+
+
+									<div id="vector-page-tools-unpinned-container" class="vector-unpinned-container">
+						
+<div id="vector-page-tools" class="vector-page-tools vector-pinnable-element">
+	<div
+	class="vector-pinnable-header vector-page-tools-pinnable-header vector-pinnable-header-unpinned"
+	data-feature-name="page-tools-pinned"
+	data-pinnable-element-id="vector-page-tools"
+	data-pinned-container-id="vector-page-tools-pinned-container"
+	data-unpinned-container-id="vector-page-tools-unpinned-container"
+>
+	<div class="vector-pinnable-header-label">Tools</div>
+	<button class="vector-pinnable-header-toggle-button vector-pinnable-header-pin-button" data-event-name="pinnable-header.vector-page-tools.pin" aria-label="Move Tools to sidebar">move to sidebar</button>
+	<button class="vector-pinnable-header-toggle-button vector-pinnable-header-unpin-button" data-event-name="pinnable-header.vector-page-tools.unpin" aria-label="Hide Tools">hide</button>
+</div>
+
+	
+<div id="p-cactions" class="vector-menu mw-portlet mw-portlet-cactions emptyPortlet vector-has-collapsible-items"  >
+	<div class="vector-menu-heading">
+		Actions
+	</div>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			<li id="ca-view-more" class="selected mw-list-item vector-menu-item--collapsible"><a data-mw-interface  href="/wiki/Hierarchical_navigable_small_world" class=""><span class="vector-icon mw-ui-icon-eye mw-ui-icon-wikimedia-eye cdx-button__icon"></span>
+
+<span>Read</span></a>
+</li>
+<li id="ca-edit-more" class="mw-list-item vector-menu-item--collapsible"><a data-mw-interface  href="/w/index.php?title=Hierarchical_navigable_small_world&amp;action=edit" title="Edit this page [e]" accesskey="e" class=""><span class="vector-icon mw-ui-icon-edit mw-ui-icon-wikimedia-edit cdx-button__icon"></span>
+
+<span>Edit</span></a>
+</li>
+<li id="ca-history-more" class="mw-list-item vector-menu-item--collapsible"><a data-mw-interface  href="/w/index.php?title=Hierarchical_navigable_small_world&amp;action=history" title="Past revisions of this page [h]" accesskey="h" class=""><span class="vector-icon mw-ui-icon-history mw-ui-icon-wikimedia-history cdx-button__icon"></span>
+
+<span>View history</span></a>
+</li>
+
+			
+		</ul>
+		
+	</div>
+</div>
+
+<div id="p-tb" class="vector-menu mw-portlet mw-portlet-tb"  >
+	<div class="vector-menu-heading">
+		General
+	</div>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="t-whatlinkshere" class="mw-list-item"><a href="/wiki/Special:WhatLinksHere/Hierarchical_navigable_small_world" title="List of all English Wikipedia pages containing links to this page [j]" accesskey="j"><span>What links here</span></a></li><li id="t-recentchangeslinked" class="mw-list-item"><a href="/wiki/Special:RecentChangesLinked/Hierarchical_navigable_small_world" rel="nofollow" title="Recent changes in pages linked from this page [k]" accesskey="k"><span>Related changes</span></a></li><li id="t-upload" class="mw-list-item"><a href="//en.wikipedia.org/wiki/Wikipedia:File_Upload_Wizard" title="Upload files [u]" accesskey="u"><span>Upload file</span></a></li><li id="t-permalink" class="mw-list-item"><a href="/w/index.php?title=Hierarchical_navigable_small_world&amp;oldid=1369131893" title="Permanent link to this revision of this page"><span>Permanent link</span></a></li><li id="t-info" class="mw-list-item"><a href="/w/index.php?title=Hierarchical_navigable_small_world&amp;action=info" title="More information about this page"><span>Page information</span></a></li><li id="t-cite" class="mw-list-item"><a href="/w/index.php?title=Special:CiteThisPage&amp;page=Hierarchical_navigable_small_world&amp;id=1369131893&amp;wpFormIdentifier=titleform" title="Information on how to cite this page"><span>Cite this page</span></a></li><li id="t-urlshortener" class="mw-list-item"><a href="/w/index.php?title=Special:UrlShortener&amp;url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FHierarchical_navigable_small_world"><span>Get shortened URL</span></a></li><li class="mw-list-item"><a href="/w/index.php?title=Hierarchical_navigable_small_world&amp;useparsoid=0"><span>Switch to legacy parser</span></a></li>
+		</ul>
+		
+	</div>
+</div>
+
+<div id="p-coll-print_export" class="vector-menu mw-portlet mw-portlet-coll-print_export"  >
+	<div class="vector-menu-heading">
+		Print/export
+	</div>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="coll-download-as-rl" class="mw-list-item"><a href="/w/index.php?title=Special:DownloadAsPdf&amp;page=Hierarchical_navigable_small_world&amp;action=show-download-screen" title="Download this page as a PDF file"><span>Download as PDF</span></a></li><li id="t-print" class="mw-list-item"><a href="/w/index.php?title=Hierarchical_navigable_small_world&amp;printable=yes" title="Printable version of this page [p]" accesskey="p"><span>Printable version</span></a></li>
+		</ul>
+		
+	</div>
+</div>
+
+<div id="p-wikibase-otherprojects" class="vector-menu mw-portlet mw-portlet-wikibase-otherprojects"  >
+	<div class="vector-menu-heading">
+		In other projects
+	</div>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="t-wikibase" class="wb-otherproject-link wb-otherproject-wikibase-dataitem mw-list-item"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q124785393" title="Structured data on this page hosted by Wikidata [g]" accesskey="g"><span>Wikidata item</span></a></li>
+		</ul>
+		
+	</div>
+</div>
+
+</div>
+
+									</div>
+				
+	</div>
+</div>
+
+							</nav>
+						</div>
+					</div>
+				</div>
+				<div class="vector-column-end no-font-mode-scale">
+					<div class="vector-sticky-pinned-container">
+						<nav class="vector-page-tools-landmark" aria-label="Page tools">
+							<div id="vector-page-tools-pinned-container" class="vector-pinned-container">
+				
+							</div>
+		</nav>
+						<nav class="vector-appearance-landmark" aria-label="Appearance">
+							<div id="vector-appearance-pinned-container" class="vector-pinned-container">
+				<div id="vector-appearance" class="vector-appearance vector-pinnable-element">
+	<div
+	class="vector-pinnable-header vector-appearance-pinnable-header vector-pinnable-header-pinned"
+	data-feature-name="appearance-pinned"
+	data-pinnable-element-id="vector-appearance"
+	data-pinned-container-id="vector-appearance-pinned-container"
+	data-unpinned-container-id="vector-appearance-unpinned-container"
+>
+	<div class="vector-pinnable-header-label">Appearance</div>
+	<button class="vector-pinnable-header-toggle-button vector-pinnable-header-pin-button" data-event-name="pinnable-header.vector-appearance.pin" aria-label="Move Appearance to sidebar">move to sidebar</button>
+	<button class="vector-pinnable-header-toggle-button vector-pinnable-header-unpin-button" data-event-name="pinnable-header.vector-appearance.unpin" aria-label="Hide Appearance">hide</button>
+</div>
+
+
+</div>
+
+							</div>
+		</nav>
+					</div>
+				</div>
+				<div id="bodyContent" class="vector-body" aria-labelledby="firstHeading" data-mw-ve-target-container>
+					<div class="vector-body-before-content">
+							<div class="mw-indicators">
+		</div>
+
+						<div id="siteSub" class="noprint">From Wikipedia, the free encyclopedia</div>
+					</div>
+					<div id="contentSub"><div id="mw-content-subtitle"></div></div>
+					
+					
+					<div id="mw-content-text" class="mw-body-content"><div class="mw-content-ltr mw-parser-output" lang="en" dir="ltr" data-mw-parsoid-version="0.24.0.0-alpha21" data-mw-html-version="2.8.0"><section data-mw-section-id="0" id="mwAQ"><div class="shortdescription nomobile noexcerpt noprint searchaux" style="display:none" about="#mwt1" typeof="mw:Transclusion" id="mwAg" data-mw='{"parts":[{"template":{"target":{"wt":"short description","href":"./Template:Short_description"},"params":{"1":{"wt":"Approximate nearest neighbor search algorithm"}},"i":0}}]}'>Approximate nearest neighbor search algorithm</div><span class="mw-empty-elt" about="#mwt1"><link rel="mw:PageProp/Category" href="./Category:Articles_with_short_description"/><link rel="mw:PageProp/Category" href="./Category:Short_description_is_different_from_Wikidata"/></span>
+<span class="mw-empty-elt" about="#mwt2" typeof="mw:Transclusion" id="mwAw" data-mw='{"parts":[{"template":{"target":{"wt":"Network Science","href":"./Template:Network_Science"},"params":{},"i":0}}]}'><style data-mw-deduplicate="TemplateStyles:r1333133064" typeof="mw:Extension/templatestyles" about="#mwt3" data-mw='{"name":"templatestyles","attrs":{"src":"Hlist/styles.css"},"body":{"extsrc":""}}'>.mw-parser-output .hlist dl,.mw-parser-output .hlist ol,.mw-parser-output .hlist ul{margin:0;padding:0}.mw-parser-output .hlist dd,.mw-parser-output .hlist dt,.mw-parser-output .hlist li{margin:0;display:inline}.mw-parser-output .hlist.inline,.mw-parser-output .hlist.inline dl,.mw-parser-output .hlist.inline ol,.mw-parser-output .hlist.inline ul,.mw-parser-output .hlist dl dl,.mw-parser-output .hlist dl ol,.mw-parser-output .hlist dl ul,.mw-parser-output .hlist ol dl,.mw-parser-output .hlist ol ol,.mw-parser-output .hlist ol ul,.mw-parser-output .hlist ul dl,.mw-parser-output .hlist ul ol,.mw-parser-output .hlist ul ul{display:inline}.mw-parser-output .hlist .mw-empty-li{display:none}.mw-parser-output .hlist dt::after{content:": "}.mw-parser-output .hlist dd::after,.mw-parser-output .hlist li::after{content:"\a0 · ";font-weight:bold}.mw-parser-output .hlist dd:last-child::after,.mw-parser-output .hlist dt:last-child::after,.mw-parser-output .hlist li:last-child::after{content:none}.mw-parser-output .hlist dd dd:first-child::before,.mw-parser-output .hlist dd dt:first-child::before,.mw-parser-output .hlist dd li:first-child::before,.mw-parser-output .hlist dt dd:first-child::before,.mw-parser-output .hlist dt dt:first-child::before,.mw-parser-output .hlist dt li:first-child::before,.mw-parser-output .hlist li dd:first-child::before,.mw-parser-output .hlist li dt:first-child::before,.mw-parser-output .hlist li li:first-child::before{content:" (";font-weight:normal}.mw-parser-output .hlist dd dd:last-child::after,.mw-parser-output .hlist dd dt:last-child::after,.mw-parser-output .hlist dd li:last-child::after,.mw-parser-output .hlist dt dd:last-child::after,.mw-parser-output .hlist dt dt:last-child::after,.mw-parser-output .hlist dt li:last-child::after,.mw-parser-output .hlist li dd:last-child::after,.mw-parser-output .hlist li dt:last-child::after,.mw-parser-output .hlist li li:last-child::after{content:")";font-weight:normal}.mw-parser-output .hlist ol{counter-reset:listitem}.mw-parser-output .hlist ol>li{counter-increment:listitem}.mw-parser-output .hlist ol>li::before{content:" "counter(listitem)"\a0 "}.mw-parser-output .hlist dd ol>li:first-child::before,.mw-parser-output .hlist dt ol>li:first-child::before,.mw-parser-output .hlist li ol>li:first-child::before{content:" ("counter(listitem)"\a0 "}</style><style data-mw-deduplicate="TemplateStyles:r1246091330" typeof="mw:Extension/templatestyles" about="#mwt4" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Sidebar/styles.css"},"body":{"extsrc":""}}'>.mw-parser-output .sidebar{width:22em;float:right;clear:right;margin:0.5em 0 1em 1em;background:var(--background-color-neutral-subtle,#f8f9fa);border:1px solid var(--border-color-base,#a2a9b1);padding:0.2em;text-align:center;line-height:1.4em;font-size:88%;border-collapse:collapse;display:table}body.skin-minerva .mw-parser-output .sidebar{display:table!important;float:right!important;margin:0.5em 0 1em 1em!important}.mw-parser-output .sidebar-subgroup{width:100%;margin:0;border-spacing:0}.mw-parser-output .sidebar-left{float:left;clear:left;margin:0.5em 1em 1em 0}.mw-parser-output .sidebar-none{float:none;clear:both;margin:0.5em 1em 1em 0}.mw-parser-output .sidebar-outer-title{padding:0 0.4em 0.2em;font-size:125%;line-height:1.2em;font-weight:bold}.mw-parser-output .sidebar-top-image{padding:0.4em}.mw-parser-output .sidebar-top-caption,.mw-parser-output .sidebar-pretitle-with-top-image,.mw-parser-output .sidebar-caption{padding:0.2em 0.4em 0;line-height:1.2em}.mw-parser-output .sidebar-pretitle{padding:0.4em 0.4em 0;line-height:1.2em}.mw-parser-output .sidebar-title,.mw-parser-output .sidebar-title-with-pretitle{padding:0.2em 0.8em;font-size:145%;line-height:1.2em}.mw-parser-output .sidebar-title-with-pretitle{padding:0.1em 0.4em}.mw-parser-output .sidebar-image{padding:0.2em 0.4em 0.4em}.mw-parser-output .sidebar-heading{padding:0.1em 0.4em}.mw-parser-output .sidebar-content{padding:0 0.5em 0.4em}.mw-parser-output .sidebar-content-with-subgroup{padding:0.1em 0.4em 0.2em}.mw-parser-output .sidebar-above,.mw-parser-output .sidebar-below{padding:0.3em 0.8em;font-weight:bold}.mw-parser-output .sidebar-collapse .sidebar-above,.mw-parser-output .sidebar-collapse .sidebar-below{border-top:1px solid #aaa;border-bottom:1px solid #aaa}.mw-parser-output .sidebar-navbar{text-align:right;font-size:115%;padding:0 0.4em 0.4em}.mw-parser-output .sidebar-list-title{padding:0 0.4em;text-align:left;font-weight:bold;line-height:1.6em;font-size:105%}.mw-parser-output .sidebar-list-title-c{padding:0 0.4em;text-align:center;margin:0 3.3em}@media(max-width:640px){body.mediawiki .mw-parser-output .sidebar{width:100%!important;clear:both;float:none!important;margin-left:0!important;margin-right:0!important}}body.skin--responsive .mw-parser-output .sidebar a>img{max-width:none!important}@media screen{html.skin-theme-clientpref-night .mw-parser-output .sidebar:not(.notheme) .sidebar-list-title,html.skin-theme-clientpref-night .mw-parser-output .sidebar:not(.notheme) .sidebar-title-with-pretitle{background:transparent!important}html.skin-theme-clientpref-night .mw-parser-output .sidebar:not(.notheme) .sidebar-title-with-pretitle a{color:var(--color-progressive)!important}}@media screen and (prefers-color-scheme:dark){html.skin-theme-clientpref-os .mw-parser-output .sidebar:not(.notheme) .sidebar-list-title,html.skin-theme-clientpref-os .mw-parser-output .sidebar:not(.notheme) .sidebar-title-with-pretitle{background:transparent!important}html.skin-theme-clientpref-os .mw-parser-output .sidebar:not(.notheme) .sidebar-title-with-pretitle a{color:var(--color-progressive)!important}}@media print{body.ns-0 .mw-parser-output .sidebar{display:none!important}}</style><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333133064" about="#mwt5" typeof="mw:Extension/templatestyles" data-mw='{"name":"templatestyles","attrs":{"src":"Hlist/styles.css"},"body":{"extsrc":""}}'/><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333133064" about="#mwt6" typeof="mw:Extension/templatestyles" data-mw='{"name":"templatestyles","attrs":{"src":"Hlist/styles.css"},"body":{"extsrc":""}}'/><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333133064" about="#mwt7" typeof="mw:Extension/templatestyles" data-mw='{"name":"templatestyles","attrs":{"src":"Hlist/styles.css"},"body":{"extsrc":""}}'/><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1246091330" about="#mwt8" typeof="mw:Extension/templatestyles" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Sidebar/styles.css"},"body":{"extsrc":""}}'/><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1246091330" about="#mwt9" typeof="mw:Extension/templatestyles" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Sidebar/styles.css"},"body":{"extsrc":""}}'/></span><table class="sidebar nomobile nowraplinks" role="navigation" about="#mwt2" id="mwBA"><tbody><tr><td class="sidebar-pretitle" style="padding-bottom:0.15em;">Part of <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Category:Network_science" title="Category:Network science">a series</a> on</td></tr><tr><th class="sidebar-title-with-pretitle" style="font-size:175%;"><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Network_science" title="Network science">Network science</a></th></tr><tr><td class="sidebar-image"><div class="center"><div class="center">
+
+<div style="width: 250px; height: 250px; overflow: hidden;">
+<div style="position: relative; top: -0px; left: -0px; width: 250px"><div class="noresize"><span typeof="mw:File"><a href="https://en.wikipedia.org/wiki/File:Internet_map_1024.jpg" class="mw-file-description"><img resource="https://en.wikipedia.org/wiki/File:Internet_map_1024.jpg" src="//upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Internet_map_1024.jpg/250px-Internet_map_1024.jpg?utm_source=en.wikipedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail" decoding="async" loading="lazy" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Internet_map_1024.jpg/500px-Internet_map_1024.jpg?utm_source=en.wikipedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x" data-file-width="1280" data-file-height="1280" data-file-type="bitmap" height="250" width="250" class="mw-file-element"/></a></span></div></div>
+
+</div>
+</div></div></td></tr><tr><th class="sidebar-heading">
+<div class="hlist"><ul><li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Network_theory" title="Network theory">Theory</a></li></ul></div></th></tr><tr><td class="sidebar-content hlist" style="padding-top:0.2em;padding-bottom:0.5em;">
+<ul><li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)" title="Graph (discrete mathematics)">Graph</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Complex_network" title="Complex network">Complex network</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Complex_contagion" title="Complex contagion">Contagion</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Small-world_network" title="Small-world network">Small-world</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Scale-free_network" title="Scale-free network">Scale-free</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Community_structure" title="Community structure">Community structure</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Percolation_theory" title="Percolation theory">Percolation</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Evolving_network" title="Evolving network">Evolution</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Network_controllability" title="Network controllability">Controllability</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Graph_drawing" title="Graph drawing">Graph drawing</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Social_capital" title="Social capital">Social capital</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Link_analysis" title="Link analysis">Link analysis</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Combinatorial_optimization" title="Combinatorial optimization">Optimization</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Reciprocity_(network_science)" title="Reciprocity (network science)">Reciprocity</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Triadic_closure" title="Triadic closure">Closure</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Homophily" title="Homophily">Homophily</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Transitive_relation" title="Transitive relation">Transitivity</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Preferential_attachment" title="Preferential attachment">Preferential attachment</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Balance_theory" title="Balance theory">Balance theory</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Network_effect" title="Network effect">Network effect</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Social_influence" title="Social influence">Social influence</a></li></ul></td>
+</tr><tr><th class="sidebar-heading">
+Network types</th></tr><tr><td class="sidebar-content hlist" style="padding-top:0.2em;padding-bottom:0.5em;">
+<ul><li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Computer_network" title="Computer network">Informational (computing)</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Telecommunications_network" title="Telecommunications network">Telecommunication</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Transport_network" title="Transport network" class="mw-redirect">Transport</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Social_network" title="Social network">Social</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Scientific_collaboration_network" title="Scientific collaboration network">Scientific collaboration</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Biological_network" title="Biological network">Biological</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Artificial_neural_network" title="Artificial neural network" class="mw-redirect">Artificial neural</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Interdependent_networks" title="Interdependent networks">Interdependent</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Semantic_network" title="Semantic network">Semantic</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Spatial_network" title="Spatial network">Spatial</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Dependency_network" title="Dependency network">Dependency</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Flow_network" title="Flow network">Flow</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Network_on_a_chip" title="Network on a chip">on-Chip</a></li></ul></td>
+</tr><tr><th class="sidebar-heading">
+<a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)" title="Graph (discrete mathematics)">Graphs</a></th></tr><tr><td class="sidebar-content hlist" style="padding-top:0.2em;padding-bottom:0.5em;">
+<table class="sidebar nomobile nowraplinks" role="navigation" style="background-color: transparent; color: var( --color-base, #202122 ); border-collapse:collapse; border-spacing:0px; border:none; width:100%; margin:0px; font-size:100%; clear:none; float:none"><tbody><tr><th class="sidebar-heading" style="font-weight:normal;font-style:italic;">
+Features</th></tr><tr><td class="sidebar-content">
+<ul><li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Clique_(graph_theory)" title="Clique (graph theory)">Clique</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Connected_component_(graph_theory)" title="Connected component (graph theory)" class="mw-redirect">Component</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Cut_(graph_theory)" title="Cut (graph theory)">Cut</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Cycle_(graph_theory)" title="Cycle (graph theory)">Cycle</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Graph_(abstract_data_type)" title="Graph (abstract data type)">Data structure</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Edge_(graph_theory)" title="Edge (graph theory)" class="mw-redirect">Edge</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Loop_(graph_theory)" title="Loop (graph theory)">Loop</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Neighbourhood_(graph_theory)" title="Neighbourhood (graph theory)">Neighborhood</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Path_(graph_theory)" title="Path (graph theory)">Path</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Vertex_(graph_theory)" title="Vertex (graph theory)">Vertex</a></li>
+<li><span class="nowrap"><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Adjacency_list" title="Adjacency list">Adjacency list</a><span typeof="mw:Entity"> </span>/<span typeof="mw:Entity"> </span><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Adjacency_matrix" title="Adjacency matrix">matrix</a></span></li>
+<li><span class="nowrap"><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Incidence_list" title="Incidence list" class="mw-redirect">Incidence list</a><span typeof="mw:Entity"> </span>/<span typeof="mw:Entity"> </span><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Incidence_matrix" title="Incidence matrix">matrix</a></span></li></ul></td>
+</tr><tr><th class="sidebar-heading" style="font-weight:normal;font-style:italic;">
+Types</th></tr><tr><td class="sidebar-content">
+<ul><li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Bipartite_graph" title="Bipartite graph">Bipartite</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Complete_graph" title="Complete graph">Complete</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Directed_graph" title="Directed graph">Directed</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Hypergraph" title="Hypergraph">Hyper</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Labeled_graph" title="Labeled graph" class="mw-redirect">Labeled</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Multigraph" title="Multigraph">Multi</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Random_graph" title="Random graph">Random</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Weighted_graph" title="Weighted graph" class="mw-redirect">Weighted</a></li></ul></td>
+</tr></tbody></table></td>
+</tr><tr><th class="sidebar-heading">
+<div class="hlist"><ul><li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Metrics_(networking)" title="Metrics (networking)">Metrics</a></li><li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/List_of_algorithms#Networking" title="List of algorithms">Algorithms</a></li></ul></div></th></tr><tr><td class="sidebar-content hlist" style="padding-top:0.2em;padding-bottom:0.5em;">
+<ul><li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Centrality" title="Centrality">Centrality</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Group_centrality" title="Group centrality">Group centrality</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Degree_(graph_theory)" title="Degree (graph theory)">Degree</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Network_motif" title="Network motif">Motif</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Clustering_coefficient" title="Clustering coefficient">Clustering</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Degree_distribution" title="Degree distribution">Degree distribution</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Assortativity" title="Assortativity">Assortativity</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Distance_(graph_theory)" title="Distance (graph theory)">Distance</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Modularity_(networks)" title="Modularity (networks)">Modularity</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Efficiency_(network_science)" title="Efficiency (network science)">Efficiency</a></li></ul></td>
+</tr><tr><th class="sidebar-heading">
+Models</th></tr><tr><td class="sidebar-content hlist" style="padding-top:0.2em;padding-bottom:0.5em;">
+<table class="sidebar nomobile nowraplinks" role="navigation" style="background-color: transparent; color: var( --color-base, #202122 ); border-collapse:collapse; border-spacing:0px; border:none; width:100%; margin:0px; font-size:100%; clear:none; float:none"><tbody><tr><th class="sidebar-heading" style="font-weight:normal;font-style:italic;">
+Topology</th></tr><tr><td class="sidebar-content">
+<ul><li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Random_graph" title="Random graph">Random graph</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Erdős–Rényi_model" title="Erdős–Rényi model">Erdős–Rényi</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Barabási–Albert_model" title="Barabási–Albert model">Barabási–Albert</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Bianconi–Barabási_model" title="Bianconi–Barabási model">Bianconi–Barabási</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Fitness_model_(network_theory)" title="Fitness model (network theory)">Fitness model</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Watts–Strogatz_model" title="Watts–Strogatz model">Watts–Strogatz</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Exponential_family_random_graph_models" title="Exponential family random graph models">Exponential random (ERGM)</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Random_geometric_graph" title="Random geometric graph">Random geometric (RGG)</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Hyperbolic_geometric_graph" title="Hyperbolic geometric graph">Hyperbolic (HGN)</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Hierarchical_network_model" title="Hierarchical network model">Hierarchical</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Stochastic_block_model" title="Stochastic block model">Stochastic block</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Blockmodeling" title="Blockmodeling">Blockmodeling</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Maximum-entropy_random_graph_model" title="Maximum-entropy random graph model">Maximum entropy</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Soft_configuration_model" title="Soft configuration model">Soft configuration</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Lancichinetti–Fortunato–Radicchi_benchmark" title="Lancichinetti–Fortunato–Radicchi benchmark">LFR Benchmark</a></li></ul></td>
+</tr><tr><th class="sidebar-heading" style="font-weight:normal;font-style:italic;">
+Dynamics</th></tr><tr><td class="sidebar-content">
+<ul><li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Boolean_network" title="Boolean network">Boolean network</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Agent-based_model" title="Agent-based model">agent based</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Epidemic_model" title="Epidemic model" class="mw-redirect">Epidemic</a>/<a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/SIR_model" title="SIR model" class="mw-redirect">SIR</a></li></ul></td>
+</tr></tbody></table></td>
+</tr><tr><th class="sidebar-heading">
+<div class="hlist"><ul><li>Lists</li><li>Categories</li></ul></div></th></tr><tr><td class="sidebar-content hlist" style="padding-top:0.2em;padding-bottom:0.5em;">
+<ul><li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/List_of_network_theory_topics" title="List of network theory topics">Topics</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Social_network_analysis_software" title="Social network analysis software">Software</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/List_of_network_scientists" title="List of network scientists">Network scientists</a></li></ul>
+
+<ul><li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Category:Network_theory" title="Category:Network theory">Category:Network theory</a></li>
+<li><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Category:Graph_theory" title="Category:Graph theory">Category:Graph theory</a></li></ul></td>
+</tr><tr><td class="sidebar-navbar"><span class="mw-empty-elt"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333133064" about="#mwt10" typeof="mw:Extension/templatestyles" data-mw='{"name":"templatestyles","attrs":{"src":"Hlist/styles.css"},"body":{"extsrc":""}}'/><style data-mw-deduplicate="TemplateStyles:r1239400231" typeof="mw:Extension/templatestyles" about="#mwt11" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Navbar/styles.css"},"body":{"extsrc":""}}'>.mw-parser-output .navbar{display:inline;font-size:88%;font-weight:normal}.mw-parser-output .navbar-collapse{float:left;text-align:left}.mw-parser-output .navbar-boxtext{word-spacing:0}.mw-parser-output .navbar ul{display:inline-block;white-space:nowrap;line-height:inherit}.mw-parser-output .navbar-brackets::before{margin-right:-0.125em;content:"[ "}.mw-parser-output .navbar-brackets::after{margin-left:-0.125em;content:" ]"}.mw-parser-output .navbar li{word-spacing:-0.125em}.mw-parser-output .navbar a>span,.mw-parser-output .navbar a>abbr{text-decoration:inherit}.mw-parser-output .navbar-mini abbr{font-variant:small-caps;border-bottom:none;text-decoration:none;cursor:inherit}.mw-parser-output .navbar-ct-full{font-size:114%;margin:0 7em}.mw-parser-output .navbar-ct-mini{font-size:114%;margin:0 4em}html.skin-theme-clientpref-night .mw-parser-output .navbar li a abbr{color:var(--color-base)!important}@media(prefers-color-scheme:dark){html.skin-theme-clientpref-os .mw-parser-output .navbar li a abbr{color:var(--color-base)!important}}@media print{.mw-parser-output .navbar{display:none!important}}</style></span><div class="navbar plainlinks hlist navbar-mini"><ul><li class="nv-view"><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Template:Network_science" title="Template:Network science"><abbr title="View this template">v</abbr></a></li><li class="nv-talk"><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Template_talk:Network_science" title="Template talk:Network science"><abbr title="Discuss this template">t</abbr></a></li><li class="nv-edit"><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Special:EditPage/Template:Network_science" title="Special:EditPage/Template:Network science"><abbr title="Edit this template">e</abbr></a></li></ul></div></td></tr></tbody></table>
+
+<p id="mwBQ"><b id="mwBg">Hierarchical navigable small world</b> (<b id="mwBw">HNSW</b>) is an <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Algorithm" title="Algorithm" id="mwCA">algorithm</a> for <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximation_methods" title="Nearest neighbor search" id="mwCQ">approximate nearest neighbor search</a>. It is used to find items that are similar to a query item in a large collection, without comparing the query with every item one by one.<sup about="#mwt14" class="mw-ref reference" id="cite_ref-hnsw_1-0" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{"name":"hnsw"},"body":{"id":"mw-reference-text-cite_note-hnsw-1"}}'><a href="#cite_note-hnsw-1" id="mwCg"><span class="mw-reflink-text" id="mwCw"><span class="cite-bracket" id="mwDA">[</span>1<span class="cite-bracket" id="mwDQ">]</span></span></a></sup></p>
+
+<p id="mwDg">The algorithm is commonly used for searching <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Vector_database" title="Vector database" id="mwDw">vector</a> data. In these systems, an item such as a document, image, song, or user profile is represented by a list of numbers called a vector. Items with similar vectors are treated as similar according to the model that produced the vectors. HNSW provides a way to search these vectors quickly, especially in large datasets.</p>
+
+<p id="mwEA">HNSW stores vectors in a <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)" title="Graph (discrete mathematics)" id="mwEQ">graph</a>. Each vector is a <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Vertex_(graph_theory)" title="Vertex (graph theory)" id="mwEg">node</a>, and links connect it to some nearby vectors. The graph has several layers: upper layers contain fewer nodes and act like a rough map, while the bottom layer contains all nodes and gives a more detailed view. A search starts in an upper layer, follows links toward nodes that are closer to the query, and then repeats the process in lower layers until it finds a set of likely nearest neighbors.<sup about="#mwt15" class="mw-ref reference" id="cite_ref-hnsw_1-1" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{"name":"hnsw"}}'><a href="#cite_note-hnsw-1" id="mwEw"><span class="mw-reflink-text" id="mwFA"><span class="cite-bracket" id="mwFQ">[</span>1<span class="cite-bracket" id="mwFg">]</span></span></a></sup></p>
+
+<figure class="mw-default-size" typeof="mw:File/Thumb" id="mwFw"><a href="https://en.wikipedia.org/wiki/File:Hierarchical_Navigable_Small_World_(HNSW).png" class="mw-file-description" id="mwGA"><img resource="https://en.wikipedia.org/wiki/File:Hierarchical_Navigable_Small_World_(HNSW).png" src="//upload.wikimedia.org/wikipedia/commons/thumb/2/28/Hierarchical_Navigable_Small_World_%28HNSW%29.png/250px-Hierarchical_Navigable_Small_World_%28HNSW%29.png?utm_source=en.wikipedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail" decoding="async" loading="lazy" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/2/28/Hierarchical_Navigable_Small_World_%28HNSW%29.png/500px-Hierarchical_Navigable_Small_World_%28HNSW%29.png?utm_source=en.wikipedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x" data-file-width="2520" data-file-height="1060" data-file-type="bitmap" height="105" width="250" class="mw-file-element" id="mwGQ"/></a><figcaption id="mwGg">Illustration of the multi-layered search process of a Hierarchical Navigable Small World graph</figcaption></figure>
+
+<meta property="mw:PageProp/toc" id="mwGw" data-mw='{"autoGenerated":true}'/></section><section data-mw-section-id="1" id="mwHA" aria-labelledby="Background"><div class="mw-heading mw-heading2"><h2 id="Background">Background</h2><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Hierarchical_navigable_small_world&amp;action=edit&amp;section=1" title="Edit section: Background"><span>edit</span></a><span class="mw-editsection-bracket">]</span></span></div>
+
+<p id="mwHQ">The nearest neighbor search problem asks which items in a dataset are closest to a query item. A direct search can compare the query with every item in the dataset, but this becomes slow when the dataset is large. Exact search methods based on spatial trees, such as the <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/K-d_tree" title="K-d tree" id="mwHg">k-d tree</a> and <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/R-tree" title="R-tree" id="mwHw">R-tree</a>, can also become less effective for high-dimensional data, a problem often associated with the <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Curse_of_dimensionality" title="Curse of dimensionality" id="mwIA">curse of dimensionality</a>.</p>
+
+<p id="mwIQ">Approximate nearest neighbor methods trade some exactness for speed or lower resource use. Instead of always guaranteeing the exact closest item, they try to return close items quickly. Other approximate methods include <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Locality-sensitive_hashing" title="Locality-sensitive hashing" id="mwIg">locality-sensitive hashing</a> and <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Product_quantization?action=edit&amp;redlink=1" title="Product quantization (page does not exist)" class="new" typeof="mw:LocalizedAttrs" id="mwIw" data-mw-i18n='{"title":{"lang":"x-page","key":"red-link-title","params":["Product quantization"]}}'>product quantization</a>.<sup about="#mwt16" class="mw-ref reference" id="cite_ref-hnsw_1-2" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{"name":"hnsw"}}'><a href="#cite_note-hnsw-1" id="mwJA"><span class="mw-reflink-text" id="mwJQ"><span class="cite-bracket" id="mwJg">[</span>1<span class="cite-bracket" id="mwJw">]</span></span></a></sup></p>
+
+<p id="mwKA">HNSW builds on research into <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Small-world_network" title="Small-world network" id="mwKQ">small-world networks</a> and navigable graphs. In a small-world graph, most nodes can be reached from other nodes through a short chain of links. In a navigable graph, a search procedure can use local information to move toward a target. Jon Kleinberg's work on navigation in small-world networks is an important example of this research area.<sup about="#mwt19" class="mw-ref reference" id="cite_ref-2" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-2"}}'><a href="#cite_note-2" id="mwKg"><span class="mw-reflink-text" id="mwKw"><span class="cite-bracket" id="mwLA">[</span>2<span class="cite-bracket" id="mwLQ">]</span></span></a></sup> Later work studied ways to add links that make graphs easier to navigate greedily.<sup about="#mwt22" class="mw-ref reference" id="cite_ref-3" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-3"}}'><a href="#cite_note-3" id="mwLg"><span class="mw-reflink-text" id="mwLw"><span class="cite-bracket" id="mwMA">[</span>3<span class="cite-bracket" id="mwMQ">]</span></span></a></sup></p>
+
+<p id="mwMg">The HNSW algorithm extends earlier navigable small world methods for similarity search by adding a hierarchy of graph layers. This hierarchy helps the algorithm find a good region of the graph before doing a more detailed search in the bottom layer.<sup about="#mwt25" class="mw-ref reference" id="cite_ref-4" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-4"}}'><a href="#cite_note-4" id="mwMw"><span class="mw-reflink-text" id="mwNA"><span class="cite-bracket" id="mwNQ">[</span>4<span class="cite-bracket" id="mwNg">]</span></span></a></sup></p>
+
+</section><section data-mw-section-id="2" id="mwNw" aria-labelledby="Algorithm"><div class="mw-heading mw-heading2"><h2 id="Algorithm">Algorithm</h2><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Hierarchical_navigable_small_world&amp;action=edit&amp;section=2" title="Edit section: Algorithm"><span>edit</span></a><span class="mw-editsection-bracket">]</span></span></div>
+
+<p id="mwOA">HNSW is based on a proximity graph. In this graph, nearby vectors are connected by edges. The algorithm uses these edges to move through the <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Data_set" title="Data set" id="mwOQ">dataset</a>, rather than scanning every vector.</p>
+
+<p id="mwOg">The graph is hierarchical. Every vector appears in the bottom layer. Some vectors are also placed in higher layers, with fewer vectors appearing as the layers go upward. The upper layers allow long-range movement across the dataset, while the lower layers allow a more detailed search near promising candidates.<sup about="#mwt26" class="mw-ref reference" id="cite_ref-hnsw_1-3" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{"name":"hnsw"}}'><a href="#cite_note-hnsw-1" id="mwOw"><span class="mw-reflink-text" id="mwPA"><span class="cite-bracket" id="mwPQ">[</span>1<span class="cite-bracket" id="mwPg">]</span></span></a></sup></p>
+
+<p id="mwPw">A typical search proceeds as follows:</p>
+
+<ol id="mwQA"><li id="mwQQ">The search begins from an entry point in the highest layer.</li>
+<li id="mwQg">At each step, the algorithm looks at neighboring nodes and moves to a neighbor that is closer to the query.</li>
+<li id="mwQw">When it cannot find a closer neighbor in that layer, it moves down to the next layer.</li>
+<li id="mwRA">In the bottom layer, it explores a wider set of candidate nodes and returns the nearest candidates found.</li></ol>
+
+<p id="mwRQ">This search strategy is often described as greedy navigation. The algorithm repeatedly chooses locally better nodes, using the graph structure to approach the query point.</p>
+
+</section><section data-mw-section-id="3" id="mwRg" aria-labelledby="Construction_and_parameters"><div class="mw-heading mw-heading2"><h2 id="Construction_and_parameters">Construction and parameters</h2><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Hierarchical_navigable_small_world&amp;action=edit&amp;section=3" title="Edit section: Construction and parameters"><span>edit</span></a><span class="mw-editsection-bracket">]</span></span></div>
+
+<p id="mwRw">The HNSW graph is built incrementally. When a new vector is inserted, the algorithm assigns it a maximum layer, searches for nearby existing nodes, and connects the new node to selected neighbors in each layer where it appears.<sup about="#mwt27" class="mw-ref reference" id="cite_ref-hnsw_1-4" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{"name":"hnsw"}}'><a href="#cite_note-hnsw-1" id="mwSA"><span class="mw-reflink-text" id="mwSQ"><span class="cite-bracket" id="mwSg">[</span>1<span class="cite-bracket" id="mwSw">]</span></span></a></sup></p>
+
+<p id="mwTA">Implementations usually expose parameters that control the trade-off between speed, accuracy, memory use, and construction time. A higher number of graph connections can improve recall but requires more memory. A larger search candidate list can improve accuracy but makes queries slower. A larger construction candidate list can improve the quality of the graph but makes index building slower.</p>
+
+<p id="mwTQ">Because HNSW is approximate, its results are not always identical to a full exact search. Its practical performance depends on the dataset, distance measure, implementation, and parameter settings. Benchmarking studies have found HNSW-based libraries to be strong performers among approximate nearest neighbor methods, although worst-case performance can differ from performance on common benchmark datasets.<sup about="#mwt32" class="mw-ref reference" id="cite_ref-5" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-5"}}'><a href="#cite_note-5" id="mwTg"><span class="mw-reflink-text" id="mwTw"><span class="cite-bracket" id="mwUA">[</span>5<span class="cite-bracket" id="mwUQ">]</span></span></a></sup><sup about="#mwt35" class="mw-ref reference" id="cite_ref-6" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-6"}}'><a href="#cite_note-6" id="mwUg"><span class="mw-reflink-text" id="mwUw"><span class="cite-bracket" id="mwVA">[</span>6<span class="cite-bracket" id="mwVQ">]</span></span></a></sup></p>
+
+</section><section data-mw-section-id="4" id="mwVg" aria-labelledby="Use_in_vector_search_systems"><div class="mw-heading mw-heading2"><h2 id="Use_in_vector_search_systems">Use in vector search systems</h2><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Hierarchical_navigable_small_world&amp;action=edit&amp;section=4" title="Edit section: Use in vector search systems"><span>edit</span></a><span class="mw-editsection-bracket">]</span></span></div>
+
+<p id="mwVw">HNSW is used as an index in systems that store and search high-dimensional vectors. These systems include vector databases, search engines, and database extensions. Typical uses include <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Semantic_search" title="Semantic search" id="mwWA">semantic search</a>, <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Recommender_system" title="Recommender system" id="mwWQ">recommender systems</a>, image similarity search, and <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Retrieval-augmented_generation" title="Retrieval-augmented generation" id="mwWg">retrieval-augmented generation</a>.</p>
+
+<p id="mwWw">Several software projects implement or support HNSW. Libraries include hnswlib, which is associated with the original HNSW authors, and <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/FAISS" title="FAISS" id="mwXA">FAISS</a>.<sup about="#mwt38" class="mw-ref reference" id="cite_ref-7" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-7"}}'><a href="#cite_note-7" id="mwXQ"><span class="mw-reflink-text" id="mwXg"><span class="cite-bracket" id="mwXw">[</span>7<span class="cite-bracket" id="mwYA">]</span></span></a></sup> Database and search systems that document HNSW support include <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Apache_Lucene" title="Apache Lucene" id="mwYQ">Apache Lucene</a>, <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Chroma_(vector_database)" title="Chroma (vector database)" class="mw-redirect" id="mwYg">Chroma</a>, <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/ClickHouse" title="ClickHouse" id="mwYw">ClickHouse</a>, <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/DuckDB" title="DuckDB" id="mwZA">DuckDB</a>, <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/MariaDB" title="MariaDB" id="mwZQ">MariaDB</a>, <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Milvus_(vector_database)" title="Milvus (vector database)" id="mwZg">Milvus</a>, <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Pgvector" title="Pgvector" class="mw-redirect" id="mwZw">pgvector</a>, <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Qdrant" title="Qdrant" class="mw-redirect" id="mwaA">Qdrant</a>, and <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Redis" title="Redis" id="mwaQ">Redis</a>.<sup about="#mwt41" class="mw-ref reference" id="cite_ref-8" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-8"}}'><a href="#cite_note-8" id="mwag"><span class="mw-reflink-text" id="mwaw"><span class="cite-bracket" id="mwbA">[</span>8<span class="cite-bracket" id="mwbQ">]</span></span></a></sup><sup about="#mwt44" class="mw-ref reference" id="cite_ref-9" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-9"}}'><a href="#cite_note-9" id="mwbg"><span class="mw-reflink-text" id="mwbw"><span class="cite-bracket" id="mwcA">[</span>9<span class="cite-bracket" id="mwcQ">]</span></span></a></sup><sup about="#mwt47" class="mw-ref reference" id="cite_ref-10" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-10"}}'><a href="#cite_note-10" id="mwcg"><span class="mw-reflink-text" id="mwcw"><span class="cite-bracket" id="mwdA">[</span>10<span class="cite-bracket" id="mwdQ">]</span></span></a></sup><sup about="#mwt50" class="mw-ref reference" id="cite_ref-11" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-11"}}'><a href="#cite_note-11" id="mwdg"><span class="mw-reflink-text" id="mwdw"><span class="cite-bracket" id="mweA">[</span>11<span class="cite-bracket" id="mweQ">]</span></span></a></sup><sup about="#mwt53" class="mw-ref reference" id="cite_ref-12" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-12"}}'><a href="#cite_note-12" id="mweg"><span class="mw-reflink-text" id="mwew"><span class="cite-bracket" id="mwfA">[</span>12<span class="cite-bracket" id="mwfQ">]</span></span></a></sup><sup about="#mwt56" class="mw-ref reference" id="cite_ref-13" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-13"}}'><a href="#cite_note-13" id="mwfg"><span class="mw-reflink-text" id="mwfw"><span class="cite-bracket" id="mwgA">[</span>13<span class="cite-bracket" id="mwgQ">]</span></span></a></sup><sup about="#mwt59" class="mw-ref reference" id="cite_ref-14" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-14"}}'><a href="#cite_note-14" id="mwgg"><span class="mw-reflink-text" id="mwgw"><span class="cite-bracket" id="mwhA">[</span>14<span class="cite-bracket" id="mwhQ">]</span></span></a></sup><sup about="#mwt62" class="mw-ref reference" id="cite_ref-15" rel="dc:references" typeof="mw:Extension/ref" data-mw='{"name":"ref","attrs":{},"body":{"id":"mw-reference-text-cite_note-15"}}'><a href="#cite_note-15" id="mwhg"><span class="mw-reflink-text" id="mwhw"><span class="cite-bracket" id="mwiA">[</span>15<span class="cite-bracket" id="mwiQ">]</span></span></a></sup></p>
+
+</section><section data-mw-section-id="5" id="mwig" aria-labelledby="See_also"><div class="mw-heading mw-heading2"><h2 id="See_also">See also</h2><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Hierarchical_navigable_small_world&amp;action=edit&amp;section=5" title="Edit section: See also"><span>edit</span></a><span class="mw-editsection-bracket">]</span></span></div>
+
+<ul id="mwiw"><li id="mwjA"><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Approximate_nearest_neighbor_search" title="Approximate nearest neighbor search" class="mw-redirect" id="mwjQ">Approximate nearest neighbor search</a></li>
+<li id="mwjg"><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Vector_database" title="Vector database" id="mwjw">Vector database</a></li>
+<li id="mwkA"><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Locality-sensitive_hashing" title="Locality-sensitive hashing" id="mwkQ">Locality-sensitive hashing</a></li>
+<li id="mwkg"><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Product_quantization?action=edit&amp;redlink=1" title="Product quantization (page does not exist)" class="new" typeof="mw:LocalizedAttrs" id="mwkw" data-mw-i18n='{"title":{"lang":"x-page","key":"red-link-title","params":["Product quantization"]}}'>Product quantization</a></li></ul>
+
+</section><section data-mw-section-id="6" id="mwlA" aria-labelledby="References"><div class="mw-heading mw-heading2"><h2 id="References">References</h2><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=Hierarchical_navigable_small_world&amp;action=edit&amp;section=6" title="Edit section: References"><span>edit</span></a><span class="mw-editsection-bracket">]</span></span></div>
+<span class="mw-empty-elt" about="#mwt63" typeof="mw:Transclusion" id="mwlQ" data-mw='{"parts":[{"template":{"target":{"wt":"Reflist","href":"./Template:Reflist"},"params":{},"i":0}}]}'><style data-mw-deduplicate="TemplateStyles:r1327269900" typeof="mw:Extension/templatestyles" about="#mwt64" data-mw='{"name":"templatestyles","attrs":{"src":"Reflist/styles.css"}}'>.mw-parser-output .reflist-columns-2{column-width:30em}.mw-parser-output .reflist-columns-3{column-width:25em}body.skin-vector-2022 .mw-parser-output .reflist-columns-2{column-width:27em}body.skin-vector-2022 .mw-parser-output .reflist-columns-3{column-width:22.5em}.mw-parser-output .references[data-mw-group=upper-alpha]{list-style-type:upper-alpha}.mw-parser-output .references[data-mw-group=upper-roman]{list-style-type:upper-roman}.mw-parser-output .references[data-mw-group=lower-alpha]{list-style-type:lower-alpha}.mw-parser-output .references[data-mw-group=lower-greek]{list-style-type:lower-greek}.mw-parser-output .references[data-mw-group=lower-roman]{list-style-type:lower-roman}.mw-parser-output div.reflist-liststyle-upper-alpha .references{list-style-type:upper-alpha}.mw-parser-output div.reflist-liststyle-upper-roman .references{list-style-type:upper-roman}.mw-parser-output div.reflist-liststyle-lower-alpha .references{list-style-type:lower-alpha}.mw-parser-output div.reflist-liststyle-lower-greek .references{list-style-type:lower-greek}.mw-parser-output div.reflist-liststyle-lower-roman .references{list-style-type:lower-roman}</style></span><div about="#mwt63" id="mwlg">
+<div class="mw-references-wrap mw-references-columns" typeof="mw:Extension/references" about="#mwt65" id="mwlw" data-mw='{"name":"references","attrs":{"group":"","responsive":"1"},"body":{"extsrc":""}}'><ol class="mw-references references" id="mwmA"><li about="#cite_note-hnsw-1" id="cite_note-hnsw-1" data-mw-footnote-number="1"><span rel="mw:referencedBy" class="mw-cite-backlink" id="mwmQ"><a href="#cite_ref-hnsw_1-0" id="mwmg"><span class="mw-linkback-text" id="mwmw">1</span></a> <a href="#cite_ref-hnsw_1-1" id="mwnA"><span class="mw-linkback-text" id="mwnQ">2</span></a> <a href="#cite_ref-hnsw_1-2" id="mwng"><span class="mw-linkback-text" id="mwnw">3</span></a> <a href="#cite_ref-hnsw_1-3" id="mwoA"><span class="mw-linkback-text" id="mwoQ">4</span></a> <a href="#cite_ref-hnsw_1-4" id="mwog"><span class="mw-linkback-text" id="mwow">5</span></a></span> <span id="mw-reference-text-cite_note-hnsw-1" class="mw-reference-text reference-text"><style data-mw-deduplicate="TemplateStyles:r1333433106" typeof="mw:Extension/templatestyles mw:Transclusion" about="#mwt12" id="mwpA" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"cite journal ","href":"./Template:Cite_journal"},"params":{"last1":{"wt":"Malkov"},"first1":{"wt":"Yury A"},"last2":{"wt":"Yashunin"},"first2":{"wt":"Dmitry A"},"date":{"wt":"1 April 2020"},"title":{"wt":"Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs"},"journal":{"wt":"[[IEEE Transactions on Pattern Analysis and Machine Intelligence]]"},"volume":{"wt":"42"},"issue":{"wt":"4"},"pages":{"wt":"824–836"},"doi":{"wt":"10.1109/TPAMI.2018.2889473"},"pmid":{"wt":"30602420"},"arxiv":{"wt":"1603.09320"}},"i":0}}]}'>.mw-parser-output cite.citation{font-style:inherit;word-wrap:break-word}.mw-parser-output .citation q{quotes:"\"""\"""'""'"}.mw-parser-output .citation:target{background-color:rgba(0,127,255,0.133)}.mw-parser-output .id-lock-free.id-lock-free a{background:url("//upload.wikimedia.org/wikipedia/commons/6/65/Lock-green.svg")right 0.1em center/9px no-repeat}.mw-parser-output .id-lock-limited.id-lock-limited a,.mw-parser-output .id-lock-registration.id-lock-registration a{background:url("//upload.wikimedia.org/wikipedia/commons/d/d6/Lock-gray-alt-2.svg")right 0.1em center/9px no-repeat}.mw-parser-output .id-lock-subscription.id-lock-subscription a{background:url("//upload.wikimedia.org/wikipedia/commons/a/aa/Lock-red-alt-2.svg")right 0.1em center/9px no-repeat}.mw-parser-output .cs1-ws-icon a{background:url("//upload.wikimedia.org/wikipedia/commons/4/4c/Wikisource-logo.svg")right 0.1em center/12px no-repeat}body:not(.skin-timeless):not(.skin-minerva) .mw-parser-output .id-lock-free a,body:not(.skin-timeless):not(.skin-minerva) .mw-parser-output .id-lock-limited a,body:not(.skin-timeless):not(.skin-minerva) .mw-parser-output .id-lock-registration a,body:not(.skin-timeless):not(.skin-minerva) .mw-parser-output .id-lock-subscription a,body:not(.skin-timeless):not(.skin-minerva) .mw-parser-output .cs1-ws-icon a{background-size:contain;padding:0 1em 0 0}.mw-parser-output .cs1-code{color:inherit;background:inherit;border:none;padding:inherit}.mw-parser-output .cs1-hidden-error{display:none;color:var(--color-error,#bf3c2c)}.mw-parser-output .cs1-visible-error{color:var(--color-error,#bf3c2c)}.mw-parser-output .cs1-maint{display:none;color:#085;margin-left:0.3em}.mw-parser-output .cs1-kern-left{padding-left:0.2em}.mw-parser-output .cs1-kern-right{padding-right:0.2em}.mw-parser-output .citation .mw-selflink{font-weight:inherit}@media screen{.mw-parser-output .cs1-format{font-size:95%}html.skin-theme-clientpref-night .mw-parser-output .cs1-maint{color:#18911f}}@media screen and (prefers-color-scheme:dark){html.skin-theme-clientpref-os .mw-parser-output .cs1-maint{color:#18911f}}</style><cite id="CITEREFMalkovYashunin2020" class="citation journal cs1" about="#mwt12">Malkov, Yury A; Yashunin, Dmitry A (1 April 2020). "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs". <i id="mwpQ"><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/IEEE_Transactions_on_Pattern_Analysis_and_Machine_Intelligence" title="IEEE Transactions on Pattern Analysis and Machine Intelligence" id="mwpg">IEEE Transactions on Pattern Analysis and Machine Intelligence</a></i>. <b id="mwpw">42</b> (4): <span class="nowrap" id="mwqA">824–</span>836. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/ArXiv_(identifier)" title="ArXiv (identifier)" class="mw-redirect" id="mwqQ">arXiv</a>:<span class="id-lock-free" title="Freely accessible" id="mwqg"><a rel="mw:ExtLink nofollow" href="https://arxiv.org/abs/1603.09320" class="external text" id="mwqw">1603.09320</a></span>. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)" class="mw-redirect" id="mwrA">doi</a>:<a rel="mw:ExtLink nofollow" href="https://doi.org/10.1109%2FTPAMI.2018.2889473" class="external text" id="mwrQ">10.1109/TPAMI.2018.2889473</a>. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/PMID_(identifier)" title="PMID (identifier)" class="mw-redirect" id="mwrg">PMID</a><span typeof="mw:Entity" id="mwrw"> </span><a rel="mw:ExtLink nofollow" href="https://pubmed.ncbi.nlm.nih.gov/30602420" class="external text" id="mwsA">30602420</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=IEEE+Transactions+on+Pattern+Analysis+and+Machine+Intelligence&amp;rft.atitle=Efficient+and+robust+approximate+nearest+neighbor+search+using+Hierarchical+Navigable+Small+World+graphs&amp;rft.volume=42&amp;rft.issue=4&amp;rft.pages=824-836&amp;rft.date=2020-04-01&amp;rft_id=info%3Aarxiv%2F1603.09320&amp;rft_id=info%3Apmid%2F30602420&amp;rft_id=info%3Adoi%2F10.1109%2FTPAMI.2018.2889473&amp;rft.aulast=Malkov&amp;rft.aufirst=Yury+A&amp;rft.au=Yashunin%2C+Dmitry+A&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt12" id="mwsQ"></span></span></li>
+<li about="#cite_note-2" id="cite_note-2" data-mw-footnote-number="2"><span class="mw-cite-backlink" id="mwsg"><a href="#cite_ref-2" rel="mw:referencedBy" id="mwsw"><span class="mw-linkback-text" id="mwtA">↑</span></a></span> <span id="mw-reference-text-cite_note-2" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt17" typeof="mw:Extension/templatestyles mw:Transclusion" id="mwtQ" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"cite journal ","href":"./Template:Cite_journal"},"params":{"last":{"wt":"Kleinberg"},"first":{"wt":"Jon M."},"title":{"wt":"Navigation in a small world"},"journal":{"wt":"Nature"},"volume":{"wt":"406"},"page":{"wt":"845"},"date":{"wt":"24 August 2000"},"doi":{"wt":"10.1038/35022643"}},"i":0}}]}'/><cite id="CITEREFKleinberg2000" class="citation journal cs1" about="#mwt17">Kleinberg, Jon M. (24 August 2000). "Navigation in a small world". <i id="mwtg">Nature</i>. <b id="mwtw">406</b>: 845. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)" class="mw-redirect" id="mwuA">doi</a>:<a rel="mw:ExtLink nofollow" href="https://doi.org/10.1038%2F35022643" class="external text" id="mwuQ">10.1038/35022643</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Nature&amp;rft.atitle=Navigation+in+a+small+world&amp;rft.volume=406&amp;rft.pages=845&amp;rft.date=2000-08-24&amp;rft_id=info%3Adoi%2F10.1038%2F35022643&amp;rft.aulast=Kleinberg&amp;rft.aufirst=Jon+M.&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt17" id="mwug"></span></span></li>
+<li about="#cite_note-3" id="cite_note-3" data-mw-footnote-number="3"><span class="mw-cite-backlink" id="mwuw"><a href="#cite_ref-3" rel="mw:referencedBy" id="mwvA"><span class="mw-linkback-text" id="mwvQ">↑</span></a></span> <span id="mw-reference-text-cite_note-3" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt20" typeof="mw:Extension/templatestyles mw:Transclusion" id="mwvg" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"cite journal ","href":"./Template:Cite_journal"},"params":{"last1":{"wt":"Fraigniaud"},"first1":{"wt":"Pierre"},"last2":{"wt":"Gavoille"},"first2":{"wt":"Cyril"},"last3":{"wt":"Kosowski"},"first3":{"wt":"Adrian"},"last4":{"wt":"Lebhar"},"first4":{"wt":"Emmanuelle"},"last5":{"wt":"Lotker"},"first5":{"wt":"Zvi"},"title":{"wt":"Universal augmentation schemes for network navigability"},"journal":{"wt":"Theoretical Computer Science"},"volume":{"wt":"410"},"issue":{"wt":"21–23"},"pages":{"wt":"1970–1981"},"date":{"wt":"17 May 2009"},"doi":{"wt":"10.1016/j.tcs.2008.12.061"}},"i":0}}]}'/><cite id="CITEREFFraigniaudGavoilleKosowskiLebhar2009" class="citation journal cs1" about="#mwt20">Fraigniaud, Pierre; Gavoille, Cyril; Kosowski, Adrian; Lebhar, Emmanuelle; Lotker, Zvi (17 May 2009). "Universal augmentation schemes for network navigability". <i id="mwvw">Theoretical Computer Science</i>. <b id="mwwA">410</b> (<span class="nowrap" id="mwwQ">21–</span>23): <span class="nowrap" id="mwwg">1970–</span>1981. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)" class="mw-redirect" id="mwww">doi</a>:<a rel="mw:ExtLink nofollow" href="https://doi.org/10.1016%2Fj.tcs.2008.12.061" class="external text" id="mwxA">10.1016/j.tcs.2008.12.061</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Theoretical+Computer+Science&amp;rft.atitle=Universal+augmentation+schemes+for+network+navigability&amp;rft.volume=410&amp;rft.issue=%3Cspan+class%3D%22nowrap%22%3E21%E2%80%93%3C%2Fspan%3E23&amp;rft.pages=1970-1981&amp;rft.date=2009-05-17&amp;rft_id=info%3Adoi%2F10.1016%2Fj.tcs.2008.12.061&amp;rft.aulast=Fraigniaud&amp;rft.aufirst=Pierre&amp;rft.au=Gavoille%2C+Cyril&amp;rft.au=Kosowski%2C+Adrian&amp;rft.au=Lebhar%2C+Emmanuelle&amp;rft.au=Lotker%2C+Zvi&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt20" id="mwxQ"></span></span></li>
+<li about="#cite_note-4" id="cite_note-4" data-mw-footnote-number="4"><span class="mw-cite-backlink" id="mwxg"><a href="#cite_ref-4" rel="mw:referencedBy" id="mwxw"><span class="mw-linkback-text" id="mwyA">↑</span></a></span> <span id="mw-reference-text-cite_note-4" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt23" typeof="mw:Extension/templatestyles mw:Transclusion" id="mwyQ" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"Cite book ","href":"./Template:Cite_book"},"params":{"last1":{"wt":"Malkov"},"first1":{"wt":"Yury"},"last2":{"wt":"Ponomarenko"},"first2":{"wt":"Alexander"},"last3":{"wt":"Logvinov"},"first3":{"wt":"Andrey"},"last4":{"wt":"Krylov"},"first4":{"wt":"Vladimir"},"chapter":{"wt":"Scalable Distributed Algorithm for Approximate Nearest Neighbor Search Problem in High Dimensional General Metric Spaces"},"series":{"wt":"[[Lecture Notes in Computer Science]]"},"date":{"wt":"2012"},"volume":{"wt":"7404"},"editor-last":{"wt":"Navarro"},"editor-first":{"wt":"Gonzalo"},"editor2-last":{"wt":"Pestov"},"editor2-first":{"wt":"Vladimir"},"title":{"wt":"Similarity Search and Applications"},"chapter-url":{"wt":"https://link.springer.com/chapter/10.1007/978-3-642-32153-5_10"},"language":{"wt":"en"},"location":{"wt":"Berlin, Heidelberg"},"publisher":{"wt":"Springer"},"pages":{"wt":"132–147"},"doi":{"wt":"10.1007/978-3-642-32153-5_10"},"isbn":{"wt":"978-3-642-32153-5"}},"i":0}}]}'/><cite id="CITEREFMalkovPonomarenkoLogvinovKrylov2012" class="citation book cs1" about="#mwt23">Malkov, Yury; Ponomarenko, Alexander; Logvinov, Andrey; Krylov, Vladimir (2012). <a rel="mw:ExtLink nofollow" href="https://link.springer.com/chapter/10.1007/978-3-642-32153-5_10" class="external text" id="mwyg">"Scalable Distributed Algorithm for Approximate Nearest Neighbor Search Problem in High Dimensional General Metric Spaces"</a>. In Navarro, Gonzalo; Pestov, Vladimir (eds.). <i id="mwyw">Similarity Search and Applications</i>. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Lecture_Notes_in_Computer_Science" title="Lecture Notes in Computer Science" id="mwzA">Lecture Notes in Computer Science</a>. Vol.<span typeof="mw:Entity" id="mwzQ"> </span>7404. Berlin, Heidelberg: Springer. pp.<span typeof="mw:Entity" id="mwzg"> </span><span class="nowrap" id="mwzw">132–</span>147. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)" class="mw-redirect" id="mw0A">doi</a>:<a rel="mw:ExtLink nofollow" href="https://doi.org/10.1007%2F978-3-642-32153-5_10" class="external text" id="mw0Q">10.1007/978-3-642-32153-5_10</a>. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/ISBN_(identifier)" title="ISBN (identifier)" class="mw-redirect" id="mw0g">ISBN</a><span typeof="mw:Entity" id="mw0w"> </span><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Special:BookSources/978-3-642-32153-5" title="Special:BookSources/978-3-642-32153-5" id="mw1A"><bdi id="mw1Q">978-3-642-32153-5</bdi></a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.atitle=Scalable+Distributed+Algorithm+for+Approximate+Nearest+Neighbor+Search+Problem+in+High+Dimensional+General+Metric+Spaces&amp;rft.btitle=Similarity+Search+and+Applications&amp;rft.place=Berlin%2C+Heidelberg&amp;rft.series=Lecture+Notes+in+Computer+Science&amp;rft.pages=132-147&amp;rft.pub=Springer&amp;rft.date=2012&amp;rft_id=info%3Adoi%2F10.1007%2F978-3-642-32153-5_10&amp;rft.isbn=978-3-642-32153-5&amp;rft.aulast=Malkov&amp;rft.aufirst=Yury&amp;rft.au=Ponomarenko%2C+Alexander&amp;rft.au=Logvinov%2C+Andrey&amp;rft.au=Krylov%2C+Vladimir&amp;rft_id=https%3A%2F%2Flink.springer.com%2Fchapter%2F10.1007%2F978-3-642-32153-5_10&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt23" id="mw1g"></span></span></li>
+<li about="#cite_note-5" id="cite_note-5" data-mw-footnote-number="5"><span class="mw-cite-backlink" id="mw1w"><a href="#cite_ref-5" rel="mw:referencedBy" id="mw2A"><span class="mw-linkback-text" id="mw2Q">↑</span></a></span> <span id="mw-reference-text-cite_note-5" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt28" typeof="mw:Extension/templatestyles mw:Transclusion" id="mw2g" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"Cite book ","href":"./Template:Cite_book"},"params":{"last1":{"wt":"Aumüller"},"first1":{"wt":"Martin"},"last2":{"wt":"Bernhardsson"},"first2":{"wt":"Erik"},"last3":{"wt":"Faithfull"},"first3":{"wt":"Alexander"},"chapter":{"wt":"ANN-Benchmarks: A Benchmarking Tool for Approximate Nearest Neighbor Algorithms"},"series":{"wt":"[[Lecture Notes in Computer Science]]"},"date":{"wt":"2017"},"volume":{"wt":"10609"},"editor-last":{"wt":"Beecks"},"editor-first":{"wt":"Christian"},"editor2-last":{"wt":"Borutta"},"editor2-first":{"wt":"Felix"},"editor3-last":{"wt":"Kröger"},"editor3-first":{"wt":"Peer"},"editor4-last":{"wt":"Seidl"},"editor4-first":{"wt":"Thomas"},"title":{"wt":"Similarity Search and Applications"},"chapter-url":{"wt":"https://link.springer.com/chapter/10.1007/978-3-319-68474-1_3"},"language":{"wt":"en"},"location":{"wt":"Cham"},"publisher":{"wt":"Springer International Publishing"},"pages":{"wt":"34–49"},"doi":{"wt":"10.1007/978-3-319-68474-1_3"},"isbn":{"wt":"978-3-319-68474-1"},"arxiv":{"wt":"1807.05614"},"chapter-url-access":{"wt":"subscription"}},"i":0}}]}'/><cite id="CITEREFAumüllerBernhardssonFaithfull2017" class="citation book cs1" about="#mwt28">Aumüller, Martin; Bernhardsson, Erik; Faithfull, Alexander (2017). <span class="id-lock-subscription" title="Paid subscription required" id="mw2w"><a rel="mw:ExtLink nofollow" href="https://link.springer.com/chapter/10.1007/978-3-319-68474-1_3" class="external text" id="mw3A">"ANN-Benchmarks: A Benchmarking Tool for Approximate Nearest Neighbor Algorithms"</a></span>. In Beecks, Christian; Borutta, Felix; Kröger, Peer; Seidl, Thomas (eds.). <i id="mw3Q">Similarity Search and Applications</i>. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Lecture_Notes_in_Computer_Science" title="Lecture Notes in Computer Science" id="mw3g">Lecture Notes in Computer Science</a>. Vol.<span typeof="mw:Entity" id="mw3w"> </span>10609. Cham: Springer International Publishing. pp.<span typeof="mw:Entity" id="mw4A"> </span><span class="nowrap" id="mw4Q">34–</span>49. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/ArXiv_(identifier)" title="ArXiv (identifier)" class="mw-redirect" id="mw4g">arXiv</a>:<span class="id-lock-free" title="Freely accessible" id="mw4w"><a rel="mw:ExtLink nofollow" href="https://arxiv.org/abs/1807.05614" class="external text" id="mw5A">1807.05614</a></span>. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)" class="mw-redirect" id="mw5Q">doi</a>:<a rel="mw:ExtLink nofollow" href="https://doi.org/10.1007%2F978-3-319-68474-1_3" class="external text" id="mw5g">10.1007/978-3-319-68474-1_3</a>. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/ISBN_(identifier)" title="ISBN (identifier)" class="mw-redirect" id="mw5w">ISBN</a><span typeof="mw:Entity" id="mw6A"> </span><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Special:BookSources/978-3-319-68474-1" title="Special:BookSources/978-3-319-68474-1" id="mw6Q"><bdi id="mw6g">978-3-319-68474-1</bdi></a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.atitle=ANN-Benchmarks%3A+A+Benchmarking+Tool+for+Approximate+Nearest+Neighbor+Algorithms&amp;rft.btitle=Similarity+Search+and+Applications&amp;rft.place=Cham&amp;rft.series=Lecture+Notes+in+Computer+Science&amp;rft.pages=34-49&amp;rft.pub=Springer+International+Publishing&amp;rft.date=2017&amp;rft_id=info%3Aarxiv%2F1807.05614&amp;rft_id=info%3Adoi%2F10.1007%2F978-3-319-68474-1_3&amp;rft.isbn=978-3-319-68474-1&amp;rft.aulast=Aum%C3%BCller&amp;rft.aufirst=Martin&amp;rft.au=Bernhardsson%2C+Erik&amp;rft.au=Faithfull%2C+Alexander&amp;rft_id=https%3A%2F%2Flink.springer.com%2Fchapter%2F10.1007%2F978-3-319-68474-1_3&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt28" id="mw6w"></span> Republished as: <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt30" typeof="mw:Extension/templatestyles mw:Transclusion" id="mw7A" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"Cite journal ","href":"./Template:Cite_journal"},"params":{"last1":{"wt":"Aumüller"},"first1":{"wt":"Martin"},"last2":{"wt":"Bernhardsson"},"first2":{"wt":"Erik"},"last3":{"wt":"Faithfull"},"first3":{"wt":"Alexander"},"date":{"wt":"2020"},"title":{"wt":"ANN-Benchmarks: A benchmarking tool for approximate nearest neighbor algorithms"},"journal":{"wt":"[[Information Systems (journal)|Information Systems]]"},"language":{"wt":"en"},"volume":{"wt":"87"},"pages":{"wt":"101374"},"doi":{"wt":"10.1016/j.is.2019.02.006"},"arxiv":{"wt":"1807.05614"},"doi-access":{"wt":"free"}},"i":0}}]}'/><cite id="CITEREFAumüllerBernhardssonFaithfull2020" class="citation journal cs1" about="#mwt30">Aumüller, Martin; Bernhardsson, Erik; Faithfull, Alexander (2020). <a rel="mw:ExtLink nofollow" href="https://doi.org/10.1016%2Fj.is.2019.02.006" class="external text" id="mw7Q">"ANN-Benchmarks: A benchmarking tool for approximate nearest neighbor algorithms"</a>. <i id="mw7g"><a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Information_Systems_(journal)" title="Information Systems (journal)" id="mw7w">Information Systems</a></i>. <b id="mw8A">87</b>: 101374. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/ArXiv_(identifier)" title="ArXiv (identifier)" class="mw-redirect" id="mw8Q">arXiv</a>:<span class="id-lock-free" title="Freely accessible" id="mw8g"><a rel="mw:ExtLink nofollow" href="https://arxiv.org/abs/1807.05614" class="external text" id="mw8w">1807.05614</a></span>. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/Doi_(identifier)" title="Doi (identifier)" class="mw-redirect" id="mw9A">doi</a>:<span class="id-lock-free" title="Freely accessible" id="mw9Q"><a rel="mw:ExtLink nofollow" href="https://doi.org/10.1016%2Fj.is.2019.02.006" class="external text" id="mw9g">10.1016/j.is.2019.02.006</a></span>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Information+Systems&amp;rft.atitle=ANN-Benchmarks%3A+A+benchmarking+tool+for+approximate+nearest+neighbor+algorithms&amp;rft.volume=87&amp;rft.pages=101374&amp;rft.date=2020&amp;rft_id=info%3Aarxiv%2F1807.05614&amp;rft_id=info%3Adoi%2F10.1016%2Fj.is.2019.02.006&amp;rft.aulast=Aum%C3%BCller&amp;rft.aufirst=Martin&amp;rft.au=Bernhardsson%2C+Erik&amp;rft.au=Faithfull%2C+Alexander&amp;rft_id=https%3A%2F%2Fdoi.org%2F10.1016%252Fj.is.2019.02.006&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt30" id="mw9w"></span></span></li>
+<li about="#cite_note-6" id="cite_note-6" data-mw-footnote-number="6"><span class="mw-cite-backlink" id="mw-A"><a href="#cite_ref-6" rel="mw:referencedBy" id="mw-Q"><span class="mw-linkback-text" id="mw-g">↑</span></a></span> <span id="mw-reference-text-cite_note-6" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt33" typeof="mw:Extension/templatestyles mw:Transclusion" id="mw-w" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"cite conference ","href":"./Template:Cite_conference"},"params":{"last1":{"wt":"Indyk"},"first1":{"wt":"Piotr"},"first2":{"wt":"Haike"},"last2":{"wt":"Xu"},"title":{"wt":"Worst-case performance of popular approximate nearest neighbor search implementations: Guarantees and limitations"},"conference":{"wt":"Thirty-seventh Conference on Neural Information Processing Systems"},"year":{"wt":"2023"},"arxiv":{"wt":"2310.19126"}},"i":0}}]}'/><cite id="CITEREFIndykXu2023" class="citation conference cs1" about="#mwt33">Indyk, Piotr; Xu, Haike (2023). <i id="mw_A">Worst-case performance of popular approximate nearest neighbor search implementations: Guarantees and limitations</i>. Thirty-seventh Conference on Neural Information Processing Systems. <a rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/ArXiv_(identifier)" title="ArXiv (identifier)" class="mw-redirect" id="mw_Q">arXiv</a>:<span class="id-lock-free" title="Freely accessible" id="mw_g"><a rel="mw:ExtLink nofollow" href="https://arxiv.org/abs/2310.19126" class="external text" id="mw_w">2310.19126</a></span>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=conference&amp;rft.btitle=Worst-case+performance+of+popular+approximate+nearest+neighbor+search+implementations%3A+Guarantees+and+limitations&amp;rft.date=2023&amp;rft_id=info%3Aarxiv%2F2310.19126&amp;rft.aulast=Indyk&amp;rft.aufirst=Piotr&amp;rft.au=Xu%2C+Haike&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt33" id="mwAQA"></span></span></li>
+<li about="#cite_note-7" id="cite_note-7" data-mw-footnote-number="7"><span class="mw-cite-backlink" id="mwAQE"><a href="#cite_ref-7" rel="mw:referencedBy" id="mwAQI"><span class="mw-linkback-text" id="mwAQM">↑</span></a></span> <span id="mw-reference-text-cite_note-7" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt36" typeof="mw:Extension/templatestyles mw:Transclusion" id="mwAQQ" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"Citation ","href":"./Template:Citation"},"params":{"title":{"wt":"nmslib/hnswlib"},"date":{"wt":"2024-03-18"},"url":{"wt":"https://github.com/nmslib/hnswlib"},"access-date":{"wt":"2024-03-19"},"publisher":{"wt":"nmslib"}},"i":0}}]}'/><cite class="citation cs2" about="#mwt36" id="mwAQU"><a rel="mw:ExtLink nofollow" href="https://github.com/nmslib/hnswlib" class="external text" id="mwAQY"><i id="mwAQc">nmslib/hnswlib</i></a>, nmslib, 2024-03-18<span class="reference-accessdate" id="mwAQg">, retrieved <span class="nowrap" id="mwAQk">2024-03-19</span></span></cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=nmslib%2Fhnswlib&amp;rft.pub=nmslib&amp;rft.date=2024-03-18&amp;rft_id=https%3A%2F%2Fgithub.com%2Fnmslib%2Fhnswlib&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt36" id="mwAQo"></span></span></li>
+<li about="#cite_note-8" id="cite_note-8" data-mw-footnote-number="8"><span class="mw-cite-backlink" id="mwAQs"><a href="#cite_ref-8" rel="mw:referencedBy" id="mwAQw"><span class="mw-linkback-text" id="mwAQ0">↑</span></a></span> <span id="mw-reference-text-cite_note-8" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt39" typeof="mw:Extension/templatestyles mw:Transclusion" id="mwAQ4" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"Cite web ","href":"./Template:Cite_web"},"params":{"title":{"wt":"Chroma Documentation"},"url":{"wt":"https://docs.trychroma.com/docs/collections/configure"},"access-date":{"wt":"2025-03-19"},"website":{"wt":"docs.trychroma.com"},"language":{"wt":"en-US"}},"i":0}}]}'/><cite class="citation web cs1" about="#mwt39" id="mwAQ8"><a rel="mw:ExtLink nofollow" href="https://docs.trychroma.com/docs/collections/configure" class="external text" id="mwARA">"Chroma Documentation"</a>. <i id="mwARE">docs.trychroma.com</i><span class="reference-accessdate" id="mwARI">. Retrieved <span class="nowrap" id="mwARM">2025-03-19</span></span>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=unknown&amp;rft.jtitle=docs.trychroma.com&amp;rft.atitle=Chroma+Documentation&amp;rft_id=https%3A%2F%2Fdocs.trychroma.com%2Fdocs%2Fcollections%2Fconfigure&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt39" id="mwARQ"></span></span></li>
+<li about="#cite_note-9" id="cite_note-9" data-mw-footnote-number="9"><span class="mw-cite-backlink" id="mwARU"><a href="#cite_ref-9" rel="mw:referencedBy" id="mwARY"><span class="mw-linkback-text" id="mwARc">↑</span></a></span> <span id="mw-reference-text-cite_note-9" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt42" typeof="mw:Extension/templatestyles mw:Transclusion" id="mwARg" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"cite web ","href":"./Template:Cite_web"},"params":{"url":{"wt":"https://clickhouse.com/docs/engines/table-engines/mergetree-family/annindexes"},"title":{"wt":"Exact and Approximate Nearest Neighbor Search in ClickHouse"},"access-date":{"wt":"2025-04-21"},"website":{"wt":"clickhouse.com"},"date":{"wt":"21 Apr 2025"},"language":{"wt":"en-US"}},"i":0}}]}'/><cite class="citation web cs1" about="#mwt42" id="mwARk"><a rel="mw:ExtLink nofollow" href="https://clickhouse.com/docs/engines/table-engines/mergetree-family/annindexes" class="external text" id="mwARo">"Exact and Approximate Nearest Neighbor Search in ClickHouse"</a>. <i id="mwARs">clickhouse.com</i>. 21 Apr 2025<span class="reference-accessdate" id="mwARw">. Retrieved <span class="nowrap" id="mwAR0">2025-04-21</span></span>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=unknown&amp;rft.jtitle=clickhouse.com&amp;rft.atitle=Exact+and+Approximate+Nearest+Neighbor+Search+in+ClickHouse&amp;rft.date=2025-04-21&amp;rft_id=https%3A%2F%2Fclickhouse.com%2Fdocs%2Fengines%2Ftable-engines%2Fmergetree-family%2Fannindexes&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt42" id="mwAR4"></span></span></li>
+<li about="#cite_note-10" id="cite_note-10" data-mw-footnote-number="10"><span class="mw-cite-backlink" id="mwAR8"><a href="#cite_ref-10" rel="mw:referencedBy" id="mwASA"><span class="mw-linkback-text" id="mwASE">↑</span></a></span> <span id="mw-reference-text-cite_note-10" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt45" typeof="mw:Extension/templatestyles mw:Transclusion" id="mwASI" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"Cite web ","href":"./Template:Cite_web"},"params":{"title":{"wt":"Vector Similarity Search in DuckDB"},"url":{"wt":"https://duckdb.org/2024/05/03/vector-similarity-search-vss.html"},"access-date":{"wt":"2025-02-20"},"website":{"wt":"duckdb.org"},"date":{"wt":"3 May 2024"},"language":{"wt":"en-US"}},"i":0}}]}'/><cite class="citation web cs1" about="#mwt45" id="mwASM"><a rel="mw:ExtLink nofollow" href="https://duckdb.org/2024/05/03/vector-similarity-search-vss.html" class="external text" id="mwASQ">"Vector Similarity Search in DuckDB"</a>. <i id="mwASU">duckdb.org</i>. 3 May 2024<span class="reference-accessdate" id="mwASY">. Retrieved <span class="nowrap" id="mwASc">2025-02-20</span></span>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=unknown&amp;rft.jtitle=duckdb.org&amp;rft.atitle=Vector+Similarity+Search+in+DuckDB&amp;rft.date=2024-05-03&amp;rft_id=https%3A%2F%2Fduckdb.org%2F2024%2F05%2F03%2Fvector-similarity-search-vss.html&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt45" id="mwASg"></span></span></li>
+<li about="#cite_note-11" id="cite_note-11" data-mw-footnote-number="11"><span class="mw-cite-backlink" id="mwASk"><a href="#cite_ref-11" rel="mw:referencedBy" id="mwASo"><span class="mw-linkback-text" id="mwASs">↑</span></a></span> <span id="mw-reference-text-cite_note-11" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt48" typeof="mw:Extension/templatestyles mw:Transclusion" id="mwASw" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"Cite web ","href":"./Template:Cite_web"},"params":{"title":{"wt":"MariaDB Vector"},"url":{"wt":"https://mariadb.org/projects/mariadb-vector/"},"access-date":{"wt":"2024-07-30"},"website":{"wt":"MariaDB.org"},"language":{"wt":"en-US"}},"i":0}}]}'/><cite class="citation web cs1" about="#mwt48" id="mwAS0"><a rel="mw:ExtLink nofollow" href="https://mariadb.org/projects/mariadb-vector/" class="external text" id="mwAS4">"MariaDB Vector"</a>. <i id="mwAS8">MariaDB.org</i><span class="reference-accessdate" id="mwATA">. Retrieved <span class="nowrap" id="mwATE">2024-07-30</span></span>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=unknown&amp;rft.jtitle=MariaDB.org&amp;rft.atitle=MariaDB+Vector&amp;rft_id=https%3A%2F%2Fmariadb.org%2Fprojects%2Fmariadb-vector%2F&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt48" id="mwATI"></span></span></li>
+<li about="#cite_note-12" id="cite_note-12" data-mw-footnote-number="12"><span class="mw-cite-backlink" id="mwATM"><a href="#cite_ref-12" rel="mw:referencedBy" id="mwATQ"><span class="mw-linkback-text" id="mwATU">↑</span></a></span> <span id="mw-reference-text-cite_note-12" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt51" typeof="mw:Extension/templatestyles mw:Transclusion" id="mwATY" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"cite web ","href":"./Template:Cite_web"},"params":{"url":{"wt":"https://zilliz.com/learn/how-to-pick-a-vector-index-in-milvus-visual-guide"},"title":{"wt":"How to Pick a Vector Index in Your Milvus Instance: A Visual Guide"},"date":{"wt":"May 14, 2024"},"first":{"wt":"Ruben"},"last":{"wt":"Winastwan"},"access-date":{"wt":"2024-10-10"},"website":{"wt":"zilliz.com"},"language":{"wt":"en-US"}},"i":0}}]}'/><cite id="CITEREFWinastwan2024" class="citation web cs1" about="#mwt51">Winastwan, Ruben (May 14, 2024). <a rel="mw:ExtLink nofollow" href="https://zilliz.com/learn/how-to-pick-a-vector-index-in-milvus-visual-guide" class="external text" id="mwATc">"How to Pick a Vector Index in Your Milvus Instance: A Visual Guide"</a>. <i id="mwATg">zilliz.com</i><span class="reference-accessdate" id="mwATk">. Retrieved <span class="nowrap" id="mwATo">2024-10-10</span></span>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=unknown&amp;rft.jtitle=zilliz.com&amp;rft.atitle=How+to+Pick+a+Vector+Index+in+Your+Milvus+Instance%3A+A+Visual+Guide&amp;rft.date=2024-05-14&amp;rft.aulast=Winastwan&amp;rft.aufirst=Ruben&amp;rft_id=https%3A%2F%2Fzilliz.com%2Flearn%2Fhow-to-pick-a-vector-index-in-milvus-visual-guide&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt51" id="mwATs"></span></span></li>
+<li about="#cite_note-13" id="cite_note-13" data-mw-footnote-number="13"><span class="mw-cite-backlink" id="mwATw"><a href="#cite_ref-13" rel="mw:referencedBy" id="mwAT0"><span class="mw-linkback-text" id="mwAT4">↑</span></a></span> <span id="mw-reference-text-cite_note-13" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt54" typeof="mw:Extension/templatestyles mw:Transclusion" id="mwAT8" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"Cite web ","href":"./Template:Cite_web"},"params":{"title":{"wt":"pgvector Repository"},"url":{"wt":"https://github.com/pgvector/pgvector?tab=readme-ov-file#hnsw"},"access-date":{"wt":"2025-03-19"},"website":{"wt":"github.com/pgvector"},"language":{"wt":"en-US"}},"i":0}}]}'/><cite class="citation web cs1" about="#mwt54" id="mwAUA"><a rel="mw:ExtLink nofollow" href="https://github.com/pgvector/pgvector?tab=readme-ov-file#hnsw" class="external text" id="mwAUE">"pgvector Repository"</a>. <i id="mwAUI">github.com/pgvector</i><span class="reference-accessdate" id="mwAUM">. Retrieved <span class="nowrap" id="mwAUQ">2025-03-19</span></span>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=unknown&amp;rft.jtitle=github.com%2Fpgvector&amp;rft.atitle=pgvector+Repository&amp;rft_id=https%3A%2F%2Fgithub.com%2Fpgvector%2Fpgvector%3Ftab%3Dreadme-ov-file%23hnsw&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt54" id="mwAUU"></span></span></li>
+<li about="#cite_note-14" id="cite_note-14" data-mw-footnote-number="14"><span class="mw-cite-backlink" id="mwAUY"><a href="#cite_ref-14" rel="mw:referencedBy" id="mwAUc"><span class="mw-linkback-text" id="mwAUg">↑</span></a></span> <span id="mw-reference-text-cite_note-14" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt57" typeof="mw:Extension/templatestyles mw:Transclusion" id="mwAUk" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"Cite web ","href":"./Template:Cite_web"},"params":{"title":{"wt":"Qdrant Documentation"},"url":{"wt":"https://qdrant.tech/documentation/concepts/indexing/"},"access-date":{"wt":"2025-03-19"},"website":{"wt":"qdrant.tech"},"language":{"wt":"en-US"}},"i":0}}]}'/><cite class="citation web cs1" about="#mwt57" id="mwAUo"><a rel="mw:ExtLink nofollow" href="https://qdrant.tech/documentation/concepts/indexing/" class="external text" id="mwAUs">"Qdrant Documentation"</a>. <i id="mwAUw">qdrant.tech</i><span class="reference-accessdate" id="mwAU0">. Retrieved <span class="nowrap" id="mwAU4">2025-03-19</span></span>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=unknown&amp;rft.jtitle=qdrant.tech&amp;rft.atitle=Qdrant+Documentation&amp;rft_id=https%3A%2F%2Fqdrant.tech%2Fdocumentation%2Fconcepts%2Findexing%2F&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt57" id="mwAU8"></span></span></li>
+<li about="#cite_note-15" id="cite_note-15" data-mw-footnote-number="15"><span class="mw-cite-backlink" id="mwAVA"><a href="#cite_ref-15" rel="mw:referencedBy" id="mwAVE"><span class="mw-linkback-text" id="mwAVI">↑</span></a></span> <span id="mw-reference-text-cite_note-15" class="mw-reference-text reference-text"><link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r1333433106" about="#mwt60" typeof="mw:Extension/templatestyles mw:Transclusion" id="mwAVM" data-mw='{"name":"templatestyles","attrs":{"src":"Module:Citation/CS1/styles.css"},"body":{"extsrc":""},"parts":[{"template":{"target":{"wt":"Cite web ","href":"./Template:Cite_web"},"params":{"title":{"wt":"Redis Vector Search"},"url":{"wt":"https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/vectors/"},"access-date":{"wt":"2025-06-25"},"website":{"wt":"redis.io"},"language":{"wt":"en-US"}},"i":0}}]}'/><cite class="citation web cs1" about="#mwt60" id="mwAVQ"><a rel="mw:ExtLink nofollow" href="https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/vectors/" class="external text" id="mwAVU">"Redis Vector Search"</a>. <i id="mwAVY">redis.io</i><span class="reference-accessdate" id="mwAVc">. Retrieved <span class="nowrap" id="mwAVg">2025-06-25</span></span>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=unknown&amp;rft.jtitle=redis.io&amp;rft.atitle=Redis+Vector+Search&amp;rft_id=https%3A%2F%2Fredis.io%2Fdocs%2Flatest%2Fdevelop%2Finteract%2Fsearch-and-query%2Fadvanced-concepts%2Fvectors%2F&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AHierarchical+navigable+small+world" class="Z3988" about="#mwt60" id="mwAVk"></span></span></li>
+</ol></div></div>
+
+<link rel="mw:PageProp/Category" href="./Category:Graphs" id="mwAVo"/>
+<link rel="mw:PageProp/Category" href="./Category:Network_science" id="mwAVs"/>
+<link rel="mw:PageProp/Category" href="./Category:Search_algorithms" id="mwAVw"/>
+<link rel="mw:PageProp/Category" href="./Category:Database_index_techniques" id="mwAV0"/>
+<link rel="mw:PageProp/Category" href="./Category:Data_mining" id="mwAV4"/>
+<link rel="mw:PageProp/Category" href="./Category:Machine_learning" id="mwAV8"/></section>
+<!-- 
+NewPP limit report
+Parsed by mw‐web.eqiad.main‐6d54cb88c9‐7fdjr
+Cached time: 20260902192456
+Cache expiry: 2592000
+Cache expiry source: Module:Citation/CS1 (os.date(%Y))
+Reduced expiry: false
+Complications: [vary‐revision‐sha1, show‐toc, use‐parsoid]
+CPU time usage: 0.609 seconds
+Real time usage: 0.715 seconds
+Preprocessor visited node count: 1142/1000000
+Revision size: 11115/2097152 bytes
+Post‐expand include size: 59394/2097152 bytes
+Template argument size: 1033/2097152 bytes
+Highest expansion depth: 13/100
+Expensive parser function count: 1/500
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 61615/5000000 bytes
+Lua time usage: 0.138/10.000 seconds
+Lua memory usage: 6125477/52428800 bytes
+Number of Wikibase entities loaded: 0/500
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%  550.585      1 -total
+ 12.83%   70.642      4 Template:Cite_journal
+ 11.82%   65.088      1 Template:Short_description
+  8.45%   46.516      3 Template:Sidebar
+  8.15%   44.890      1 Template:Network_Science
+  6.59%   36.297      2 Template:Pagetype
+  5.20%   28.649      8 Template:Cite_web
+  3.39%   18.685      3 Template:Main_other
+  3.08%   16.934      1 Template:SDcat
+  2.87%   15.789      2 Template:Cite_book
+-->
+
+<!-- Render ID fad202c5-a703-11f1-9bec-717a64985e5e -->
+
+<!-- Saved in parser cache with key enwiki:parsoid-pcache:76162223:|#|:idhash:useParsoid=1 and timestamp 20260902192456 and revision id 1369131893. Rendering was triggered because: page_view
+ -->
+
+<!-- Parsoid 0.24.0.0-alpha21 -->
+</div><!--
+Post‐processing cache key enwiki:postproc‐parsoid‐pcache:76162223:|#|:idhash:injectTOC=0!postproc=1!skin=vector‐2022!useParsoid=1!visibleLinks=wtsingle, generated at 20260902192456
+--><noscript><img src="https://en.wikipedia.org/wiki/Special:CentralAutoLogin/start?useformat=desktop&amp;type=1x1&amp;usesul3=1" alt="" width="1" height="1" style="border: none; position: absolute;"></noscript>
+<div class="printfooter" data-nosnippet="">Retrieved from "<a dir="ltr" href="https://en.wikipedia.org/w/index.php?title=Hierarchical_navigable_small_world&amp;oldid=1369131893">https://en.wikipedia.org/w/index.php?title=Hierarchical_navigable_small_world&amp;oldid=1369131893</a>"</div></div>
+					<div id="catlinks" class="catlinks" data-mw-interface=""><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Help:Category" title="Help:Category">Categories</a>: <ul><li><a href="/wiki/Category:Graphs" title="Category:Graphs">Graphs</a></li><li><a href="/wiki/Category:Network_science" title="Category:Network science">Network science</a></li><li><a href="/wiki/Category:Search_algorithms" title="Category:Search algorithms">Search algorithms</a></li><li><a href="/wiki/Category:Database_index_techniques" title="Category:Database index techniques">Database index techniques</a></li><li><a href="/wiki/Category:Data_mining" title="Category:Data mining">Data mining</a></li><li><a href="/wiki/Category:Machine_learning" title="Category:Machine learning">Machine learning</a></li></ul></div><div id="mw-hidden-catlinks" class="mw-hidden-catlinks mw-hidden-cats-hidden">Hidden categories: <ul><li><a href="/wiki/Category:Articles_with_short_description" title="Category:Articles with short description">Articles with short description</a></li><li><a href="/wiki/Category:Short_description_is_different_from_Wikidata" title="Category:Short description is different from Wikidata">Short description is different from Wikidata</a></li></ul></div></div>
+				</div>
+			</main>
+			
+		</div>
+		<div class="mw-footer-container">
+			<footer id="footer" class="mw-footer" >
+				<ul id="footer-info" class="mw-portlet mw-portlet-footer-info">
+	<li id="footer-info-lastmod"> This page was last edited on 13 August 2026, at 02:48<span class="anonymous-show">&#160;(UTC)</span>.</li>
+	<li id="footer-info-renderedwith">Page was rendered with <a href="https://www.mediawiki.org/wiki/Special:MyLanguage/Parsoid" class="extiw" title="mw:Special:MyLanguage/Parsoid">Parsoid</a>.</li>
+	<li id="footer-info-copyright">Text is available under the <a href="/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License" title="Wikipedia:Text of the Creative Commons Attribution-ShareAlike 4.0 International License">Creative Commons Attribution-ShareAlike 4.0 License</a>;
+additional terms may apply. By using this site, you agree to the <a href="https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Terms_of_Use" class="extiw" title="foundation:Special:MyLanguage/Policy:Terms of Use">Terms of Use</a> and <a href="https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy" class="extiw" title="foundation:Special:MyLanguage/Policy:Privacy policy">Privacy Policy</a>. Wikipedia® is a registered trademark of the <a rel="nofollow" class="external text" href="https://wikimediafoundation.org/">Wikimedia Foundation, Inc.</a>, a non-profit organization.</li>
+</ul>
+
+				<ul id="footer-places" class="mw-portlet mw-portlet-footer-places">
+	<li id="footer-places-privacy"><a href="https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy">Privacy policy</a></li>
+	<li id="footer-places-about"><a href="/wiki/Wikipedia:About">About Wikipedia</a></li>
+	<li id="footer-places-disclaimers"><a href="/wiki/Wikipedia:General_disclaimer">Disclaimers</a></li>
+	<li id="footer-places-contact"><a href="//en.wikipedia.org/wiki/Wikipedia:Contact_us">Contact Wikipedia</a></li>
+	<li id="footer-places-legal-safety-contacts"><a href="https://foundation.wikimedia.org/wiki/Special:MyLanguage/Legal:Wikimedia_Foundation_Legal_and_Safety_Contact_Information">Legal &amp; safety contacts</a></li>
+	<li id="footer-places-wm-codeofconduct"><a href="https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Universal_Code_of_Conduct">Code of Conduct</a></li>
+	<li id="footer-places-developers"><a href="https://developer.wikimedia.org">Developers</a></li>
+	<li id="footer-places-statslink"><a href="https://stats.wikimedia.org/#/en.wikipedia.org">Statistics</a></li>
+	<li id="footer-places-cookiestatement"><a href="https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Cookie_statement">Cookie statement</a></li>
+	<li id="footer-places-mobileview"><a href="//en.wikipedia.org/w/index.php?title=Hierarchical_navigable_small_world&amp;mobileaction=toggle_view_mobile" class="noprint stopMobileRedirectToggle">Mobile view</a></li>
+</ul>
+
+				<ul id="footer-icons" class="mw-portlet mw-portlet-footer-icons noprint">
+	<li id="footer-copyrightico"><a href="https://www.wikimedia.org/" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><picture><source media="(min-width: 500px)" srcset="/static/images/footer/wikimedia-button.svg" width="84" height="29"><img src="/static/images/footer/wikimedia.svg" width="25" height="25" alt="Wikimedia Foundation" lang="en" loading="lazy"></picture></a></li>
+	<li id="footer-poweredbyico"><a href="https://www.mediawiki.org/" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><picture><source media="(min-width: 500px)" srcset="/w/resources/assets/poweredby_mediawiki.svg" width="88" height="31"><img src="/w/resources/assets/mediawiki_compact.svg" alt="Powered by MediaWiki" lang="en" width="25" height="25" loading="lazy"></picture></a></li>
+</ul>
+
+			</footer>
+		</div>
+	</div> 
+</div> 
+<div class="vector-header-container vector-sticky-header-container no-font-mode-scale">
+	<div id="vector-sticky-header" class="vector-sticky-header">
+		<div class="vector-sticky-header-start">
+			<div class="vector-sticky-header-icon-start vector-button-flush-left" aria-hidden="true">
+				<button class="cdx-button cdx-button--weight-quiet cdx-button--icon-only vector-sticky-header-search-toggle" tabindex="-1" data-event-name="ui.vector-sticky-search-form.icon"><span class="vector-icon mw-ui-icon-search mw-ui-icon-wikimedia-search cdx-button__icon"></span>
+
+<span>Search</span>
+			</button>
+		</div>
+			
+		<div role="search" class="vector-search-box-vue  vector-search-box-show-thumbnail vector-search-box">
+			<div class="vector-typeahead-search-container">
+				<div class="cdx-typeahead-search cdx-typeahead-search--show-thumbnail">
+					<form action="/w/index.php" id="vector-sticky-search-form" class="cdx-search-input cdx-search-input--has-end-button">
+						<div  class="cdx-search-input__input-wrapper"  data-search-loc="header-moved">
+							<div class="cdx-text-input cdx-text-input--has-start-icon">
+								<input
+									class="cdx-text-input__input mw-searchInput" autocomplete="off"
+									
+									type="search" name="search" placeholder="Search Wikipedia">
+								<span class="cdx-text-input__icon cdx-text-input__start-icon"></span>
+							</div>
+							<input type="hidden" name="title" value="Special:Search">
+						</div>
+						<button class="cdx-button cdx-search-input__end-button">Search</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="vector-sticky-header-context-bar">
+				<nav aria-label="Contents" class="vector-toc-landmark">
+						
+					<div id="vector-sticky-header-toc" class="vector-dropdown mw-portlet mw-portlet-sticky-header-toc vector-sticky-header-toc vector-button-flush-left"  >
+						<input type="checkbox" id="vector-sticky-header-toc-checkbox" role="button" aria-haspopup="true" data-event-name="ui.dropdown-vector-sticky-header-toc" class="vector-dropdown-checkbox "  aria-label="Toggle the table of contents"   >
+						<label id="vector-sticky-header-toc-label" for="vector-sticky-header-toc-checkbox" class="vector-dropdown-label cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only " aria-hidden="true"  ><span class="vector-icon mw-ui-icon-listBullet mw-ui-icon-wikimedia-listBullet cdx-button__icon"></span>
+
+<span class="vector-dropdown-label-text">Toggle the table of contents</span>
+						</label>
+						<div class="vector-dropdown-content">
+					
+						<div id="vector-sticky-header-toc-unpinned-container" class="vector-unpinned-container">
+						</div>
+					
+						</div>
+					</div>
+			</nav>
+				<div class="vector-sticky-header-context-bar-primary" aria-hidden="true" ><span lang="en" dir="ltr"><span class="mw-page-title-main">Hierarchical navigable small world</span></span></div>
+			</div>
+		</div>
+		<div class="vector-sticky-header-end" aria-hidden="true">
+			<div class="vector-sticky-header-icons">
+				<a href="#" class="cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only" id="ca-talk-sticky-header" tabindex="-1" data-event-name="talk-sticky-header"><span class="vector-icon mw-ui-icon-speechBubbles mw-ui-icon-wikimedia-speechBubbles cdx-button__icon"></span>
+
+<span></span>
+			</a>
+			<a href="#" class="cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only" id="ca-subject-sticky-header" tabindex="-1" data-event-name="subject-sticky-header"><span class="vector-icon mw-ui-icon-article mw-ui-icon-wikimedia-article cdx-button__icon"></span>
+
+<span></span>
+			</a>
+			<a href="#" class="cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only" id="ca-history-sticky-header" tabindex="-1" data-event-name="history-sticky-header"><span class="vector-icon mw-ui-icon-wikimedia-history mw-ui-icon-wikimedia-wikimedia-history cdx-button__icon"></span>
+
+<span></span>
+			</a>
+			<a href="#" class="cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only mw-watchlink" id="ca-watchstar-sticky-header" tabindex="-1" data-event-name="watch-sticky-header"><span class="vector-icon mw-ui-icon-wikimedia-star mw-ui-icon-wikimedia-wikimedia-star cdx-button__icon"></span>
+
+<span></span>
+			</a>
+			<a href="#" class="cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only" id="ca-edit-sticky-header" tabindex="-1" data-event-name="wikitext-edit-sticky-header"><span class="vector-icon mw-ui-icon-wikimedia-wikiText mw-ui-icon-wikimedia-wikimedia-wikiText cdx-button__icon"></span>
+
+<span></span>
+			</a>
+			<a href="#" class="cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only" id="ca-ve-edit-sticky-header" tabindex="-1" data-event-name="ve-edit-sticky-header"><span class="vector-icon mw-ui-icon-wikimedia-edit mw-ui-icon-wikimedia-wikimedia-edit cdx-button__icon"></span>
+
+<span></span>
+			</a>
+			<a href="#" class="cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only" id="ca-viewsource-sticky-header" tabindex="-1" data-event-name="ve-edit-protected-sticky-header"><span class="vector-icon mw-ui-icon-wikimedia-editLock mw-ui-icon-wikimedia-wikimedia-editLock cdx-button__icon"></span>
+
+<span></span>
+			</a>
+		</div>
+			<div class="vector-sticky-header-buttons">
+				<button class="cdx-button cdx-button--weight-quiet mw-interlanguage-selector" id="p-lang-btn-sticky-header" tabindex="-1" data-event-name="ui.dropdown-p-lang-btn-sticky-header"><span class="vector-icon mw-ui-icon-wikimedia-language mw-ui-icon-wikimedia-wikimedia-language cdx-button__icon"></span>
+
+<span>2 languages</span>
+			</button>
+			<a href="#" class="cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--action-progressive" id="ca-addsection-sticky-header" tabindex="-1" data-event-name="addsection-sticky-header"><span class="vector-icon mw-ui-icon-speechBubbleAdd-progressive mw-ui-icon-wikimedia-speechBubbleAdd-progressive cdx-button__icon"></span>
+
+<span>Add topic</span>
+			</a>
+		</div>
+			<div class="vector-sticky-header-icon-end">
+				<div class="vector-user-links">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="mw-portlet mw-portlet-dock-bottom emptyPortlet" id="p-dock-bottom">
+	<ul>
+		
+	</ul>
+</div>
+<script>(RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgHostname":"mw-web.eqiad.main-797d9789bc-nwxr5","wgBackendResponseTime":105,"wgPageParseReport":{"limitreport":{"cputime":"0.609","walltime":"0.715","ppvisitednodes":{"value":1142,"limit":1000000},"revisionsize":{"value":11115,"limit":2097152},"postexpandincludesize":{"value":59394,"limit":2097152},"templateargumentsize":{"value":1033,"limit":2097152},"expansiondepth":{"value":13,"limit":100},"expensivefunctioncount":{"value":1,"limit":500},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":61615,"limit":5000000},"entityaccesscount":{"value":0,"limit":500},"timingprofile":["100.00%  550.585      1 -total"," 12.83%   70.642      4 Template:Cite_journal"," 11.82%   65.088      1 Template:Short_description","  8.45%   46.516      3 Template:Sidebar","  8.15%   44.890      1 Template:Network_Science","  6.59%   36.297      2 Template:Pagetype","  5.20%   28.649      8 Template:Cite_web","  3.39%   18.685      3 Template:Main_other","  3.08%   16.934      1 Template:SDcat","  2.87%   15.789      2 Template:Cite_book"]},"scribunto":{"limitreport-timeusage":{"value":"0.138","limit":"10.000"},"limitreport-memusage":{"value":6125477,"limit":52428800}},"cachereport":{"origin":"mw-web.eqiad.main-6d54cb88c9-7fdjr","timestamp":"20260902192456","ttl":2592000,"transientcontent":false,"expiry-source":"Module:Citation/CS1 (os.date(%Y))"}}});});</script>
+<script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"Article","name":"Hierarchical navigable small world","url":"https:\/\/en.wikipedia.org\/wiki\/Hierarchical_navigable_small_world","sameAs":"http:\/\/www.wikidata.org\/entity\/Q124785393","mainEntity":"http:\/\/www.wikidata.org\/entity\/Q124785393","author":{"@type":"Organization","name":"Contributors to Wikimedia projects"},"publisher":{"@type":"Organization","name":"Wikimedia Foundation, Inc.","logo":{"@type":"ImageObject","url":"https:\/\/www.wikimedia.org\/static\/images\/wmf-hor-googpub.png"}},"datePublished":"2024-02-22T19:54:41Z","dateModified":"2026-08-13T02:48:09Z","image":"https:\/\/upload.wikimedia.org\/wikipedia\/commons\/d\/d2\/Internet_map_1024.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original","headline":"clustering and community detection algorithm"}</script>
+</body>
+</html>
