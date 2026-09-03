@@ -4,9 +4,9 @@ A retrieval-first search system — BM25 + hybrid search over documents, a
 knowledge graph, and an optional small-LLM layer — built to run acceptably
 on ordinary CPU cores instead of requiring a GPU.
 
-**Status:** Phase P3 infrastructure complete (P0 foundations, P1 BM25 MVP,
-P2 hybrid retrieval, P3 query-log capture). P3's reranker training is
-explicitly **not** done — see [Roadmap](#roadmap) for why.
+**Status:** P4 complete (P0 foundations, P1 BM25 MVP, P2 hybrid retrieval,
+P3 query-log capture infra, P4 knowledge graph v1). P3's reranker training
+is explicitly **not** done — see [Roadmap](#roadmap) for why.
 
 ## Table of contents
 
@@ -44,6 +44,13 @@ explicitly **not** done — see [Roadmap](#roadmap) for why.
   LambdaMART training/reranking code, feature extraction, and a status CLI —
   but explicitly gated off from running for real until 500+ logged
   interactions exist (currently 0 — no live traffic on this system yet).
+- **Knowledge graph v1** — spaCy NER scoped to 4 types (Company/Person/
+  Product/Technology) via a precision-first curated `EntityRuler` (stock
+  spaCy was verified unreliable on this technical corpus), pattern-based
+  relation extraction, exact+fuzzy entity resolution with a manual
+  merge-review queue, stored in [Memgraph](https://memgraph.com/). Measured
+  100% precision on a full manual spot-check (53/53 mentions) and correct
+  neighbor retrieval on a fixed 20-entity test set.
 - **Benchmarking** — a generic `benchmark(fn, *args, **kwargs)` wrapper
   reports p50/p95 latency and peak RSS for any operation, reused across every
   phase so "CPU-efficient" stays a measured claim.
@@ -95,6 +102,12 @@ curl -X POST http://127.0.0.1:8000/select -H 'Content-Type: application/json' \
 PYTHONPATH=src .venv/bin/python -m ltr.status
 ```
 
+**Build the knowledge graph (needs Memgraph running — see [HELP.md](HELP.md#running-the-knowledge-graph-pipeline-p4)):**
+
+```bash
+PYTHONPATH=src .venv/bin/python -m kg.pipeline
+```
+
 **Benchmark any function:**
 
 ```python
@@ -116,6 +129,7 @@ src/
   eval/       nDCG@10 / MRR / recall@20 harness, stub + real + hybrid indices, RRF fusion
   ingest/     parsers, chunking, content-hash registry, Tantivy BM25 + FAISS vector indices
   ltr/        query-log/selection capture, LTR feature extraction, gated LightGBM training + reranking
+  kg/         NER, pattern-based relation extraction, entity resolution, Memgraph graph store
 tests/        pytest suite mirroring src/
 data/
   corpus/     seed documents (multi-format)
@@ -137,7 +151,10 @@ the first test run (or `ingest.pipeline` run) needs network once to fetch
 the BGE-Small model (~130MB, cached afterward). P3's LTR tests use synthetic
 data with a deliberately lowered threshold to prove the LightGBM plumbing
 works — they do NOT claim the P3 exit criterion is met (it isn't, see
-Roadmap below).
+Roadmap below). P4's `tests/kg/` suite needs a running Memgraph instance
+(external infrastructure, not an embedded library) — tests are
+auto-skipped with a clear reason when it's unreachable, so `pytest -q`
+still passes cleanly on a machine without it.
 
 ## Roadmap
 
@@ -147,7 +164,7 @@ Roadmap below).
 | P1 | Ingestion & BM25 MVP | ✅ Done |
 | P2 | Hybrid retrieval (BGE-Small + FAISS/HNSW) | ✅ Done |
 | P3 | Usage capture & learning-to-rank (LightGBM) | ⚠️ Infra done, training blocked |
-| P4 | Entity extraction & knowledge graph v1 (spaCy + Memgraph) | Not started |
+| P4 | Entity extraction & knowledge graph v1 (spaCy + Memgraph) | ✅ Done |
 | P5 | Enterprise connectors & access control | Not started (hard gate) |
 | P6 | Web crawl expansion (allowlisted sources) | Not started |
 | P7 | Optional small-LLM answer layer (llama.cpp) | Not started |
@@ -175,6 +192,21 @@ interactions)`, honestly). The LightGBM training/reranking code itself is
 built and unit-tested against synthetic data (proving the plumbing works),
 but that is explicitly not the same as meeting the exit criterion — see
 `LOGBOOK_09032026_002053.md`.
+
+**P4's exit criteria are both met, measured live against a running
+Memgraph:** manual spot-check precision = 53/53 = **100%** (every extracted
+mention reviewed against its source sentence — see the logbook, not just a
+sample); correct neighbor retrieval on the fixed 20-entity test set —
+11 entities with real relations, 9 correctly isolated — all 20 pass as a
+parametrized pytest suite (`tests/kg/test_neighbor_retrieval.py`) run for
+real on sensalis-node. Stock spaCy alone was verified unreliable on this
+corpus first (misclassified "bm25" and an Ubuntu codename as PERSON); a
+precision-first curated `EntityRuler` plus a multi-token filter on spaCy's
+native PERSON label fixed it — see `LOGBOOK_09032026_074714.md` for the
+full before/after evidence. Memgraph runs in Docker on sensalis-node
+(`127.0.0.1:7687`, matching that node's existing container convention),
+alongside an unrelated pre-existing Docker workload found and confirmed
+safe to coexist with.
 
 ## Documentation
 

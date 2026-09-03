@@ -9,4 +9,5 @@ data/faiss_index/
 data/vectors.db
 data/query_log.db
 data/ltr_model.txt
+data/merge_review.db
 .env

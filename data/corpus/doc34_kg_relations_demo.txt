@@ -1,0 +1,1 @@
+FastAPI runs on Starlette. FastAPI uses Pydantic for request and response validation. Hetzner offers the CCX23 instance to customers who need dedicated CPU cores. SQLite provides the FTS5 extension for full-text search. BM25 predates modern neural ranking methods, and TF-IDF predates BM25 itself.

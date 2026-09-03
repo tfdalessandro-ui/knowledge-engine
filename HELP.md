@@ -142,13 +142,96 @@ to fit a model below `KE_LTR_MIN_INTERACTIONS` (default 500) logged
 selections and returns a clear "blocked" result instead of training on too
 little data. See `src/ltr/train.py`'s module docstring.
 
+## Running the knowledge graph pipeline (P4)
+
+Unlike every prior phase's index (Tantivy/FAISS embedded in-process),
+**Memgraph is a separate server process** -- this repo does not start it
+for you. Start it once (Docker required):
+
+```bash
+docker run -d --name memgraph_ke -p 127.0.0.1:7687:7687 --restart unless-stopped memgraph/memgraph
+```
+
+Bound to `127.0.0.1` only, matching sensalis-node's existing convention for
+every other Docker service on it (confirmed by inspecting the node before
+adding anything -- see the P4 logbook). `KE_MEMGRAPH_URI` (default
+`bolt://127.0.0.1:7687`) points the pipeline at it; the standard `neo4j`
+Python driver talks to it over Bolt (Memgraph is Bolt-compatible -- no
+Memgraph-specific client library needed).
+
+```bash
+PYTHONPATH=src .venv/bin/python -m kg.pipeline
+```
+
+Scans `data/corpus/`, extracts entities (Company/Person/Product/Technology)
+and pattern-based relations per document, resolves entities (exact match
+auto-resolves; near-duplicates get queued in `data/merge_review.db` for
+manual review, never auto-merged), and writes everything to Memgraph.
+Prints `documents_processed=.. entities_extracted=.. relations_extracted=..
+merge_candidates_queued=..`. Unlike `ingest.pipeline`, this always does a
+full pass -- entity resolution needs to see the whole corpus's entity set,
+not one file in isolation, and P4's corpus-scale makes that cheap.
+
+**Why NER is a curated `EntityRuler`, not stock spaCy alone:** verified
+directly (not assumed) that `en_core_web_sm` run cold over this corpus tags
+"BM25" and "bm25" as PERSON and finds no real Company/Product signal --
+this corpus is about search infrastructure, not people or organizations.
+Technology/Company/Product are recognized via an exact-match term list
+grounded in terms confirmed present in `data/corpus/` (checked with `grep`
+before writing `kg/ner.py`'s `TECHNOLOGY_TERMS`/`COMPANY_TERMS`/
+`PRODUCT_TERMS`), trading recall for precision -- which is exactly what the
+exit criterion asks for. Person is left to spaCy's native NER with a filter
+requiring 2+ alphabetic tokens (a real personal name is virtually always
+"First Last"); every false positive found in testing was a single-token
+span, so this removed all of them without a mechanism to lose a real name.
+
+**Merge-review queue:** `kg.resolution.MergeReviewQueue` never auto-merges
+a fuzzy match (default threshold 85, `rapidfuzz.fuzz.token_sort_ratio`) --
+it queues the pair in `data/merge_review.db` for a human to accept or
+reject. Inspect and resolve pending candidates:
+
+```python
+from pathlib import Path
+from kg.resolution import MergeReviewQueue
+
+queue = MergeReviewQueue(Path("data/merge_review.db"))
+for candidate in queue.list_pending():
+    print(candidate)  # e.g. MergeCandidate(entity_a='CCX23', entity_b='CX23', label='PRODUCT', score=88.9, ...)
+    queue.resolve(candidate.candidate_id, merge=False)  # or merge=True once a human has judged it
+```
+
+### Testing against Memgraph
+
+`tests/kg/` needs a running Memgraph instance for anything beyond pure NER/
+relation-extraction/resolution logic (those three are pure Python, no
+external service, and always run). Tests requiring Memgraph carry
+`pytestmark = pytest.mark.requires_memgraph`; `tests/kg/conftest.py` probes
+connectivity once per session and auto-skips them with a clear reason if
+it's unreachable -- so `pytest -q` still passes cleanly on a machine with no
+Memgraph (this repo's dev laptop has no Docker daemon running) while
+exercising the real thing wherever it's up (sensalis-node).
+
+**`tests/kg/test_neighbor_retrieval.py` is the P4 exit criterion made
+concrete:** it runs the real `kg.pipeline` over the real `data/corpus/`
+into Memgraph, then checks a fixed, hand-verified 20-entity set (11 with
+real relations, 9 correctly isolated) against expected neighbors -- as a
+parametrized test, so each of the 20 is its own pass/fail line, not one
+bulk assertion.
+
+**These tests wipe the graph.** `MemgraphStore.clear()` runs before and
+after each test that touches Memgraph -- don't point `KE_MEMGRAPH_URI` at
+an instance holding graph content you want to keep.
+
 ## Running the full test suite (this is the "single documented command")
 
 ```bash
 PYTHONPATH=src .venv/bin/python -m pytest -q
 ```
 
-92 passed, 1 skipped (the PDF test, see above). No prior ingest run needed —
+On a machine with Memgraph running (e.g. sensalis-node): 138 passed, 1
+skipped (the PDF test). Without it (e.g. this repo's dev laptop): 109
+passed, 30 skipped (29 `tests/kg/` cases + the PDF test) — see "Testing
+against Memgraph" above. No prior ingest run needed for the non-kg tests —
 every test that needs an index builds its own throwaway one in a temp
 directory. First run needs network once, for the BGE-Small model download
 (see above); after that it's fully offline. To also run the PDF test:
@@ -190,6 +273,18 @@ directory. First run needs network once, for the BGE-Small model download
   candidates by predicted relevance.
 - `tests/api/test_main.py` — end-to-end: builds a real index, hits `/search`
   and `/select` through a `TestClient`, confirms both get logged.
+- `tests/kg/test_ner.py` — EntityRuler pattern matches, and the PERSON
+  single-token filter against the real false positives it was written to fix.
+- `tests/kg/test_relations.py` — clean-SVO extraction, and the cases it
+  correctly declines to guess at (3+ entities, no relation verb, no verb).
+- `tests/kg/test_resolution.py` — exact-match reuse, fuzzy candidates queued
+  not merged, `MergeReviewQueue` CRUD. (No Memgraph needed — pure Python.)
+- `tests/kg/test_graph_store.py` *(requires Memgraph)* — upsert/query/count
+  against a real Memgraph instance.
+- `tests/kg/test_pipeline.py` *(requires Memgraph)* — the full extraction
+  pipeline over a small synthetic corpus.
+- `tests/kg/test_neighbor_retrieval.py` *(requires Memgraph)* — the P4 exit
+  criterion: the fixed 20-entity neighbor-retrieval set, parametrized.
 
 ## Running the benchmark script
 
@@ -247,6 +342,12 @@ does it; a lesson learned live during P2, see the logbook).
 generators for the demo corpus and don't need to be re-run — real usage is
 dropping your own documents into `data/corpus/` directly. `doc_id` is
 derived from the filename stem, so keep corpus filenames unique by stem.
+`doc34_kg_relations_demo.txt` and `doc35_kg_more_technologies.txt` (P4) are
+hand-written, not generated by a script — short, clean subject-verb-object
+sentences added specifically so `kg.relations`' word-order heuristic has
+something unambiguous to extract (the rest of the corpus's more
+definitional writing style doesn't reliably parse that way — see the P4
+logbook for why).
 
 ## Reproducing on a fresh Ubuntu 24.04 box (e.g. CCX23, once it exists)
 
@@ -258,11 +359,12 @@ derived from the filename stem, so keep corpus filenames unique by stem.
    CRITICAL note in `requirements.txt` — skipping this order pulls ~1GB+ of
    unused CUDA packages on Linux). Docling's ML stack itself is a real ~1.8GB
    install — that's expected, not a mistake.
-4. `PYTHONPATH=src .venv/bin/python -m pytest -q` — should print
-   `92 passed, 1 skipped`. First run needs network once (BGE-Small model
-   download, ~130MB); after that it's fully offline except the one
-   PDF-parsing test, which stays gated/skipped by default (see "Network
-   dependencies" above).
+4. `PYTHONPATH=src .venv/bin/python -m pytest -q` — should print `109
+   passed, 30 skipped` without Memgraph running, or start Memgraph first
+   (see "Running the knowledge graph pipeline (P4)") for `138 passed, 1
+   skipped`. First run needs network once (BGE-Small model download,
+   ~130MB); after that it's fully offline except the one PDF-parsing test,
+   which stays gated/skipped by default (see "Network dependencies" above).
 5. Nothing in this repo hardcodes a path, host, or port — `src/config/__init__.py`
    reads everything from `KE_*` environment variables (or a `.env` file) with
    local-relative defaults, so no config edits should be needed for a basic run.
