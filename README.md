@@ -4,9 +4,9 @@ A retrieval-first search system — BM25 + hybrid search over documents, a
 knowledge graph, and an optional small-LLM layer — built to run acceptably
 on ordinary CPU cores instead of requiring a GPU.
 
-**Status:** P4 complete (P0 foundations, P1 BM25 MVP, P2 hybrid retrieval,
-P3 query-log capture infra, P4 knowledge graph v1). P3's reranker training
-is explicitly **not** done — see [Roadmap](#roadmap) for why.
+**Status:** P5 scoped-complete (P0-P4 done, P5 ACL core + Git connector).
+P3's reranker training and P5's SharePoint/OneDrive/Outlook/Teams
+connectors are explicitly **not** done — see [Roadmap](#roadmap) for why.
 
 ## Table of contents
 
@@ -51,6 +51,15 @@ is explicitly **not** done — see [Roadmap](#roadmap) for why.
   merge-review queue, stored in [Memgraph](https://memgraph.com/). Measured
   100% precision on a full manual spot-check (53/53 mentions) and correct
   neighbor retrieval on a fixed 20-entity test set.
+- **Access control (P5, hard gate)** — a PostgreSQL-backed ACL store
+  (public / owner / explicit-grant) and a Git connector that tags every
+  ingested document with its access grants at ingest time; permission-aware
+  search filters results by the requesting user before a document can ever
+  appear. SharePoint/OneDrive/Outlook/Teams connectors are explicitly not
+  built — they need real Microsoft Graph API credentials this project
+  doesn't have; see [Roadmap](#roadmap). Verified: a full permission-denial
+  test suite proving cross-user leakage is impossible, run for real against
+  a demo dataset with public/private/shared documents.
 - **Benchmarking** — a generic `benchmark(fn, *args, **kwargs)` wrapper
   reports p50/p95 latency and peak RSS for any operation, reused across every
   phase so "CPU-efficient" stays a measured claim.
@@ -108,6 +117,13 @@ PYTHONPATH=src .venv/bin/python -m ltr.status
 PYTHONPATH=src .venv/bin/python -m kg.pipeline
 ```
 
+**Ingest a Git repo with access control (needs PostgreSQL running — see [HELP.md](HELP.md#running-the-access-control--git-connector-p5)):**
+
+```bash
+PYTHONPATH=src .venv/bin/python -m access.ingest_git --repo data/enterprise_demo --manifest data/enterprise_demo/acl_manifest.json
+PYTHONPATH=src .venv/bin/python -m access.connectors   # connector status: git CONNECTED, the rest NOT_CONFIGURED
+```
+
 **Benchmark any function:**
 
 ```python
@@ -130,10 +146,12 @@ src/
   ingest/     parsers, chunking, content-hash registry, Tantivy BM25 + FAISS vector indices
   ltr/        query-log/selection capture, LTR feature extraction, gated LightGBM training + reranking
   kg/         NER, pattern-based relation extraction, entity resolution, Memgraph graph store
+  access/     PostgreSQL ACL store, Git connector, permission-aware search, connector status
 tests/        pytest suite mirroring src/
 data/
   corpus/     seed documents (multi-format)
   judgments/  hand-labeled query/document relevance judgments
+  enterprise_demo/  P5 demo dataset: mixed public/private/shared documents + ACL manifest
 scripts/      one-time corpus-seeding generators, P2 benchmark script
 ```
 
@@ -152,9 +170,10 @@ the BGE-Small model (~130MB, cached afterward). P3's LTR tests use synthetic
 data with a deliberately lowered threshold to prove the LightGBM plumbing
 works — they do NOT claim the P3 exit criterion is met (it isn't, see
 Roadmap below). P4's `tests/kg/` suite needs a running Memgraph instance
-(external infrastructure, not an embedded library) — tests are
-auto-skipped with a clear reason when it's unreachable, so `pytest -q`
-still passes cleanly on a machine without it.
+and P5's `tests/access/` suite needs a running PostgreSQL instance (both
+external infrastructure, not embedded libraries) — tests are auto-skipped
+with a clear reason when either is unreachable, so `pytest -q` still passes
+cleanly on a machine without them.
 
 ## Roadmap
 
@@ -165,7 +184,7 @@ still passes cleanly on a machine without it.
 | P2 | Hybrid retrieval (BGE-Small + FAISS/HNSW) | ✅ Done |
 | P3 | Usage capture & learning-to-rank (LightGBM) | ⚠️ Infra done, training blocked |
 | P4 | Entity extraction & knowledge graph v1 (spaCy + Memgraph) | ✅ Done |
-| P5 | Enterprise connectors & access control | Not started (hard gate) |
+| P5 | Enterprise connectors & access control (hard gate) | ⚠️ ACL core + Git done, 4 connectors not configured |
 | P6 | Web crawl expansion (allowlisted sources) | Not started |
 | P7 | Optional small-LLM answer layer (llama.cpp) | Not started |
 
@@ -207,6 +226,26 @@ full before/after evidence. Memgraph runs in Docker on sensalis-node
 (`127.0.0.1:7687`, matching that node's existing container convention),
 alongside an unrelated pre-existing Docker workload found and confirmed
 safe to coexist with.
+
+**P5's exit criterion is met for the pieces that were built: a full
+permission-denial test suite proving cross-user leakage is impossible.**
+Run for real against `data/enterprise_demo/` (public/private/shared
+documents) on sensalis-node: user B never sees user A's private document
+in results, user A never sees user B's, a third unrelated user sees
+neither, an explicitly-shared document IS visible to its grantee and NOT
+to a non-grantee, and a public document is visible to everyone — 7
+scenarios, all pass, live (`tests/access/test_permission_denial.py`).
+**SharePoint/OneDrive/Outlook/Teams are honestly NOT built** — each needs a
+real Microsoft Graph API Azure AD app registration and tenant access this
+project doesn't have (`PYTHONPATH=src .venv/bin/python -m
+access.connectors` reports `NOT_CONFIGURED` for all four, with the reason
+stated). PostgreSQL is a *new* store introduced specifically for the ACL
+model (`127.0.0.1:5433` — port 5432 was already taken by an unrelated
+workload on sensalis-node) — P1-P4's SQLite stores were deliberately not
+migrated, since P5's exit criterion doesn't need that. See
+`LOGBOOK_09032026_080855.md` for full detail, including a real bug caught
+by running the connector for real (its own ACL manifest file got scanned
+as content) and a stale main index found and rebuilt along the way.
 
 ## Documentation
 

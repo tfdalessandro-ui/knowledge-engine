@@ -18,6 +18,11 @@
 # repo does not manage for you. See HELP.md for the `docker run` command.
 # `neo4j` below is just the Bolt client driver, not the database.
 #
+# NOTE (P5): same deal for PostgreSQL -- a separate server (127.0.0.1:5433,
+# NOT 5432, which was already taken by an unrelated workload on
+# sensalis-node), started via Docker, not managed by this repo. `psycopg`
+# below is just the driver.
+#
 # CRITICAL (P1, learned the hard way on sensalis-node): installing `torch` from
 # plain PyPI on Linux pulls the CUDA build by default, which drags in ~1GB+ of
 # nvidia-* packages (cudnn, nccl, cusparselt, cublas...) even on a CPU-only,
@@ -46,6 +51,7 @@ spacy==3.8.16                # P4 tech choice: CPU NER/relation-extraction pipel
 en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl#sha256=1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85
 RapidFuzz==3.14.6            # fuzzy entity-resolution scoring
 neo4j==6.3.0                 # Bolt client driver for Memgraph (P4 tech choice, run separately -- see HELP.md)
+psycopg[binary]==3.3.5       # P5 tech choice: PostgreSQL driver for the ACL store (run separately -- see HELP.md)
 python-docx==1.2.0         # test-fixture generation (DOCX) for parser tests
 openpyxl==3.1.5            # test-fixture generation (XLSX) for parser tests
 python-pptx==1.0.2         # test-fixture generation (PPTX) for parser tests
@@ -117,6 +123,7 @@ pillow==12.3.0
 pluggy==1.6.0
 polyfactory==3.3.0
 preshed==3.0.13
+psycopg-binary==3.3.5
 pyclipper==1.4.0
 pydantic==2.13.5
 pydantic_core==2.46.5

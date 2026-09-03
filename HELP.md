@@ -222,16 +222,116 @@ bulk assertion.
 after each test that touches Memgraph -- don't point `KE_MEMGRAPH_URI` at
 an instance holding graph content you want to keep.
 
+## Running the access control / Git connector (P5)
+
+**PostgreSQL is a separate server process too**, same pattern as Memgraph
+-- this repo does not start it for you:
+
+```bash
+docker run -d --name postgres_ke -p 127.0.0.1:5433:5432 -e POSTGRES_PASSWORD=ke_dev_password -e POSTGRES_DB=knowledge_engine --restart unless-stopped postgres:16-alpine
+```
+
+Bound to `127.0.0.1` on port **5433**, not 5432 -- 5432 was already taken by
+an unrelated Docker workload found running on sensalis-node when this phase
+started (see the P5 logbook). `POSTGRES_PASSWORD` here is a throwaway local
+dev credential for a loopback-only container, not a real secret -- never
+reuse it for anything that isn't this exact local setup. `KE_POSTGRES_DSN`
+(default `postgresql://postgres:ke_dev_password@127.0.0.1:5433/knowledge_engine`)
+points everything at it.
+
+**Why PostgreSQL is a new store, not a migration of P1-P4's SQLite stores:**
+the roadmap's P5 tech choice is "PostgreSQL (metadata store, replacing
+SQLite at this scale)" -- read here as introducing Postgres for the ACL
+model this phase adds, not migrating `registry.db`/`vectors.db`/
+`query_log.db`/`merge_review.db`, none of which the permission-denial exit
+criterion touches. Migrating everything would be a much larger, separate
+undertaking outside this gate's actual scope.
+
+```bash
+PYTHONPATH=src .venv/bin/python -m access.ingest_git --repo data/enterprise_demo --manifest data/enterprise_demo/acl_manifest.json
+```
+
+Ingests `data/enterprise_demo/` (a small demo dataset: one public document,
+two users' private documents, one document explicitly shared between them)
+through the SAME BM25 pipeline every other corpus goes through
+(`ingest.pipeline.run_ingest`), but into a **separate index**
+(`data/enterprise_tantivy_index/` / `data/enterprise_registry.db`, not
+`data/tantivy_index/`) -- keeping this content out of the index the P1/P2
+baseline numbers were recorded against, so those stay reproducible. Then
+registers each file's access grants from `acl_manifest.json` into the
+Postgres-backed `AclStore`. Files not mentioned in the manifest default to
+**locked down** (no owner, not public) -- the safe direction to be wrong in,
+since indexing a document ahead of knowing its ACL is exactly the leakage
+risk this phase exists to prevent. The manifest file itself is excluded
+from ACL registration (a real thing caught by running this for real: a
+JSON manifest sitting inside the directory it describes otherwise gets
+scanned and registered as content).
+
+```bash
+PYTHONPATH=src .venv/bin/python -m access.connectors
+```
+
+Reports each of the 5 named P5 connectors' status: `git CONNECTED`, and
+`sharepoint`/`onedrive`/`outlook`/`teams` all `NOT_CONFIGURED` with the
+reason stated (real Microsoft Graph API credentials this project doesn't
+have) -- same honest-gate pattern as `ltr.status` for P3.
+
+**Permission-aware search** (`access.permission_filter.PermissionAwareSearch`)
+wraps any existing index and filters its results by the requesting user's
+access before returning them:
+
+```python
+from access.acl_store import AclStore
+from access.permission_filter import PermissionAwareSearch
+from eval.real_index import RealBM25Index
+from config import get_settings
+
+settings = get_settings()
+store = AclStore(settings.postgres_dsn)
+index = RealBM25Index(settings.enterprise_tantivy_index_dir)
+search = PermissionAwareSearch(index, store)
+search.search("bob", "Project Falcon", k=10)  # only returns doc_ids bob is authorized for
+```
+
+Implementation note: this over-fetches a larger candidate pool from the
+underlying index, filters by ACL, then truncates to `k` -- not a true
+index-level ACL push-down. Documented limitation: if a user's authorized
+set is a small fraction of a large corpus, the fixed fanout might return
+fewer than `k` results even though more authorized matches exist further
+down the underlying ranking.
+
+### Testing against PostgreSQL
+
+Same pattern as Memgraph: `tests/access/` needs a running PostgreSQL
+instance for anything beyond pure logic. `tests/access/conftest.py` probes
+connectivity once per session and auto-skips Postgres-dependent tests
+(`pytestmark = pytest.mark.requires_postgres`) with a clear reason when
+unreachable.
+
+**`tests/access/test_permission_denial.py` is the P5 exit criterion made
+concrete:** it runs the real Git connector over the real
+`data/enterprise_demo/` into a cleared Postgres + a fresh Tantivy index,
+then exercises permission-aware search as three different users (`alice`,
+`bob`, `carol`) across 7 scenarios -- cross-user denial both directions, an
+unrelated third user, public visibility, explicit-grant visibility, and
+denial for a non-grantee.
+
+**These tests wipe the ACL store.** `AclStore.clear()` runs before and
+after each test that touches Postgres -- don't point `KE_POSTGRES_DSN` at
+an instance holding ACL data you want to keep.
+
 ## Running the full test suite (this is the "single documented command")
 
 ```bash
 PYTHONPATH=src .venv/bin/python -m pytest -q
 ```
 
-On a machine with Memgraph running (e.g. sensalis-node): 138 passed, 1
-skipped (the PDF test). Without it (e.g. this repo's dev laptop): 109
-passed, 30 skipped (29 `tests/kg/` cases + the PDF test) — see "Testing
-against Memgraph" above. No prior ingest run needed for the non-kg tests —
+On a machine with both Memgraph and PostgreSQL running (e.g. sensalis-node):
+162 passed, 1 skipped (the PDF test). Without either (e.g. this repo's dev
+laptop): 112 passed, 51 skipped (29 `tests/kg/` + 21 `tests/access/` cases
++ the PDF test) — see "Testing against Memgraph" / "Testing against
+PostgreSQL" above. No prior ingest run needed for the non-kg/non-access
+tests —
 every test that needs an index builds its own throwaway one in a temp
 directory. First run needs network once, for the BGE-Small model download
 (see above); after that it's fully offline. To also run the PDF test:
@@ -285,6 +385,18 @@ directory. First run needs network once, for the BGE-Small model download
   pipeline over a small synthetic corpus.
 - `tests/kg/test_neighbor_retrieval.py` *(requires Memgraph)* — the P4 exit
   criterion: the fixed 20-entity neighbor-retrieval set, parametrized.
+- `tests/access/test_acl_store.py` *(requires PostgreSQL)* — public/owner/
+  grant authorization logic, grant/revoke, `authorized_doc_ids` combinations.
+- `tests/access/test_git_connector.py` *(requires PostgreSQL)* — manifested
+  vs. locked-down-by-default ACL assignment, and the manifest-file exclusion.
+- `tests/access/test_permission_filter.py` *(requires PostgreSQL)* — the
+  filter-then-truncate logic in isolation, against a fake index.
+- `tests/access/test_permission_denial.py` *(requires PostgreSQL)* — the P5
+  exit criterion: 7 cross-user leakage scenarios against the real
+  `data/enterprise_demo/` dataset.
+- `tests/access/test_connectors.py` — connector status is honest (git
+  connected, the other 4 not configured with a stated reason). Pure Python,
+  always runs.
 
 ## Running the benchmark script
 
@@ -359,12 +471,13 @@ logbook for why).
    CRITICAL note in `requirements.txt` — skipping this order pulls ~1GB+ of
    unused CUDA packages on Linux). Docling's ML stack itself is a real ~1.8GB
    install — that's expected, not a mistake.
-4. `PYTHONPATH=src .venv/bin/python -m pytest -q` — should print `109
-   passed, 30 skipped` without Memgraph running, or start Memgraph first
-   (see "Running the knowledge graph pipeline (P4)") for `138 passed, 1
-   skipped`. First run needs network once (BGE-Small model download,
-   ~130MB); after that it's fully offline except the one PDF-parsing test,
-   which stays gated/skipped by default (see "Network dependencies" above).
+4. `PYTHONPATH=src .venv/bin/python -m pytest -q` — should print `112
+   passed, 51 skipped` without Memgraph/PostgreSQL running, or start both
+   first (see "Running the knowledge graph pipeline (P4)" and "Running the
+   access control / Git connector (P5)") for `162 passed, 1 skipped`. First
+   run needs network once (BGE-Small model download, ~130MB); after that
+   it's fully offline except the one PDF-parsing test, which stays
+   gated/skipped by default (see "Network dependencies" above).
 5. Nothing in this repo hardcodes a path, host, or port — `src/config/__init__.py`
    reads everything from `KE_*` environment variables (or a `.env` file) with
    local-relative defaults, so no config edits should be needed for a basic run.

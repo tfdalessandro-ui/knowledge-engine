@@ -24,6 +24,12 @@ class Settings(BaseSettings):
     ltr_model_path: Path = REPO_ROOT / "data" / "ltr_model.txt"
     memgraph_uri: str = "bolt://127.0.0.1:7687"
     merge_review_db_path: Path = REPO_ROOT / "data" / "merge_review.db"
+    postgres_dsn: str = "postgresql://postgres:ke_dev_password@127.0.0.1:5433/knowledge_engine"
+    # Separate index namespace from tantivy_index_dir/registry_db_path -- keeps the
+    # enterprise_demo content (and its ACLs) out of the index the P1/P2 baseline
+    # numbers (nDCG@10 etc.) were recorded against, so those stay reproducible.
+    enterprise_tantivy_index_dir: Path = REPO_ROOT / "data" / "enterprise_tantivy_index"
+    enterprise_registry_db_path: Path = REPO_ROOT / "data" / "enterprise_registry.db"
     bench_log_dir: Path = REPO_ROOT / "data" / "bench_logs"
     host: str = "127.0.0.1"
     port: int = 8000

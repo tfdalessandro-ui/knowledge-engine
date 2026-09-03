@@ -1,0 +1,6 @@
+{
+  "public_policy.txt": {"public": true},
+  "alice_private_notes.txt": {"owner": "alice"},
+  "bob_private_notes.txt": {"owner": "bob"},
+  "shared_project_plan.txt": {"owner": "alice", "grants": ["bob"]}
+}

@@ -10,4 +10,6 @@ data/vectors.db
 data/query_log.db
 data/ltr_model.txt
 data/merge_review.db
+data/enterprise_tantivy_index/
+data/enterprise_registry.db
 .env
