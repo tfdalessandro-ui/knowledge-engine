@@ -4,18 +4,29 @@ corpus. Builds both indices fresh in a temp directory -- an integration
 test by nature, and needs network on first run for the embedding model
 (see test_embeddings.py docstring).
 
-KNOWN, DISCLOSED REGRESSION (2026-09-03, see LOGBOOK_09032026_142903.md):
-this passed comfortably at +6.6% when P2 was built (BM25=0.8912,
-hybrid=0.9502) over the original 35-document corpus. After merging P6's 5
-crawled pages into data/corpus/ (per an explicit operator decision, not an
-accident), the margin dropped to +4.8% (BM25=0.8748, hybrid=0.9165) --
-just under the 5% bar. Both absolute scores still improved from the
-merge; the *relative* margin shrank because the crawled Wikipedia articles
-on BM25/TF-IDF/HNSW compete for the same top-k slots as several judgment-
-set queries, on both sides of the comparison. Marked `xfail(strict=True)`
-rather than deleted, loosened, or left silently red: this is real,
-measured, and worth knowing if it's ever fixed (xfail turns an unexpected
-pass into its own failure) or worsens further.
+MEASURABLY BORDERLINE AFTER THE P6 CORPUS MERGE (2026-09-03, see
+LOGBOOK_09032026_142903.md) -- passed comfortably at +6.6% when P2 was
+built (BM25=0.8912, hybrid=0.9502) over the original 35-document corpus.
+After merging P6's 5 crawled pages into data/corpus/ (an explicit operator
+decision, not an accident), the margin narrowed because the crawled
+Wikipedia articles on BM25/TF-IDF/HNSW now compete for the same top-k
+slots as several judgment-set queries, on both sides of the comparison.
+
+Where this actually lands is itself platform-sensitive right at the
+threshold, confirmed by running the SAME test on both machines rather than
+assumed: on sensalis-node (Linux, the authoritative execution environment
+for this whole project) it measures +6.0% (BM25=0.8739, hybrid=0.9259) --
+still passing. On the Windows dev laptop it measures +4.8%
+(BM25=0.8748, hybrid=0.9165) -- just under the bar. An earlier version of
+this docstring called this a "known regression" and marked the test
+`xfail(strict=True)` based on the laptop's number alone; that was wrong --
+the laptop has never been this project's authoritative measurement
+environment (see HELP.md's repo/execution split), and `strict=True`
+correctly caught the mistake by turning the node's unexpected pass into
+its own visible failure. The assertion below is left as a plain 5% check,
+matching the roadmap's exit criterion, and is expected to pass when run on
+sensalis-node; a laptop run may show it failing by a small, real, and
+already-understood margin near this threshold, not a mystery.
 """
 from pathlib import Path
 
@@ -66,12 +77,6 @@ def built_indices(tmp_path_factory):
     return bm25_only, hybrid
 
 
-@pytest.mark.xfail(
-    reason="known regression after merging P6 crawl content into data/corpus/: margin dropped "
-           "from +6.6% to +4.8%, just under the 5% bar -- see module docstring and "
-           "LOGBOOK_09032026_142903.md",
-    strict=True,
-)
 def test_hybrid_beats_bm25_only_by_5_percent_ndcg10(built_indices):
     bm25_only, hybrid = built_indices
     judgments_by_query = load_judgments(JUDGMENTS_PATH)

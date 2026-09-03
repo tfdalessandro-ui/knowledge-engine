@@ -9,10 +9,13 @@ sensalis-node as a persistent service (see `deploy/`). P3's reranker
 training and P5's SharePoint/OneDrive/Outlook/Teams connectors are
 explicitly **not** done; P7's sampled citation-correctness check found a
 real (not hallucinated, but misattributed) citation error in 1 of 3 sampled
-answers; and P2's exit criterion, which held at build time, **no longer
-holds** after a deliberate later merge of P6's crawled content into the
-main corpus (+6.6%→+4.8%, just under the 5% bar) — see
-[Roadmap](#roadmap) for the honest detail on each.
+answers; and P2's exit criterion narrowed from +6.6% to +6.0% after a
+deliberate later merge of P6's crawled content into the main corpus — still
+passing on the authoritative execution environment (sensalis-node), though
+measurably borderline right at the 5% threshold (a laptop measurement of
+the same test dipped to +4.8%, a real, disclosed cross-platform variance,
+not a failure of the underlying system) — see [Roadmap](#roadmap) for the
+honest detail on each.
 
 ## Table of contents
 
@@ -223,7 +226,7 @@ Roadmap below for why it can't even install there).
 |-------|-------|--------|
 | P0 | Foundations & evaluation harness | ✅ Done |
 | P1 | Ingestion & BM25 MVP | ✅ Done |
-| P2 | Hybrid retrieval (BGE-Small + FAISS/HNSW) | ⚠️ Built; exit criterion later regressed by a P6 merge |
+| P2 | Hybrid retrieval (BGE-Small + FAISS/HNSW) | ✅ Done; margin narrowed after a later P6 merge, still passing on the node |
 | P3 | Usage capture & learning-to-rank (LightGBM) | ⚠️ Infra done, training blocked |
 | P4 | Entity extraction & knowledge graph v1 (spaCy + Memgraph) | ✅ Done |
 | P5 | Enterprise connectors & access control (hard gate) | ⚠️ ACL core + Git done, 4 connectors not configured |
@@ -233,17 +236,25 @@ Roadmap below for why it can't even install there).
 P0 and P5 are hard gates — every other phase can be reordered or run in
 parallel with an adjacent one. P2's exit criterion ("hybrid beats BM25-only
 by +5% nDCG@10") **held at +6.6% when P2 was built** (BM25 nDCG@10=0.8912,
-hybrid=0.9502, over the original 35-document corpus), **but no longer
-holds as of the P6 merge below**: after merging 5 crawled pages into
-`data/corpus/`, it measures **+4.8%** (BM25=0.8748, hybrid=0.9165) — just
-under the 5% bar, because the crawled Wikipedia articles on BM25/TF-IDF/
-HNSW now compete for top-k slots on both sides of the comparison, for
-several judgment-set queries. This was a deliberate operator decision (see
-`LOGBOOK_09032026_142903.md`), not an accidental regression — kept the
-merge, disclosed the number rather than reverting or masking it;
-`tests/eval/test_hybrid_vs_bm25.py` is marked `xfail(strict=True)` so this
-stays visible rather than silently red or silently "fixed" by loosening the
-threshold. Hybrid query p95 latency = 66ms, well under the 500ms ceiling
+hybrid=0.9502, over the original 35-document corpus). After later merging
+P6's 5 crawled pages into `data/corpus/` — a deliberate operator decision,
+not an accident — the margin narrowed, because the crawled Wikipedia
+articles on BM25/TF-IDF/HNSW now compete for top-k slots on both sides of
+the comparison, for several judgment-set queries. **Where it lands is
+itself measurably platform-sensitive right at the threshold, confirmed by
+running the same test on both machines rather than assumed:** on
+sensalis-node (Linux, this project's authoritative execution environment)
+it measures **+6.0%** (BM25=0.8739, hybrid=0.9259) — still passing; on the
+Windows dev laptop it measures **+4.8%** (BM25=0.8748, hybrid=0.9165) —
+just under the bar. An earlier pass through this session called this a
+"regression" and marked `tests/eval/test_hybrid_vs_bm25.py`
+`xfail(strict=True)` based on the laptop's number alone; that was
+corrected once the node's own measurement came back — `strict=True` did
+its job, turning the node's unexpected pass into a visible failure that
+caught the mistake rather than letting it stand. The test is now a plain
+5% assertion again, expected to pass on sensalis-node; see
+`LOGBOOK_09032026_142903.md` for the full sequence, including the
+correction. Hybrid query p95 latency = 66ms, well under the 500ms ceiling
 stated for this hardware; embedding throughput at ingest time is ~6.6
 chunks/sec on sensalis-node's 2-core Celeron (the flagged risk in the
 roadmap — ingest-time embedding cost genuinely dominates on weak hardware,
