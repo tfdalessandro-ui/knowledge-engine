@@ -362,19 +362,97 @@ Test suite (`tests/crawl/`) runs entirely against a local test HTTP server
 budget accounting) without depending on any external site's continued
 availability. Always runs, no skip/gate needed.
 
+## Running the optional small-LLM answer layer (P7)
+
+**This is genuinely optional -- every other feature of this project works
+without it.** Two things this repo does not manage for you:
+
+1. **`llama-cpp-python` builds from source.** No prebuilt wheel worked
+   here; pip's own bundled `cmake` compiles llama.cpp (~5-10 min on
+   sensalis-node's 2-core Celeron, needs `gcc`/`g++`, both already present
+   on Ubuntu 24.04):
+   ```bash
+   .venv/bin/pip install llama_cpp_python==0.3.35
+   ```
+   **This does NOT install on this Windows dev laptop at all** -- the
+   sdist's bundled web UI has paths deep enough to hit Windows' MAX_PATH
+   limit (`No such file or directory` on a nested `.svelte` file under
+   `vendor/llama.cpp/tools/ui/...`). P7 is execution-on-node-only for this
+   reason, same as Memgraph/PostgreSQL being services this repo doesn't run
+   on the laptop.
+
+2. **The GGUF model itself is not downloaded by this repo.** Tech choice:
+   [Qwen2.5-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-3B-Instruct)
+   (Apache 2.0), Q4_K_M quantization (~1.9GB), from a well-known community
+   quantizer:
+   ```bash
+   mkdir -p data/models
+   curl -L -o data/models/Qwen2.5-3B-Instruct-Q4_K_M.gguf \
+     https://huggingface.co/bartowski/Qwen2.5-3B-Instruct-GGUF/resolve/main/Qwen2.5-3B-Instruct-Q4_K_M.gguf
+   ```
+   `KE_LLM_MODEL_PATH` (default `data/models/Qwen2.5-3B-Instruct-Q4_K_M.gguf`)
+   points the answer layer at it.
+
+```bash
+PYTHONPATH=src .venv/bin/python -m answer.pipeline "What is BM25?"
+```
+
+Retrieves passages via the same `HybridIndex` P2 built, prompts the model
+to answer **extractively, citing the exact chunk id** of every claim in
+`[chunk_id]` form, and verifies every citation the model actually produced
+traces back to a chunk that was genuinely retrieved -- not a plausible-
+looking but hallucinated one. If the model isn't downloaded, this exits
+with a clear message rather than crashing, and says P7 is optional.
+
+**CPU inference is genuinely slow on weak hardware -- this is real, not a
+bug.** Measured on sensalis-node (2-core Celeron): see
+`LOGBOOK_09032026_*.md` for exact per-query timing. This is exactly why the
+roadmap marks P7 optional and "no blocking risk" -- the retrieval system
+above it (P0-P6) is already the complete, fast product; this layer trades
+latency for a natural-language answer on top of it.
+
+**Why citations are checked in code, not just requested in the prompt:** an
+instruction telling the model to cite correctly is not a guarantee that it
+did. `answer/citation.py`'s `check_citations()` is the actual traceability
+mechanism the exit criterion needs -- it extracts every `[...]` bracketed
+token from the generated answer and checks it against the set of chunk ids
+that were genuinely retrieved for that query, flagging anything else as an
+invalid (likely hallucinated) citation.
+
+Tests (`tests/answer/`): `test_citation.py` and `test_prompt.py` are pure
+Python, always run. `test_answer_pipeline.py` (real model inference, gated behind
+`pytest.mark.requires_llm`, auto-skipped when the package/model aren't
+available -- same pattern as Memgraph/PostgreSQL) is real end-to-end but
+deliberately kept to 2 test queries given how slow CPU inference is on
+this hardware.
+
+**On the actual P7 exit criterion:** `check_citations()` only proves a
+citation isn't hallucinated (it points at something genuinely retrieved) --
+it can't verify the citation is attached to the *correct* claim when
+several retrieved passages contain related content. A real manual
+side-by-side review against the actual corpus (3 sampled queries) found
+2/3 fully correct and 1/3 with a real misattribution (correct chunk,
+wrong claim) -- see `LOGBOOK_09032026_132923.md` for the exact text
+comparison. Don't treat "no invalid citations" from the automated check
+alone as proof the exit criterion is met; it's a necessary check, not a
+sufficient one.
+
 ## Running the full test suite (this is the "single documented command")
 
 ```bash
 PYTHONPATH=src .venv/bin/python -m pytest -q
 ```
 
-On a machine with both Memgraph and PostgreSQL running (e.g. sensalis-node)
-and real network access: 189 passed, 1 skipped (the PDF test). Without
-Memgraph/PostgreSQL (e.g. this repo's dev laptop): 139 passed, 51 skipped
-(29 `tests/kg/` + 21 `tests/access/` cases + the PDF test) — see "Testing
-against Memgraph" / "Testing against PostgreSQL" above. `tests/crawl/`
-always runs regardless (offline, against a local test server, not the real
-allowlist). No prior ingest run needed for the non-kg/non-access tests —
+On a machine with Memgraph, PostgreSQL, and the P7 model all available
+(e.g. sensalis-node) and real network access: 203 passed, 1 skipped (the
+PDF test). Without Memgraph/PostgreSQL/the LLM model (e.g. this repo's dev
+laptop, which additionally can't install `llama-cpp-python` at all — see
+"Running the optional small-LLM answer layer (P7)"): 151 passed, 53
+skipped (29 `tests/kg/` + 21 `tests/access/` + 2 `tests/answer/` cases +
+the PDF test) — see "Testing against Memgraph" / "Testing against
+PostgreSQL" above. `tests/crawl/` always runs regardless (offline, against
+a local test server, not the real allowlist). No prior ingest run needed
+for the non-kg/non-access tests —
 every test that needs an index builds its own throwaway one in a temp
 directory. First run needs network once, for the BGE-Small model download
 (see above); after that it's fully offline. To also run the PDF test:
@@ -449,6 +527,14 @@ directory. First run needs network once, for the BGE-Small model download
 - `tests/crawl/test_crawl_pipeline.py` — the full crawl mechanism end to
   end: fetch, robots-disallow skip, dedup on re-run, politeness-budget
   pass/fail — all against the local test server.
+- `tests/answer/test_citation.py` — citation extraction and validation,
+  including hallucinated-citation detection. Pure Python, always runs.
+- `tests/answer/test_prompt.py` — prompt construction includes the query,
+  each passage, its chunk id, and the citation/refusal instructions. Pure
+  Python, always runs.
+- `tests/answer/test_answer_pipeline.py` *(requires llama-cpp-python + the GGUF
+  model)* — real retrieval + real model inference + real citation
+  validation, 2 queries.
 
 ## Running the benchmark script
 
@@ -523,10 +609,11 @@ logbook for why).
    CRITICAL note in `requirements.txt` — skipping this order pulls ~1GB+ of
    unused CUDA packages on Linux). Docling's ML stack itself is a real ~1.8GB
    install — that's expected, not a mistake.
-4. `PYTHONPATH=src .venv/bin/python -m pytest -q` — should print `139
-   passed, 51 skipped` without Memgraph/PostgreSQL running, or start both
-   first (see "Running the knowledge graph pipeline (P4)" and "Running the
-   access control / Git connector (P5)") for `189 passed, 1 skipped`. First
+4. `PYTHONPATH=src .venv/bin/python -m pytest -q` — should print `151
+   passed, 53 skipped` without Memgraph/PostgreSQL/the P7 model running, or
+   start those first (see "Running the knowledge graph pipeline (P4)",
+   "Running the access control / Git connector (P5)", and "Running the
+   optional small-LLM answer layer (P7)") for `203 passed, 1 skipped`. First
    run needs network once (BGE-Small model download, ~130MB); after that
    it's fully offline except the one PDF-parsing test, which stays
    gated/skipped by default (see "Network dependencies" above).

@@ -39,6 +39,13 @@ class Settings(BaseSettings):
     web_registry_db_path: Path = REPO_ROOT / "data" / "web_registry.db"
     crawl_min_interval_s: float = 3.0
     crawl_politeness_budget_s: float = 60.0
+    # P7: optional, skippable small-LLM answer layer. Not downloaded/managed by this
+    # repo -- see HELP.md for the download command. The system is fully usable
+    # without this (every P0-P6 feature works with llm_model_path unset).
+    llm_model_path: Path = REPO_ROOT / "data" / "models" / "Qwen2.5-3B-Instruct-Q4_K_M.gguf"
+    llm_n_ctx: int = 4096
+    llm_max_tokens: int = 512
+    llm_temperature: float = 0.0  # deterministic-leaning, favors reliable citations over variety
     bench_log_dir: Path = REPO_ROOT / "data" / "bench_logs"
     host: str = "127.0.0.1"
     port: int = 8000

@@ -4,9 +4,11 @@ A retrieval-first search system — BM25 + hybrid search over documents, a
 knowledge graph, and an optional small-LLM layer — built to run acceptably
 on ordinary CPU cores instead of requiring a GPU.
 
-**Status:** P6 complete (P0-P5 done, P6 allowlisted web crawl). P3's
-reranker training and P5's SharePoint/OneDrive/Outlook/Teams connectors are
-explicitly **not** done — see [Roadmap](#roadmap) for why.
+**Status:** All 8 phases (P0-P7) addressed. P3's reranker training and P5's
+SharePoint/OneDrive/Outlook/Teams connectors are explicitly **not** done,
+and P7's sampled citation-correctness check found a real (not hallucinated,
+but misattributed) citation error in 1 of 3 sampled answers — see
+[Roadmap](#roadmap) for the honest detail on each.
 
 ## Table of contents
 
@@ -66,6 +68,18 @@ explicitly **not** done — see [Roadmap](#roadmap) for why.
   the same P1 ingestion pipeline unchanged. Measured live: 5/5 allowlisted
   pages fetched, 0 disallowed, in 8.8s against a stated 60s politeness
   budget.
+- **Optional small-LLM answer layer (P7)** — a quantized 3B instruct model
+  ([Qwen2.5-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-3B-Instruct),
+  Apache 2.0) via [llama.cpp](https://github.com/ggml-org/llama.cpp),
+  answering extractively over retrieved passages only, with every claim
+  required to cite the exact source chunk id, checked in code against what
+  was actually retrieved (never hallucinated, measured 3/3 on a live
+  sample) — though a genuine manual side-by-side check found 1 of those 3
+  citations was attached to the wrong claim, a real, disclosed limitation
+  at this model size. Fully optional: every other feature works without
+  it, and it's the one component this repo can't even install on the
+  Windows dev laptop (a real Windows MAX_PATH limit in llama.cpp's bundled
+  build).
 - **Benchmarking** — a generic `benchmark(fn, *args, **kwargs)` wrapper
   reports p50/p95 latency and peak RSS for any operation, reused across every
   phase so "CPU-efficient" stays a measured claim.
@@ -130,6 +144,18 @@ PYTHONPATH=src .venv/bin/python -m access.ingest_git --repo data/enterprise_demo
 PYTHONPATH=src .venv/bin/python -m access.connectors   # connector status: git CONNECTED, the rest NOT_CONFIGURED
 ```
 
+**Run the allowlisted web crawl (needs real network access — see [HELP.md](HELP.md#running-the-web-crawl-p6)):**
+
+```bash
+PYTHONPATH=src .venv/bin/python -m crawl.pipeline
+```
+
+**Ask a question over the indexed corpus (needs the P7 model — see [HELP.md](HELP.md#running-the-optional-small-llm-answer-layer-p7); fully optional, skip if not set up):**
+
+```bash
+PYTHONPATH=src .venv/bin/python -m answer.pipeline "What is BM25?"
+```
+
 **Benchmark any function:**
 
 ```python
@@ -153,6 +179,8 @@ src/
   ltr/        query-log/selection capture, LTR feature extraction, gated LightGBM training + reranking
   kg/         NER, pattern-based relation extraction, entity resolution, Memgraph graph store
   access/     PostgreSQL ACL store, Git connector, permission-aware search, connector status
+  crawl/      allowlist, robots.txt compliance, rate limiting, canonicalization/dedup
+  answer/     P7 answer layer: prompt construction, citation validation, llama.cpp wrapper
 tests/        pytest suite mirroring src/
 data/
   corpus/     seed documents (multi-format)
@@ -179,7 +207,11 @@ Roadmap below). P4's `tests/kg/` suite needs a running Memgraph instance
 and P5's `tests/access/` suite needs a running PostgreSQL instance (both
 external infrastructure, not embedded libraries) — tests are auto-skipped
 with a clear reason when either is unreachable, so `pytest -q` still passes
-cleanly on a machine without them.
+cleanly on a machine without them. P6's `tests/crawl/` always runs, fully
+offline, against a local test server. P7's `tests/answer/` needs
+`llama-cpp-python` and a downloaded GGUF model — auto-skipped the same way
+when unavailable (which is always, on this repo's Windows dev laptop: see
+Roadmap below for why it can't even install there).
 
 ## Roadmap
 
@@ -192,7 +224,7 @@ cleanly on a machine without them.
 | P4 | Entity extraction & knowledge graph v1 (spaCy + Memgraph) | ✅ Done |
 | P5 | Enterprise connectors & access control (hard gate) | ⚠️ ACL core + Git done, 4 connectors not configured |
 | P6 | Web crawl expansion (allowlisted sources) | ✅ Done |
-| P7 | Optional small-LLM answer layer (llama.cpp) | Not started |
+| P7 | Optional small-LLM answer layer (llama.cpp) | ⚠️ Built, 2/3 sampled citations correct |
 
 P0 and P5 are hard gates — every other phase can be reordered or run in
 parallel with an adjacent one. P2's exit criterion ("hybrid beats BM25-only
@@ -272,6 +304,32 @@ the same declared, identifiable User-Agent the crawl itself uses. See
 `LOGBOOK_09032026_082933.md` for full detail, including why
 fastapi.tiangolo.com was deliberately left off the allowlist (an ambiguous
 new-style "content signals" robots.txt with no explicit permission stated).
+
+**P7's exit criterion — "a sampled side-by-side eval confirms answers cite
+the correct source passages" — needed genuine manual verification, not
+just an automated check, and the honest result is a partial pass.** The
+automated mechanism (`answer/citation.py`'s `check_citations()`) confirmed
+3/3 sampled answers had zero hallucinated citations — every citation
+referred to a chunk the model actually retrieved. But "not hallucinated" is
+a weaker claim than "correct," which the roadmap's wording specifically
+asks for: a direct, sentence-by-sentence comparison against the real source
+text found that 2 of 3 answers cited every claim correctly, while the third
+("What is BM25?") attached citations to the wrong passages — e.g. a
+sentence copied verbatim from `doc01_bm25` was cited as
+`[doc34_kg_relations_demo::0]`. The cited chunk was always something
+genuinely retrieved (so it can't be caught by checking for hallucination
+alone), just attached to the wrong specific claim — a real limitation of a
+small 3B model (Qwen2.5-3B-Instruct Q4_K_M) when several retrieved passages
+contain related, similarly-worded content. Reported as 2/3, not rounded up
+to 3/3 or down to "failed." Measured latency on sensalis-node's 2-core
+Celeron: 543-681 seconds per query — the concrete, measured version of the
+roadmap's own reasoning for marking this phase optional: P0-P6's retrieval
+already answers in milliseconds and is the complete, usable product; this
+layer trades several minutes of CPU time for a natural-language answer on
+top of it. `llama-cpp-python` does not install on this Windows dev laptop
+at all (a real MAX_PATH limit in llama.cpp's bundled web UI) — P7 is
+execution-on-node-only, same as Memgraph/PostgreSQL. See
+`LOGBOOK_09032026_132923.md` for the full query-by-query detail.
 
 ## Documentation
 

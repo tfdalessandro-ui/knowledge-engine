@@ -16,4 +16,5 @@ data/crawled/
 data/crawl_state.db
 data/web_tantivy_index/
 data/web_registry.db
+data/models/
 .env
