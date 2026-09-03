@@ -320,18 +320,61 @@ denial for a non-grantee.
 after each test that touches Postgres -- don't point `KE_POSTGRES_DSN` at
 an instance holding ACL data you want to keep.
 
+## Running the web crawl (P6)
+
+No extra infrastructure needed -- just real network access (unlike
+Memgraph/PostgreSQL, this isn't a Docker service this repo manages):
+
+```bash
+PYTHONPATH=src .venv/bin/python -m crawl.pipeline
+```
+
+Fetches every URL in `src/crawl/allowlist.py`'s `ALLOWLIST` (checking
+robots.txt and applying per-domain rate limiting first), writes each page's
+HTML to `data/crawled/`, then runs it through the exact same
+`ingest.pipeline.run_ingest` every other corpus uses -- into a **separate**
+index (`data/web_tantivy_index/`/`data/web_registry.db`), not the main one,
+same reasoning as P5's `enterprise_*` split. Re-running skips URLs already
+fetched (`data/crawl_state.db` tracks canonical URLs). `--skip-ingest` runs
+the crawl only.
+
+**The allowlist IS the deliverable** (the roadmap's own framing -- treat it
+as such, not a formality, since scope drift here is a legal/ToS exposure
+risk). Every entry in `src/crawl/allowlist.py` carries a `reason` and a
+`robots_checked` note recording what was actually checked before adding it.
+To add a new URL: check its domain's robots.txt directly first (a `curl
+https://<domain>/robots.txt` and read it, not an assumption), then add an
+`AllowlistEntry` with that evidence recorded, not just the URL.
+
+**Why robots.txt is fetched manually, not via `RobotFileParser.read()`:**
+verified directly that Wikipedia returns HTTP 403 for the bare default
+User-Agent (`Python-urllib/x.y`) that `read()` uses internally to fetch
+robots.txt itself -- and on that 403, it conservatively sets
+`disallow_all=True`, meaning every URL on the domain reads as "disallowed"
+for a reason that has nothing to do with what robots.txt actually says.
+`crawl/robots.py` fetches robots.txt itself with the same declared,
+identifiable User-Agent (`crawl/fetcher.py`'s `USER_AGENT`) the real crawl
+uses, then feeds the text to the stdlib parser directly.
+
+Test suite (`tests/crawl/`) runs entirely against a local test HTTP server
+(`tests/crawl/conftest.py`), not the real allowlist -- proves the mechanism
+(robots compliance, rate limiting, canonicalization/dedup, politeness-
+budget accounting) without depending on any external site's continued
+availability. Always runs, no skip/gate needed.
+
 ## Running the full test suite (this is the "single documented command")
 
 ```bash
 PYTHONPATH=src .venv/bin/python -m pytest -q
 ```
 
-On a machine with both Memgraph and PostgreSQL running (e.g. sensalis-node):
-162 passed, 1 skipped (the PDF test). Without either (e.g. this repo's dev
-laptop): 112 passed, 51 skipped (29 `tests/kg/` + 21 `tests/access/` cases
-+ the PDF test) — see "Testing against Memgraph" / "Testing against
-PostgreSQL" above. No prior ingest run needed for the non-kg/non-access
-tests —
+On a machine with both Memgraph and PostgreSQL running (e.g. sensalis-node)
+and real network access: 189 passed, 1 skipped (the PDF test). Without
+Memgraph/PostgreSQL (e.g. this repo's dev laptop): 139 passed, 51 skipped
+(29 `tests/kg/` + 21 `tests/access/` cases + the PDF test) — see "Testing
+against Memgraph" / "Testing against PostgreSQL" above. `tests/crawl/`
+always runs regardless (offline, against a local test server, not the real
+allowlist). No prior ingest run needed for the non-kg/non-access tests —
 every test that needs an index builds its own throwaway one in a temp
 directory. First run needs network once, for the BGE-Small model download
 (see above); after that it's fully offline. To also run the PDF test:
@@ -397,6 +440,15 @@ directory. First run needs network once, for the BGE-Small model download
 - `tests/access/test_connectors.py` — connector status is honest (git
   connected, the other 4 not configured with a stated reason). Pure Python,
   always runs.
+- `tests/crawl/test_canonicalize.py` — URL canonicalization for dedup.
+- `tests/crawl/test_rate_limiter.py` — per-domain politeness timing.
+- `tests/crawl/test_robots.py` — robots.txt allow/disallow, against a local
+  test server (not the real allowlist).
+- `tests/crawl/test_allowlist.py` — structural checks on the allowlist
+  itself (every entry has a reason and a robots-review note, no duplicates).
+- `tests/crawl/test_crawl_pipeline.py` — the full crawl mechanism end to
+  end: fetch, robots-disallow skip, dedup on re-run, politeness-budget
+  pass/fail — all against the local test server.
 
 ## Running the benchmark script
 
@@ -471,10 +523,10 @@ logbook for why).
    CRITICAL note in `requirements.txt` — skipping this order pulls ~1GB+ of
    unused CUDA packages on Linux). Docling's ML stack itself is a real ~1.8GB
    install — that's expected, not a mistake.
-4. `PYTHONPATH=src .venv/bin/python -m pytest -q` — should print `112
+4. `PYTHONPATH=src .venv/bin/python -m pytest -q` — should print `139
    passed, 51 skipped` without Memgraph/PostgreSQL running, or start both
    first (see "Running the knowledge graph pipeline (P4)" and "Running the
-   access control / Git connector (P5)") for `162 passed, 1 skipped`. First
+   access control / Git connector (P5)") for `189 passed, 1 skipped`. First
    run needs network once (BGE-Small model download, ~130MB); after that
    it's fully offline except the one PDF-parsing test, which stays
    gated/skipped by default (see "Network dependencies" above).

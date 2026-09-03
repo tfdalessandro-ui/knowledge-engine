@@ -4,9 +4,9 @@ A retrieval-first search system — BM25 + hybrid search over documents, a
 knowledge graph, and an optional small-LLM layer — built to run acceptably
 on ordinary CPU cores instead of requiring a GPU.
 
-**Status:** P5 scoped-complete (P0-P4 done, P5 ACL core + Git connector).
-P3's reranker training and P5's SharePoint/OneDrive/Outlook/Teams
-connectors are explicitly **not** done — see [Roadmap](#roadmap) for why.
+**Status:** P6 complete (P0-P5 done, P6 allowlisted web crawl). P3's
+reranker training and P5's SharePoint/OneDrive/Outlook/Teams connectors are
+explicitly **not** done — see [Roadmap](#roadmap) for why.
 
 ## Table of contents
 
@@ -60,6 +60,12 @@ connectors are explicitly **not** done — see [Roadmap](#roadmap) for why.
   doesn't have; see [Roadmap](#roadmap). Verified: a full permission-denial
   test suite proving cross-user leakage is impossible, run for real against
   a demo dataset with public/private/shared documents.
+- **Allowlisted web crawl (P6)** — robots.txt compliance, per-domain rate
+  limiting, and URL canonicalization/dedup over a small, explicitly
+  reviewed allowlist (not general web crawling); crawled pages pass through
+  the same P1 ingestion pipeline unchanged. Measured live: 5/5 allowlisted
+  pages fetched, 0 disallowed, in 8.8s against a stated 60s politeness
+  budget.
 - **Benchmarking** — a generic `benchmark(fn, *args, **kwargs)` wrapper
   reports p50/p95 latency and peak RSS for any operation, reused across every
   phase so "CPU-efficient" stays a measured claim.
@@ -185,7 +191,7 @@ cleanly on a machine without them.
 | P3 | Usage capture & learning-to-rank (LightGBM) | ⚠️ Infra done, training blocked |
 | P4 | Entity extraction & knowledge graph v1 (spaCy + Memgraph) | ✅ Done |
 | P5 | Enterprise connectors & access control (hard gate) | ⚠️ ACL core + Git done, 4 connectors not configured |
-| P6 | Web crawl expansion (allowlisted sources) | Not started |
+| P6 | Web crawl expansion (allowlisted sources) | ✅ Done |
 | P7 | Optional small-LLM answer layer (llama.cpp) | Not started |
 
 P0 and P5 are hard gates — every other phase can be reordered or run in
@@ -246,6 +252,26 @@ migrated, since P5's exit criterion doesn't need that. See
 `LOGBOOK_09032026_080855.md` for full detail, including a real bug caught
 by running the connector for real (its own ACL manifest file got scanned
 as content) and a stale main index found and rebuilt along the way.
+
+**P6's allowlist is the deliverable, per the roadmap's own framing** — 5
+pages across 3 domains (Wikipedia, sqlite.org, docs.python.org), each with
+its robots.txt checked directly before being added, on-topic for this
+project's own subject matter rather than the roadmap template's generic
+"OEM sites" example. A live run on sensalis-node: `fetched=5
+skipped_robots_disallowed=0 errors=0`, `elapsed=8.8s` against a stated 60s
+politeness budget — **within budget** — and the 5 pages then passed
+through `ingest.pipeline.run_ingest` **unchanged** (the exact same P1
+function every other corpus document goes through), into a dedicated
+`data/web_tantivy_index/`, not the main index. Caught and fixed a real bug
+along the way: Wikipedia returns HTTP 403 for the bare default User-Agent
+Python's stdlib `urllib.robotparser` uses internally to fetch robots.txt
+itself, which made the parser conservatively assume every URL was
+disallowed — not because robots.txt said so, but because the crawler
+couldn't even read the rules anonymously. Fixed by fetching robots.txt with
+the same declared, identifiable User-Agent the crawl itself uses. See
+`LOGBOOK_09032026_082933.md` for full detail, including why
+fastapi.tiangolo.com was deliberately left off the allowlist (an ambiguous
+new-style "content signals" robots.txt with no explicit permission stated).
 
 ## Documentation
 

@@ -30,6 +30,15 @@ class Settings(BaseSettings):
     # numbers (nDCG@10 etc.) were recorded against, so those stay reproducible.
     enterprise_tantivy_index_dir: Path = REPO_ROOT / "data" / "enterprise_tantivy_index"
     enterprise_registry_db_path: Path = REPO_ROOT / "data" / "enterprise_registry.db"
+    # P6: crawled pages get their own corpus dir + index namespace, same reasoning as
+    # P5's enterprise_* split -- keeps ungoverned crawled content out of the index the
+    # P1/P2 baseline numbers were recorded against.
+    crawl_output_dir: Path = REPO_ROOT / "data" / "crawled"
+    crawl_state_db_path: Path = REPO_ROOT / "data" / "crawl_state.db"
+    web_tantivy_index_dir: Path = REPO_ROOT / "data" / "web_tantivy_index"
+    web_registry_db_path: Path = REPO_ROOT / "data" / "web_registry.db"
+    crawl_min_interval_s: float = 3.0
+    crawl_politeness_budget_s: float = 60.0
     bench_log_dir: Path = REPO_ROOT / "data" / "bench_logs"
     host: str = "127.0.0.1"
     port: int = 8000

@@ -12,4 +12,8 @@ data/ltr_model.txt
 data/merge_review.db
 data/enterprise_tantivy_index/
 data/enterprise_registry.db
+data/crawled/
+data/crawl_state.db
+data/web_tantivy_index/
+data/web_registry.db
 .env
