@@ -20,8 +20,8 @@ CORPUS_DIR = REPO_ROOT / "data" / "corpus"
 
 # canonical_id -> {(neighbor_name, relation, direction), ...}
 FIXED_TEST_SET = {
-    "TECHNOLOGY:sqlite": {("FTS5", "PROVIDES", "outgoing")},
-    "TECHNOLOGY:fts5": {("SQLite", "PROVIDES", "incoming")},
+    "TECHNOLOGY:sqlite": {("FTS5", "PROVIDES", "outgoing"), ("Python", "USES", "incoming"), ("Python", "USES", "outgoing"), ("FTS5", "USES", "incoming")},
+    "TECHNOLOGY:fts5": {("SQLite", "PROVIDES", "incoming"), ("SQLite", "USES", "outgoing")},
     "TECHNOLOGY:fastapi": {("Starlette", "RUNS_ON", "outgoing"), ("Pydantic", "USES", "outgoing")},
     "TECHNOLOGY:starlette": {("FastAPI", "RUNS_ON", "incoming")},
     "TECHNOLOGY:pydantic": {("FastAPI", "USES", "incoming")},
@@ -39,7 +39,7 @@ FIXED_TEST_SET = {
     "TECHNOLOGY:hnsw": set(),
     "TECHNOLOGY:faiss": set(),
     "TECHNOLOGY:docling": set(),
-    "TECHNOLOGY:python": set(),
+    "TECHNOLOGY:python": {("SQLite", "USES", "incoming"), ("SQLite", "USES", "outgoing")},
     "TECHNOLOGY:ubuntu": set(),
     "TECHNOLOGY:spacy": set(),
 }
