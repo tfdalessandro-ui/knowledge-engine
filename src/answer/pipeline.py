@@ -23,12 +23,21 @@ class AnswerResult:
 
 
 class AnswerEngine:
-    def __init__(self, index: HybridIndex, model_path: Path, n_ctx: int = 4096, max_tokens: int = 512, temperature: float = 0.0):
+    def __init__(
+        self,
+        index: HybridIndex,
+        model_path: Path,
+        n_ctx: int = 4096,
+        max_tokens: int = 512,
+        temperature: float = 0.0,
+        repeat_penalty: float = 1.3,
+    ):
         self._index = index
         self._model_path = model_path
         self._n_ctx = n_ctx
         self._max_tokens = max_tokens
         self._temperature = temperature
+        self._repeat_penalty = repeat_penalty
 
     def answer(self, query: str, k: int = 5) -> AnswerResult:
         hits = self._index.search_detailed(query, k=k)
@@ -37,7 +46,8 @@ class AnswerEngine:
 
         prompt = build_prompt(query, passages)
         answer_text = generate(
-            prompt, self._model_path, n_ctx=self._n_ctx, max_tokens=self._max_tokens, temperature=self._temperature
+            prompt, self._model_path, n_ctx=self._n_ctx, max_tokens=self._max_tokens,
+            temperature=self._temperature, repeat_penalty=self._repeat_penalty,
         )
         citation_check = check_citations(answer_text, set(retrieved_chunk_ids))
 
@@ -65,7 +75,10 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     index = HybridIndex(settings.tantivy_index_dir, settings.faiss_index_path, settings.vector_registry_db_path)
-    engine = AnswerEngine(index, settings.llm_model_path, settings.llm_n_ctx, settings.llm_max_tokens, settings.llm_temperature)
+    engine = AnswerEngine(
+        index, settings.llm_model_path, settings.llm_n_ctx, settings.llm_max_tokens,
+        settings.llm_temperature, settings.llm_repeat_penalty,
+    )
     result = engine.answer(args.query, k=args.k)
 
     print(f"Q: {result.query}")

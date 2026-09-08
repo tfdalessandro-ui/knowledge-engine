@@ -7,6 +7,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from answer.repetition import truncate_on_repeat
+
 _model = None
 _model_path = None
 
@@ -21,7 +23,20 @@ def get_model(model_path: Path, n_ctx: int = 4096):
     return _model
 
 
-def generate(prompt: str, model_path: Path, n_ctx: int = 4096, max_tokens: int = 512, temperature: float = 0.0) -> str:
+def generate(
+    prompt: str,
+    model_path: Path,
+    n_ctx: int = 4096,
+    max_tokens: int = 512,
+    temperature: float = 0.0,
+    repeat_penalty: float = 1.3,
+) -> str:
     model = get_model(model_path, n_ctx=n_ctx)
-    result = model(prompt, max_tokens=max_tokens, temperature=temperature, stop=["\n\nQuestion:", "\n\nPassages:"])
-    return result["choices"][0]["text"].strip()
+    result = model(
+        prompt,
+        max_tokens=max_tokens,
+        temperature=temperature,
+        repeat_penalty=repeat_penalty,
+        stop=["\n\nQuestion:", "\n\nPassages:"],
+    )
+    return truncate_on_repeat(result["choices"][0]["text"].strip())
