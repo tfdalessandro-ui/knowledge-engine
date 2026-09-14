@@ -139,7 +139,48 @@ comparative-benchmark module (none found). It exists only as a mentioned
 future step in this doc set, first added 2026-09-06
 (`LOGBOOK_09062026_184616.md`).
 
-## 8. Ready for other topics?
+## 8. Standing process risk — nothing re-checks itself (qualitative assessment, 2026-09-14)
+
+Not a code defect, and not fixed by this entry — recorded because it's the
+actual root cause behind items 1, 5, and the `ga_chunking.py`/
+`judgments.json` corrections above, and it will keep recurring until
+someone owns it deliberately.
+
+**The pattern, seen four separate times in one week**: real work happens
+on sensalis-node, is verified once, and is then never re-checked — so a
+silent regression sits there indefinitely until someone happens to ask.
+KG entity/relation count sat at 0/0 for over a week (test teardown zeroed
+production, nothing re-verified it) before this session's status check
+caught it. The judgment set grew to 126 queries on the node while git
+quietly kept serving a stale 28-query version for over a week too — any
+number quoted from "the judgment set" in that window was wrong by 4.4x
+and nobody caught it. `scripts/ga_chunking.py` was declared
+"unrecoverable, deleted" in an earlier version of this very file, based on
+checking GitHub instead of the node itself — wrong, and it stood
+uncorrected until re-checked today. MASTER.md/TODO.md/LOGBOOK.md existed
+on the node from 2026-09-06 and were never committed until this session
+found them by accident while building the root LOGBOOK index.
+
+**Qualitative read on the engine itself, for the record**: P0-P2 (the core
+BM25+hybrid retrieval) is genuinely solid — it beat a real, independently
+benchmarked OpenSearch baseline on the same corpus today (nDCG@10 0.928 vs
+0.865), not just an internal number. P6 and Step 8 are small, correctly
+scoped, and working. Everything from P3 onward is an honestly-labeled
+prototype, not a shipped capability: P3 has zero real usage (0/500), P5 is
+half-built (2 of 6 connectors), P7 is slow (9-11 min/query) and only 2/3
+correct on its own exit criterion. None of that is dishonest reporting —
+every phase's own docs disclose the gap — but "P0-P7 done" overstates what
+a stranger could actually rely on today.
+
+**The git-clone migration (item 2, done 2026-09-14) fixes the delivery
+mechanism** that let node-side work go uncommitted. It does NOT fix the
+underlying habit of not re-checking things that were verified once. That
+needs a deliberate decision — e.g. a periodic status re-check (weekly?),
+or a smoke-test cron that asserts KG count > 0 / judgment-set size hasn't
+silently shrunk / MASTER.md's own claims still match live state — not
+just relying on someone asking again.
+
+## 9. Ready for other topics?
 
 **No — needs code changes, not config.** `src/crawl/allowlist.py` (P6)
 and `src/kg/ner.py` (P4's `TECHNOLOGY_TERMS`/`COMPANY_TERMS`/
