@@ -1,6 +1,6 @@
 # Pinned via `pip freeze` inside a clean venv (see HELP.md for the exact recreation steps).
 # Direct dependencies are marked; everything else is a transitive pin kept for
-# byte-for-byte reproducibility between the dev laptop and CCX23.
+# byte-for-byte reproducibility between the dev laptop and sensalis-node (production).
 #
 # NOTE (P1): docling pulls in torch/torchvision/transformers -- this is a large,
 # ML-heavy install (~1.8GB), not incidental bloat. It's the P1 roadmap's chosen
@@ -147,7 +147,7 @@ pypdfium2==5.13.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.3
 python-oxmsg==0.0.2
-pywin32==312; sys_platform == "win32"   # Windows-only transitive dep (huggingface_hub); no-op on Linux/node/CCX23
+pywin32==312; sys_platform == "win32"   # Windows-only transitive dep (huggingface_hub); no-op on Linux/sensalis-node
 PyYAML==6.0.3
 rapidocr==3.9.2
 referencing==0.37.0

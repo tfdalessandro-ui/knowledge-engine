@@ -3,9 +3,10 @@
 ## Repo/execution split
 
 This repo lives on the dev laptop (Windows) as the source of truth (git).
-**Execution happens on sensalis-node** (Ubuntu 24.04 LTS, Python 3.12.3 — a
-closer match to the CCX23 production target than the Windows dev laptop's
-Python 3.13). Ship the repo over, build a venv there, run there.
+**Execution happens on sensalis-node** (Ubuntu 24.04 LTS, Python 3.12.3),
+which is also the production target — dev and prod run on the same
+machine, not separate hosts. Ship the repo over, build a venv there, run
+there.
 
 Reach the node:
 - On LAN: `ssh sensalis@192.168.178.65`
@@ -25,7 +26,7 @@ tar --exclude=.venv --exclude=.git --exclude=__pycache__ --exclude=.pytest_cache
 
 ```bash
 python3 -m venv .venv
-# Linux/node/CCX23 -- torch CPU wheels FIRST (see CRITICAL note in requirements.txt:
+# Linux/sensalis-node -- torch CPU wheels FIRST (see CRITICAL note in requirements.txt:
 # plain PyPI torch on Linux pulls ~1GB+ of unused CUDA/nvidia-* packages):
 .venv/bin/pip install torch==2.14.0 torchvision==0.29.0 --index-url https://download.pytorch.org/whl/cpu
 .venv/bin/pip install -r requirements.txt
@@ -36,8 +37,9 @@ python3 -m venv .venv
 
 `requirements.txt` is a full `pip freeze` pin set (direct deps marked in a
 comment block, transitive deps below). Installing it in a clean venv should
-reproduce the exact same versions on any machine — that's what makes moving
-this to CCX23 later a `git clone` + `pip install`, not a re-derivation.
+reproduce the exact same versions on any machine — that's what makes standing
+up a fresh clone on sensalis-node a `git clone` + `pip install`, not a
+re-derivation.
 Verify after install with `pip list | grep torch` — it should say `2.14.0+cpu`
 / `0.29.0+cpu`, not a bare version number (which means the CUDA build slipped
 through).
@@ -645,7 +647,7 @@ something unambiguous to extract (the rest of the corpus's more
 definitional writing style doesn't reliably parse that way — see the P4
 logbook for why).
 
-## Reproducing on a fresh Ubuntu 24.04 box (e.g. CCX23, once it exists)
+## Reproducing on a fresh Ubuntu 24.04 box (e.g. re-provisioning sensalis-node)
 
 1. `git clone` this repo.
 2. Confirm `python3 --version` — Ubuntu 24.04 ships Python 3.12 by default,

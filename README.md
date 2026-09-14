@@ -94,7 +94,7 @@ honest detail on each.
 ## Quick start
 
 Requires Python 3.11+ (developed against 3.12/3.13; see
-[HELP.md](HELP.md#reproducing-on-a-fresh-ubuntu-2404-box-eg-ccx23-once-it-exists)
+[HELP.md](HELP.md#reproducing-on-a-fresh-ubuntu-2404-box-eg-re-provisioning-sensalis-node)
 for exact version notes).
 
 ```bash
