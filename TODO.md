@@ -174,11 +174,24 @@ a stranger could actually rely on today.
 
 **The git-clone migration (item 2, done 2026-09-14) fixes the delivery
 mechanism** that let node-side work go uncommitted. It does NOT fix the
-underlying habit of not re-checking things that were verified once. That
-needs a deliberate decision — e.g. a periodic status re-check (weekly?),
-or a smoke-test cron that asserts KG count > 0 / judgment-set size hasn't
-silently shrunk / MASTER.md's own claims still match live state — not
-just relying on someone asking again.
+underlying habit of not re-checking things that were verified once.
+
+- [x] **Addressed 2026-09-14**: `scripts/status_recheck.py` + `ke-status-
+  recheck.timer` (systemd `--user`, weekly, Monday 07:00 UTC, next fire
+  2026-09-21). Checks exactly the four regressions this project already
+  hit once each: KG entity count == 0, sensalis-node's checkout drifting
+  from `origin/main` (uncommitted or behind), `judgments.json` row count
+  shrinking, and the live `/search` API not actually answering a real
+  query (not just `/health`). First live run, same day: all four checks
+  passed clean (`KG entity nodes=215 relations=9`, `git ... HEAD ==
+  origin/main`, `246 rows / 126 queries`, `/search answered`). A failure
+  appends a timestamped report to `STATUS_ALERTS.md` (empty as of this
+  writing); committing that append is a manual step by design, so an
+  automated false alarm can't rewrite history unsupervised. This catches
+  the four known failure modes, not everything — it can't judge whether
+  P7's citation accuracy has changed, for instance. Not a substitute for
+  an actual status check, just a tripwire for silent regression between
+  them.
 
 ## 9. Ready for other topics?
 
