@@ -44,6 +44,7 @@ data/benchmark_cx23_*.json
 data/benchmark_cx23_*.jsonl
 data/benchmark_cx23_*.txt
 data/p7_20query_batch_results.json
+data/comparative_benchmark_results.json
 # Stray pre-compaction backup, not a naming pattern used elsewhere in this
 # project -- ignoring the pattern in case another one appears.
 data/*.bak_*
