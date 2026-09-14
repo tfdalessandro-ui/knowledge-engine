@@ -17,4 +17,33 @@ data/crawl_state.db
 data/web_tantivy_index/
 data/web_registry.db
 data/models/
+# Step 8 on-demand discovery output -- own namespace, generated per query,
+# never the source of truth (data/corpus/ + git is). Added 2026-09-14 when
+# converting sensalis-node's execution copy to a real git clone found these
+# had never been covered (discovered/ alone is ~500MB on the node).
+data/discovered/
+data/discovered_faiss_index/
+data/discovered_registry.db
+data/discovered_tantivy_index/
+data/discovered_vectors.db
+data/discovery_blocklist_cache.txt
+data/discovery_provenance.db
+# Research-to-production loop (Build Kickoff Step 2) -- candidate registry
+# and its own research-specific crawl state, both regenerated/append-only
+# at runtime, not hand-curated like data/judgments/.
+data/research_candidates.db
+data/research_crawl_state.db
+data/research_papers/
+# GA/swarm auto-tune runtime state (scripts/auto_tune.py's own bookkeeping,
+# distinct from the committed AUTO_TUNE_LOG.md narrative log).
+data/auto_tune_state.json
+# Ad hoc benchmark run artifacts (raw output; the numbers that matter are
+# already written into their LOGBOOK_*.md / TODO.md entries).
+data/benchmark_cx23_*.json
+data/benchmark_cx23_*.jsonl
+data/benchmark_cx23_*.txt
+data/p7_20query_batch_results.json
+# Stray pre-compaction backup, not a naming pattern used elsewhere in this
+# project -- ignoring the pattern in case another one appears.
+data/*.bak_*
 .env

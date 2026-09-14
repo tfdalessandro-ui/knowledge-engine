@@ -1,0 +1,124 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/sensalis/work/knowledge_engine
+configfile: pytest.ini
+plugins: anyio-4.14.2, Faker-40.38.0
+collected 228 items
+
+tests/access/test_acl_store.py .......                                   [  3%]
+tests/access/test_connectors.py ...                                      [  4%]
+tests/access/test_git_connector.py ....                                  [  6%]
+tests/access/test_permission_denial.py .......                           [  9%]
+tests/access/test_permission_filter.py ...                               [ 10%]
+tests/answer/test_answer_pipeline.py ..                                  [ 11%]
+tests/answer/test_citation.py .......                                    [ 14%]
+tests/answer/test_prompt.py .....                                        [ 16%]
+tests/api/test_main.py ......                                            [ 19%]
+tests/bench/test_benchmark.py ...                                        [ 20%]
+tests/crawl/test_allowlist.py .....                                      [ 22%]
+tests/crawl/test_canonicalize.py ........                                [ 26%]
+tests/crawl/test_crawl_pipeline.py .........                             [ 30%]
+tests/crawl/test_rate_limiter.py ....                                    [ 32%]
+tests/crawl/test_robots.py ....                                          [ 33%]
+tests/discovery/test_discovery.py .........                              [ 37%]
+tests/eval/test_adaptive_alpha.py .....                                  [ 39%]
+tests/eval/test_fusion.py .....                                          [ 42%]
+tests/eval/test_harness.py ....                                          [ 43%]
+tests/eval/test_metrics.py ..............                                [ 50%]
+tests/eval/test_real_index_baseline.py ..                                [ 50%]
+tests/eval/test_weighted_fusion.py .......                               [ 53%]
+tests/ingest/test_chunking.py ......                                     [ 56%]
+tests/ingest/test_embeddings.py .......                                  [ 59%]
+tests/ingest/test_index_faiss.py ....                                    [ 61%]
+tests/ingest/test_parsers.py ..........                                  [ 65%]
+tests/ingest/test_parsers_pdf.py s                                       [ 66%]
+tests/ingest/test_pipeline_incremental.py .....                          [ 68%]
+tests/ingest/test_pipeline_vectors.py ....                               [ 70%]
+tests/ingest/test_vector_registry.py .....                               [ 72%]
+tests/kg/test_graph_store.py ......                                      [ 75%]
+tests/kg/test_neighbor_retrieval.py .FF...............F..                [ 84%]
+tests/kg/test_ner.py .....                                               [ 86%]
+tests/kg/test_pipeline.py ..                                             [ 87%]
+tests/kg/test_relations.py .....                                         [ 89%]
+tests/kg/test_resolution.py .......                                      [ 92%]
+tests/ltr/test_features.py .......                                       [ 95%]
+tests/ltr/test_query_log.py .....                                        [ 97%]
+tests/ltr/test_rerank.py ..                                              [ 98%]
+tests/ltr/test_train.py ...                                              [100%]
+
+=================================== FAILURES ===================================
+_ test_neighbor_retrieval_matches_hand_verified_expectation[TECHNOLOGY:sqlite-expected0] _
+
+populated_store = <kg.graph_store.MemgraphStore object at 0x734f2f56e150>
+canonical_id = 'TECHNOLOGY:sqlite'
+expected = {('FTS5', 'PROVIDES', 'outgoing')}
+
+    @pytest.mark.parametrize("canonical_id,expected", FIXED_TEST_SET.items())
+    def test_neighbor_retrieval_matches_hand_verified_expectation(populated_store, canonical_id, expected):
+        neighbors = populated_store.get_neighbors(canonical_id)
+        actual = {(n.name, n.relation, n.direction) for n in neighbors}
+>       assert actual == expected, f"{canonical_id}: expected {expected}, got {actual}"
+E       AssertionError: TECHNOLOGY:sqlite: expected {('FTS5', 'PROVIDES', 'outgoing')}, got {('Python', 'USES', 'incoming'), ('FTS5', 'USES', 'incoming'), ('FTS5', 'PROVIDES', 'outgoing'), ('Python', 'USES', 'outgoing')}
+E       assert {('FTS5', 'PR..., 'outgoing')} == {('FTS5', 'PR..., 'outgoing')}
+E         
+E         Extra items in the left set:
+E         ('Python', 'USES', 'incoming')
+E         ('FTS5', 'USES', 'incoming')
+E         ('Python', 'USES', 'outgoing')
+E         Use -v to get more diff
+
+tests/kg/test_neighbor_retrieval.py:67: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  docling.backend.html_backend:html_backend.py:309 Clashing hyperlinks: 'https://en.wikipedia.org/wiki/Compute_(machine_learning)' and 'https://en.wikipedia.org/wiki/AI_training'! Chose 'https://en.wikipedia.org/wiki/AI_training'
+WARNING  docling.backend.html_backend:html_backend.py:309 Clashing hyperlinks: '#cite_note-IYm4Q-84' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+WARNING  docling.backend.html_backend:html_backend.py:309 Clashing hyperlinks: '#cite_note-IYm4Q-84' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+WARNING  docling.backend.html_backend:html_backend.py:309 Clashing hyperlinks: '#cite_note-IYm4Q-84' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+_ test_neighbor_retrieval_matches_hand_verified_expectation[TECHNOLOGY:fts5-expected1] _
+
+populated_store = <kg.graph_store.MemgraphStore object at 0x734f2f56e150>
+canonical_id = 'TECHNOLOGY:fts5'
+expected = {('SQLite', 'PROVIDES', 'incoming')}
+
+    @pytest.mark.parametrize("canonical_id,expected", FIXED_TEST_SET.items())
+    def test_neighbor_retrieval_matches_hand_verified_expectation(populated_store, canonical_id, expected):
+        neighbors = populated_store.get_neighbors(canonical_id)
+        actual = {(n.name, n.relation, n.direction) for n in neighbors}
+>       assert actual == expected, f"{canonical_id}: expected {expected}, got {actual}"
+E       AssertionError: TECHNOLOGY:fts5: expected {('SQLite', 'PROVIDES', 'incoming')}, got {('SQLite', 'PROVIDES', 'incoming'), ('SQLite', 'USES', 'outgoing')}
+E       assert {('SQLite', '..., 'outgoing')} == {('SQLite', '..., 'incoming')}
+E         
+E         Extra items in the left set:
+E         ('SQLite', 'USES', 'outgoing')
+E         Use -v to get more diff
+
+tests/kg/test_neighbor_retrieval.py:67: AssertionError
+_ test_neighbor_retrieval_matches_hand_verified_expectation[TECHNOLOGY:python-expected17] _
+
+populated_store = <kg.graph_store.MemgraphStore object at 0x734f2f56e150>
+canonical_id = 'TECHNOLOGY:python', expected = set()
+
+    @pytest.mark.parametrize("canonical_id,expected", FIXED_TEST_SET.items())
+    def test_neighbor_retrieval_matches_hand_verified_expectation(populated_store, canonical_id, expected):
+        neighbors = populated_store.get_neighbors(canonical_id)
+        actual = {(n.name, n.relation, n.direction) for n in neighbors}
+>       assert actual == expected, f"{canonical_id}: expected {expected}, got {actual}"
+E       AssertionError: TECHNOLOGY:python: expected set(), got {('SQLite', 'USES', 'incoming'), ('SQLite', 'USES', 'outgoing')}
+E       assert {('SQLite', '..., 'outgoing')} == set()
+E         
+E         Extra items in the left set:
+E         ('SQLite', 'USES', 'incoming')
+E         ('SQLite', 'USES', 'outgoing')
+E         Use -v to get more diff
+
+tests/kg/test_neighbor_retrieval.py:67: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/sensalis/work/knowledge_engine/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/kg/test_neighbor_retrieval.py::test_neighbor_retrieval_matches_hand_verified_expectation[TECHNOLOGY:sqlite-expected0]
+FAILED tests/kg/test_neighbor_retrieval.py::test_neighbor_retrieval_matches_hand_verified_expectation[TECHNOLOGY:fts5-expected1]
+FAILED tests/kg/test_neighbor_retrieval.py::test_neighbor_retrieval_matches_hand_verified_expectation[TECHNOLOGY:python-expected17]
+======= 3 failed, 224 passed, 1 skipped, 1 warning in 1075.44s (0:17:55) =======

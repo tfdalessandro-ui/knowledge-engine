@@ -47,10 +47,18 @@ FIXED_TEST_SET = {
 
 @pytest.fixture(scope="module")
 def populated_store():
+    # Isolated test instance (settings.test_memgraph_uri, 127.0.0.1:7688) --
+    # NEVER settings.memgraph_uri (production, 127.0.0.1:7687). This fixture
+    # clear()s before and after every module run; pointed at production it
+    # zeroed the live knowledge graph for real once (see TODO.md item 5).
     settings = get_settings()
-    store = MemgraphStore(settings.memgraph_uri)
+    assert settings.test_memgraph_uri != settings.memgraph_uri, (
+        "test_memgraph_uri must not equal the production memgraph_uri -- "
+        "this fixture calls clear() and would wipe production."
+    )
+    store = MemgraphStore(settings.test_memgraph_uri)
     store.clear()
-    run_kg_extraction(CORPUS_DIR, settings.memgraph_uri, settings.merge_review_db_path)
+    run_kg_extraction(CORPUS_DIR, settings.test_memgraph_uri, settings.merge_review_db_path)
     yield store
     store.clear()
     store.close()

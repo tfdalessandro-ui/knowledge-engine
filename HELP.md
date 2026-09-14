@@ -195,6 +195,30 @@ merge_candidates_queued=..`. Unlike `ingest.pipeline`, this always does a
 full pass -- entity resolution needs to see the whole corpus's entity set,
 not one file in isolation, and P4's corpus-scale makes that cheap.
 
+In production this runs on a schedule (`ke-kg-extract.timer`, systemd
+`--user`, daily 03:15 UTC on sensalis-node) rather than only on manual
+invocation -- added 2026-09-14 after `run_kg_extraction()` was found to
+have no production caller at all (see TODO.md item 5), which is also why
+the second container below exists.
+
+### A second, isolated Memgraph for tests -- do not skip this
+
+`tests/kg/`'s own test suite needs a **separate** Memgraph instance, never
+the production one above. Its fixtures call `store.clear()` in both setup
+and teardown; pointed at production (as they originally were, before
+2026-09-14) that wipes the live knowledge graph for real -- it happened
+once. Start a second container on a different port:
+
+```bash
+docker run -d --name memgraph_ke_test -p 127.0.0.1:7688:7687 --restart unless-stopped memgraph/memgraph
+```
+
+`KE_TEST_MEMGRAPH_URI` (default `bolt://127.0.0.1:7688`, `Settings.
+test_memgraph_uri`) points every `tests/kg/*` fixture at it. `tests/kg/
+test_neighbor_retrieval.py`'s fixture asserts `test_memgraph_uri !=
+memgraph_uri` before doing anything destructive, specifically so a future
+config mistake fails loudly instead of repeating the incident.
+
 **Why NER is a curated `EntityRuler`, not stock spaCy alone:** verified
 directly (not assumed) that `en_core_web_sm` run cold over this corpus tags
 "BM25" and "bm25" as PERSON and finds no real Company/Product signal --

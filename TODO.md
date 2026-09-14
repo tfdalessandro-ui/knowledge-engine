@@ -33,21 +33,22 @@ this file never was.
   in 1661s ... ALL DONE`, finished 2026-09-07 10:04 UTC. **100% complete
   on the real sample size, which is 20, not 30** — no 30-query batch was
   ever run; that number doesn't correspond to anything in this repo.
-- [x]/[ ] **GA script reproducibility (Step 7) — partially closed today.**
-  `scripts/ga_chunking.py` (the *original* GA script) was deleted after
-  its one run and is **still not recoverable** — checked GitHub directly
-  (`api.github.com/.../commits?path=scripts/ga_chunking.py`) — empty
-  result, zero history, doesn't exist in the current tree, and no copy of
-  it was found on sensalis-node either. That specific script is gone for
-  good; only its logged results survive, in
-  `LOGBOOK_09032026_161900.md`/`LOGBOOK_09032026_161500.md`.
-  Its successor, `scripts/auto_tune.py` (the script actually driving the
-  live daily 03:30 UTC tuning cron, real results as recently as
-  2026-09-07), had the same problem — zero git history, existed only as
-  an uncommitted file on sensalis-node — **pulled into this repo and
-  committed today**. Reproducibility is restored going forward from this
-  commit; the original `ga_chunking.py` run itself remains
-  irreproducible, only its logged numbers are preserved.
+- [x] **GA script reproducibility (Step 7) — fully closed 2026-09-14, correcting an earlier wrong claim.**
+  An earlier version of this entry said `scripts/ga_chunking.py` was
+  "deleted after its one run, unrecoverable" — that was **wrong**, based
+  on checking only the GitHub API tree, not the node's actual filesystem.
+  In fact it was recreated on 2026-09-06 (see its own docstring and
+  `LOGBOOK_09062026_*.md`, Issue 4 of the four-issue fix pass) specifically
+  because deleting a script whose cited numeric result feeds the research
+  loop's candidate registry was flagged as the wrong convention going
+  forward. It existed correctly on sensalis-node the whole time — just,
+  like `scripts/auto_tune.py`, never committed to git (zero GitHub history
+  for its path, same repo/execution-split symptom). Both, plus
+  `scripts/research_loop.py`, `scripts/benchmark_cx23_discovery.py`,
+  `AUTO_TUNE_LOG.md`, and `pytest_four_fixes.log`, were pulled from the
+  node and committed today as part of item 2 below (the repo/execution
+  split fix) — see that item for the full picture of what else this same
+  gap had hidden.
 
 ## 2. P3 — reranker training
 

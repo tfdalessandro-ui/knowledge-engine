@@ -14,10 +14,14 @@ from config import get_settings
 
 
 def _memgraph_reachable() -> bool:
+    # Checks test_memgraph_uri (127.0.0.1:7688), not memgraph_uri (production,
+    # 127.0.0.1:7687) -- every test in this package now runs against the
+    # isolated test instance (see TODO.md item 5), so that's the one that
+    # actually needs to be up for these tests to be meaningful.
     try:
         from neo4j import GraphDatabase
 
-        driver = GraphDatabase.driver(get_settings().memgraph_uri, auth=None)
+        driver = GraphDatabase.driver(get_settings().test_memgraph_uri, auth=None)
         with driver.session() as session:
             session.run("RETURN 1").consume()
         driver.close()

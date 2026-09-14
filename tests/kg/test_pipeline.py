@@ -1,5 +1,6 @@
 import pytest
 
+from config import get_settings
 from kg.graph_store import MemgraphStore
 from kg.pipeline import run_kg_extraction
 
@@ -8,7 +9,10 @@ pytestmark = pytest.mark.requires_memgraph
 
 @pytest.fixture()
 def clean_graph():
-    store = MemgraphStore()
+    # Isolated test instance -- MemgraphStore() with no args defaults to
+    # production (127.0.0.1:7687); this fixture clear()s in setup AND
+    # teardown, so it must never use that default. See TODO.md item 5.
+    store = MemgraphStore(get_settings().test_memgraph_uri)
     store.clear()
     yield store
     store.clear()
@@ -25,7 +29,7 @@ def _make_corpus(tmp_path):
 
 def test_pipeline_extracts_entities_and_relations(tmp_path, clean_graph):
     corpus = _make_corpus(tmp_path)
-    report = run_kg_extraction(corpus, "bolt://127.0.0.1:7687", tmp_path / "merge_review.db")
+    report = run_kg_extraction(corpus, get_settings().test_memgraph_uri, tmp_path / "merge_review.db")
 
     assert report.documents_processed == 2
     assert report.entities_extracted == 4  # Tantivy, BM25, Hetzner, CCX23
@@ -35,7 +39,7 @@ def test_pipeline_extracts_entities_and_relations(tmp_path, clean_graph):
 
 def test_pipeline_writes_to_memgraph(tmp_path, clean_graph):
     corpus = _make_corpus(tmp_path)
-    run_kg_extraction(corpus, "bolt://127.0.0.1:7687", tmp_path / "merge_review.db")
+    run_kg_extraction(corpus, get_settings().test_memgraph_uri, tmp_path / "merge_review.db")
 
     assert clean_graph.entity_count() == 4
     neighbors = clean_graph.get_neighbors("TECHNOLOGY:tantivy")

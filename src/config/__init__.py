@@ -69,6 +69,14 @@ class Settings(BaseSettings):
     ltr_min_interactions: int = 500  # roadmap's stated minimum before training a reranker is meaningful
     ltr_model_path: Path = REPO_ROOT / "data" / "ltr_model.txt"
     memgraph_uri: str = "bolt://127.0.0.1:7687"
+    # Separate Memgraph instance/port for tests, added 2026-09-14 after the KG
+    # test suite's own populated_store fixture was found clear()-ing the live
+    # production instance in setup AND teardown (zeroed it for real once, see
+    # TODO.md item 5 / LOGBOOK_09142026_*.md). Tests must NEVER point at
+    # memgraph_uri above -- a second lightweight container on a different port
+    # (memgraph_ke_test, 127.0.0.1:7688) exists specifically so clear() there
+    # can never touch production.
+    test_memgraph_uri: str = "bolt://127.0.0.1:7688"
     merge_review_db_path: Path = REPO_ROOT / "data" / "merge_review.db"
     postgres_dsn: str = "postgresql://postgres:ke_dev_password@127.0.0.1:5433/knowledge_engine"
     # Separate index namespace from tantivy_index_dir/registry_db_path -- keeps the

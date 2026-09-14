@@ -1,5 +1,6 @@
 import pytest
 
+from config import get_settings
 from kg.graph_store import MemgraphStore
 
 pytestmark = pytest.mark.requires_memgraph
@@ -7,7 +8,10 @@ pytestmark = pytest.mark.requires_memgraph
 
 @pytest.fixture()
 def store():
-    s = MemgraphStore()
+    # Isolated test instance -- MemgraphStore() with no args defaults to
+    # production (127.0.0.1:7687); this fixture clear()s in setup AND
+    # teardown, so it must never use that default. See TODO.md item 5.
+    s = MemgraphStore(get_settings().test_memgraph_uri)
     s.clear()
     yield s
     s.clear()
