@@ -74,17 +74,46 @@ related content. No new validation batch has run since; this number is
 not stale re-reporting, it's just the same number because nothing has
 re-tested it.
 
-## 5. KG entity/relation count — real, unresolved regression
+## 5. KG entity/relation count — [x] root-caused and fixed 2026-09-14
 
-Live Memgraph query today: `MATCH (n) RETURN count(n)` → **0**,
-`MATCH ()-[r]->() RETURN count(r)` → **0**. Baseline as of 2026-09-06 was
-215 entity nodes / 9 entity-entity relations. Snapshot files exist
-(`/var/lib/memgraph/snapshots/`, most recent right after an apparent node
-restart on 2026-09-10) but are only ~474 bytes each — far too small to
-hold 215 entities — including one dated 2026-09-06 21:30, suggesting the
-graph was already empty before that restart, not wiped by it. **Not
-root-caused** — flagged, not fixed. Needs someone to actually trace why
-P4's ingest stopped writing to (or lost) this data.
+Was 0/0 (down from the 2026-09-06 baseline of 215 entity nodes / 9
+entity-entity relations). **Root cause**: `run_kg_extraction()` had
+exactly one caller anywhere in the codebase — the test fixture in
+`tests/kg/test_neighbor_retrieval.py` — and that fixture runs directly
+against the *live production* Memgraph instance, `store.clear()`-ing it
+both before **and after** every test run. Nothing in production (no cron,
+no timer, no ingest hook) ever populated it independently, so the graph
+was only ever non-empty for the duration of a `pytest` run, then wiped
+clean as teardown. The empty 474-byte snapshot dated 2026-09-06 21:30
+lines up almost exactly with the last recorded KG test run that day
+(`LOGBOOK_09062026_192407.md`) — that run's teardown is very likely what
+zeroed it, and nothing repopulated it after.
+
+**Fix**: added `ke-kg-extract.service` + `.timer` (systemd `--user`, same
+pattern as the existing `ke-crawl.timer`), daily **03:15 UTC** (15 min
+after the P6 crawl, so same-day corpus changes get picked up), running
+`python -m kg.pipeline` against production. Safe to run repeatedly —
+`run_kg_extraction()` itself uses `upsert_entity`/`upsert_relation`
+(MERGE semantics), it never clears the store; only the test fixture does
+that. Ran once manually to populate immediately:
+`documents_processed=47 entities_extracted=908 relations_extracted=9
+merge_candidates_queued=3`, exit 0. Re-checked live Memgraph with the
+label/relation-type-precise query (`MATCH (e:Entity)` /
+`MATCH (:Entity)-[r]->(:Entity)`, excluding `Document` nodes and
+`MENTIONED_IN` edges, which is what the raw `MATCH (n)` count was missing
+before): **215 entity nodes / 9 entity-entity relations — an exact match
+to the 2026-09-06 baseline**, confirming the extraction logic and corpus
+are stable and nothing was actually lost, just never rewritten.
+
+**Follow-up still open, not yet fixed**: `tests/kg/test_neighbor_
+retrieval.py`'s `populated_store` fixture still points at the same live
+production `settings.memgraph_uri` and still calls `store.clear()` in
+both setup and teardown. **Running this test suite will wipe the
+production graph again**, undoing the fix above, until the test gets its
+own isolated Memgraph instance (or at minimum stops clearing the
+production one). Needs either a separate test Memgraph container/URI in
+test config, or a `pytest.fixture` that snapshots+restores instead of
+`clear()`ing production.
 
 ## 6. Continuous crawler / research-loop / GA-swarm / on-demand-discovery
 
