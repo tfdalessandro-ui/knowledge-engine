@@ -38,6 +38,7 @@ data/research_papers/
 # GA/swarm auto-tune runtime state (scripts/auto_tune.py's own bookkeeping,
 # distinct from the committed AUTO_TUNE_LOG.md narrative log).
 data/auto_tune_state.json
+data/status_recheck_state.json
 # Ad hoc benchmark run artifacts (raw output; the numbers that matter are
 # already written into their LOGBOOK_*.md / TODO.md entries).
 data/benchmark_cx23_*.json
