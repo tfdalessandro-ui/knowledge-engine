@@ -18,6 +18,7 @@ still open as of this index's creation.
 
 | Logbook file | Title |
 |---|---|
+| `LOGBOOK_09152026_092024.md` | Logbook — P7 citation-parsing test failure root-caused: the prompt's own example was the bug |
 | `LOGBOOK_09152026_071646.md` | Logbook — Weighted fusion was dead config; recovered a lost module, wired it up, fixed a real Sensalis ranking bug |
 | `LOGBOOK_09142026_053349.md` | Logbook — CX23 doc-discovery parity benchmark (Step 8) |
 | `LOGBOOK_09122026_125522.md` | Logbook — production target decision: sensalis-node replaces Hetzner CCX23 |

@@ -75,6 +75,19 @@ related content. No new validation batch has run since; this number is
 not stale re-reporting, it's just the same number because nothing has
 re-tested it.
 
+- [x] **A separate, concrete citation bug found and fixed 2026-09-15**
+  (`LOGBOOK_09152026_092024.md`): `answer/prompt.py`'s own instructions
+  told the model to cite "like this: `[chunk_id]`" — the literal
+  placeholder word, not a real example — and the 3B local model would
+  sometimes echo it verbatim (`[chunk_id bm25::0]`), which the validator
+  correctly rejected. Fixed the instruction's example; verified with real
+  (non-mocked) LLM inference, both `test_answer_pipeline.py` tests now
+  pass (previously failing). This plausibly improves the 2/3 number above
+  — it removes one concrete, reproducible failure mode — but the
+  20-query batch that produced 2/3 hasn't been re-run (~3-4h on this
+  hardware at 9-11 min/query). **Open follow-up: re-run the P7 batch and
+  get a real, current number instead of assuming this fixed it.**
+
 ## 5. KG entity/relation count — [x] root-caused and fixed 2026-09-14
 
 Was 0/0 (down from the 2026-09-06 baseline of 215 entity nodes / 9

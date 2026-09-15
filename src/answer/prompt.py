@@ -23,8 +23,10 @@ class Passage:
 
 SYSTEM_INSTRUCTIONS = (
     "You answer questions using ONLY the passages provided below. Follow these rules exactly:\n"
-    "1. Every factual claim in your answer must be immediately followed by the exact chunk id "
-    "of the passage that supports it, in square brackets, like this: [chunk_id].\n"
+    "1. Every factual claim in your answer must be immediately followed by that passage's chunk id, "
+    "in square brackets -- copy the exact bracketed id shown right before the passage, verbatim. "
+    "For example, if a passage below starts with [abc123::0], write [abc123::0]. Do not write the "
+    "literal word \"chunk_id\" -- always substitute the real id shown, never the placeholder name.\n"
     "2. Never cite a chunk id that is not listed below.\n"
     "3. Never state a claim that is not directly supported by one of the passages.\n"
     "4. If the passages do not contain enough information to answer, say so plainly instead of guessing.\n"
