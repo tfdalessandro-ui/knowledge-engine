@@ -230,10 +230,16 @@ actually pass the tuned settings through. Full story and verification in
   `xfail(strict=True)` with the real number and reasoning, following this
   project's own established precedent for that pattern, rather than
   quietly lowering the bar or leaving a misleading hard failure in place.
-- [ ] `tests/eval/test_harness.py::test_judgment_set_size` asserts a
-  stale `50 <= total <= 100` bound; the real judgment set has been 246
-  rows since the 2026-09-1x sync. Pre-existing, unrelated to the fusion
-  fix, just surfaced by the same test run.
+- [x] **`test_judgment_set_size`'s stale bound — fixed 2026-09-15.** The
+  `50 <= total <= 100` upper bound was a snapshot of the judgment set's
+  size at P0 (committed once, 2026-09-02, never revisited) — not a
+  deliberate ceiling, so it broke on the judgment set's own deliberate,
+  documented growth (79 → 106 → 126 queries). Replaced with a named
+  `MIN_JUDGMENT_PAIRS = 50` (a real floor — enough for the stub-index
+  tests below to be meaningful) and `MAX_SANE_JUDGMENT_PAIRS = 5000` (a
+  generous corruption guard, e.g. accidental row duplication — not a
+  growth cap, shouldn't need touching again for ordinary growth). All 4
+  tests in `test_harness.py` pass now.
 - [ ] `hybrid_alpha_mode="adaptive"` (`hybrid_alpha_base`/
   `hybrid_alpha_slope`) is still unimplemented in `HybridIndex` — it
   silently falls back to the fixed `alpha` no matter what
