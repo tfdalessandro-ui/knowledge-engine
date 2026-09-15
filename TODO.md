@@ -202,3 +202,28 @@ and `src/kg/ner.py` (P4's `TECHNOLOGY_TERMS`/`COMPANY_TERMS`/
 no changes. A second topic also needs its own P0 judgment set from
 scratch before any nDCG@10/MRR/recall@20 number means anything for it —
 stated here as an explicit prerequisite, not a nice-to-have.
+
+## 10. Weighted fusion wiring (2026-09-15) — fixed, three follow-ups left open
+
+`HybridIndex` never implemented weighted score fusion at all (RRF only),
+despite `Settings.hybrid_fusion_mode`/`hybrid_alpha` existing and being
+GA-tuned since 2026-09-04 — `api/main.py` built `HybridIndex()` with no
+kwargs, so the live service silently ran plain RRF regardless of config.
+Fixed: `HybridIndex` now supports both modes, `api/main.py`/`eval/run.py`
+actually pass the tuned settings through. Full story and verification in
+`LOGBOOK_09152026_071646.md`. Three things NOT resolved as part of this
+fix:
+
+- [ ] `tests/eval/test_hybrid_vs_bm25.py::test_hybrid_beats_bm25_only_by_5_percent_ndcg10`
+  fails (-2.9% vs. the +5% exit criterion) on its own fixture, while the
+  live 126-query Step 9 benchmark shows no change at all from the same
+  fix. Not reconciled — that test likely builds a different/smaller
+  index than the one `/search` actually serves.
+- [ ] `tests/eval/test_harness.py::test_judgment_set_size` asserts a
+  stale `50 <= total <= 100` bound; the real judgment set has been 246
+  rows since the 2026-09-1x sync. Pre-existing, unrelated to the fusion
+  fix, just surfaced by the same test run.
+- [ ] `hybrid_alpha_mode="adaptive"` (`hybrid_alpha_base`/
+  `hybrid_alpha_slope`) is still unimplemented in `HybridIndex` — it
+  silently falls back to the fixed `alpha` no matter what
+  `Settings.hybrid_alpha_mode` says.

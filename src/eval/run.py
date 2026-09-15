@@ -43,7 +43,15 @@ def build_index(name: str, judgments_by_query: dict[str, dict[str, int]], settin
         from eval.hybrid_index import HybridIndex
 
         settings = settings or get_settings()
-        return HybridIndex(settings.tantivy_index_dir, settings.faiss_index_path, settings.vector_registry_db_path)
+        return HybridIndex(
+            settings.tantivy_index_dir,
+            settings.faiss_index_path,
+            settings.vector_registry_db_path,
+            chunk_fanout=settings.hybrid_chunk_fanout,
+            rrf_k=settings.hybrid_rrf_k,
+            fusion_mode=settings.hybrid_fusion_mode,
+            alpha=settings.hybrid_alpha,
+        )
     raise ValueError(f"unknown index {name!r}, choose from {INDEX_CHOICES}")
 
 

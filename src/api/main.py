@@ -29,7 +29,21 @@ _registry: DocumentRegistry | None = None
 def _get_index() -> HybridIndex:
     global _index
     if _index is None:
-        _index = HybridIndex(_settings.tantivy_index_dir, _settings.faiss_index_path, _settings.vector_registry_db_path)
+        # Wires the tuned Settings through -- previously built with no
+        # kwargs at all, so the live service silently ran plain RRF
+        # (rrf_k defaulted to 60, not the tuned rrf_k=1) regardless of
+        # hybrid_fusion_mode/hybrid_alpha. See eval/hybrid_index.py's
+        # docstring for the full story. hybrid_alpha_mode="adaptive" is
+        # not implemented here yet -- falls back to the fixed alpha.
+        _index = HybridIndex(
+            _settings.tantivy_index_dir,
+            _settings.faiss_index_path,
+            _settings.vector_registry_db_path,
+            chunk_fanout=_settings.hybrid_chunk_fanout,
+            rrf_k=_settings.hybrid_rrf_k,
+            fusion_mode=_settings.hybrid_fusion_mode,
+            alpha=_settings.hybrid_alpha,
+        )
     return _index
 
 
