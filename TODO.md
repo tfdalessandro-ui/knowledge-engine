@@ -304,3 +304,31 @@ actually pass the tuned settings through. Full story and verification in
 - [ ] Clone docs (HELP/MANUAL/MASTER/README) still describe the original engine
 - [ ] Backup dir decision; GitHub repo rename (manual, needs the owner — no
   `gh` token here); laptop folder renames; doc branding
+- [ ] `tests/access/*` connect to `Settings.postgres_dsn` — the production
+  `postgres_ose` ACL store, not a test instance (same class of bug as the
+  Memgraph test isolation fixed 2026-09-14, item 5). Found 2026-09-16 while
+  checking what the promotion gate's test runs touch.
+
+## 12. Instance sync: original ↔ instances (requested 2026-09-16)
+
+User requirement: instances (clones) stay in sync with OSE's scaffolding and
+logic — the original's evolutions percolate to instances; if an instance
+evolves shared code on its own path and it's better, it becomes the source.
+
+- [x] Instance identity moved into `Settings` (`instance.env`), shared scripts
+  no longer hardcode service/port/query (`71bb1eb`)
+- [x] Sensalis clone rebuilt as branch `instance/sensalis` = main + instance-owned
+  paths (old history on `legacy/pre-sync-20260916`)
+- [x] `scripts/sync_instance.py` (main → instance, auto-rollback) + `scripts/promote_check.py`
+  (instance → main gate) + `ose-sync@.timer` (`edd4d1f`, divergence fix `6914fc6`)
+- [x] Verified live: real automatic forward sync; rollback on a failing test and on a
+  ranking change; divergence blocks sync even when up to date
+- [x] Promotion gate live verdicts: harmful (alpha 0.0) → REJECT (nDCG@10 0.9278→0.8443),
+  neutral → PROMOTE (`LOGBOOK_09162026_233500.md`)
+- [x] Instance `origin` → GitHub (fetch-only); `ose-sync@ose_sensalis.timer` enabled, daily 05:15 UTC
+- [ ] A genuine ranking improvement on main is rolled back on the instance by design
+  (no Sensalis judgments to tell better from worse) — needs a reviewed
+  `sync_instance.py --accept-ranking-changes` run; real Sensalis judgments would remove this
+- [ ] Promotion is gated but not auto-applied: node has no GitHub push credentials, so a
+  PROMOTE patch is committed from the laptop. Fully unattended promotion would need a
+  deploy key with push rights — owner decision.

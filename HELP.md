@@ -671,6 +671,89 @@ something unambiguous to extract (the rest of the corpus's more
 definitional writing style doesn't reliably parse that way — see the P4
 logbook for why).
 
+## Instances: running OSE on other data, and keeping them in sync
+
+OSE is the engine in this repo; the checkout at `~/work/ose` (`ose.service`,
+`:8000`) is the **source** instance and tracks GitHub `main`. Any other use of
+OSE — e.g. `~/work/ose_sensalis` (`ose-sensalis.service`, `:8010`, real Sensalis
+parts pricing) — is an **instance**: a checkout on its own branch
+`instance/<name>` that is exactly `main` + instance-owned paths.
+
+| Instance | Checkout | Branch | Service / port |
+|---|---|---|---|
+| ose (source) | `~/work/ose` | `main` | `ose.service` / 8000 |
+| sensalis | `~/work/ose_sensalis` | `instance/sensalis` | `ose-sensalis.service` / 8010 |
+
+Instance identity lives in a committed `instance.env` at the instance's repo
+root, never in `.env` (`scripts/auto_tune.py` rewrites `.env` wholesale):
+
+```
+OSE_INSTANCE_NAME=sensalis
+OSE_SERVICE_NAME=ose-sensalis.service
+OSE_PORT=8010
+OSE_SMOKE_QUERY="Haulotte hydraulic pump"
+OSE_INSTANCE_BRANCH=instance/sensalis
+OSE_INSTANCE_PATHS=["data/corpus", "data/sensalis_raw", "scripts/ingest_sensalis_pricing.py", "scripts/bench_vs_scraper.py", "instance.env", "INSTANCE.md"]
+OSE_SYNC_SMOKE_QUERIES=["100001", "Haulotte price range EUR"]
+```
+
+Shared code reads these through `config.Settings` (`service_name`,
+`api_base_url`, `smoke_query`, …) — **never hardcode a service name, port or
+query in shared code**; that is precisely how the Sensalis instance's scripts
+once ended up restarting and validating the source engine instead of itself.
+
+**Rules:**
+1. Improve shared code (anything outside `OSE_INSTANCE_PATHS`) on `main`.
+   It reaches every instance automatically.
+2. If an instance improves shared code on its own branch, it does not stay
+   there: `promote_check.py` measures it against the source, and if it is not
+   worse it lands on `main` and becomes what every instance syncs from.
+3. Instance-owned content (corpus, raw data, instance-only scripts) never goes
+   to `main`, and instance branches are never pushed to GitHub (real data).
+
+**main → instances** (automatic, daily 05:15 UTC via `ose-sync@<dir>.timer`):
+
+```bash
+cd ~/work/ose_sensalis && PYTHONPATH=src .venv/bin/python scripts/sync_instance.py
+```
+
+Merges `origin/main` (the instance's `origin` is the GitHub repo, fetch-only —
+so it does not wait for `~/work/ose` to be pulled), restarts the instance, and compares every test's outcome
+and the top-5 of each pinned smoke query against the pre-merge state. Any
+newly failing test, new failing test, unhealthy service or changed ranking →
+`git reset --hard` to the pre-merge commit + restart (exit 5). A ranking change
+may be a real improvement; review it, then re-run with
+`--accept-ranking-changes`. Exit 3 = the instance carries shared-code changes
+not on `main` (promote them first); 4 = merge conflict; log in
+`log/sync_instance.log`. Enabling it for a new instance:
+
+```bash
+cp deploy/ose-sync@.service deploy/ose-sync@.timer ~/.config/systemd/user/
+systemctl --user daemon-reload && systemctl --user enable --now ose-sync@ose_sensalis.timer
+```
+
+**instance → main** (gated):
+
+```bash
+cd ~/work/ose && PYTHONPATH=src .venv/bin/python scripts/promote_check.py \
+    --instance-repo ~/work/ose_sensalis --instance-ref instance/sensalis
+```
+
+Applies the instance's shared-path diff to a throwaway worktree of
+`origin/main`, then runs the test suite and `eval.run --index hybrid` (OSE's
+judgment set, live indexes symlinked read-only) on both that worktree and an
+unmodified one. **PROMOTE** = applies cleanly, no test newly fails, nDCG@10 not
+lower; it writes `log/promote_<ts>.patch`. Commit that patch to `main` from a
+checkout that can push (sensalis-node has no GitHub credentials), then run the
+forward sync — the instance's own change comes back as part of `main`, and
+its divergence clears. **REJECT** / **DOES_NOT_APPLY** = keep it off `main`.
+
+**Adding a new instance:** `git clone ~/work/ose ~/work/ose_<name>`, `git
+remote set-url origin <GitHub URL of this repo>`, `git checkout -b
+instance/<name>`, add its data + `instance.env` + `INSTANCE.md`,
+commit, create its venv and systemd service (unique port), build its index,
+then enable `ose-sync@ose_<name>.timer`.
+
 ## Reproducing on a fresh Ubuntu 24.04 box (e.g. re-provisioning sensalis-node)
 
 1. `git clone` this repo.
