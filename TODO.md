@@ -287,13 +287,20 @@ actually pass the tuned settings through. Full story and verification in
   `ose-*` (timer stamps carried over, next-fire times unchanged);
   `knowledge-engine.service` → `ose.service` (+ `auto_tune.py`,
   `comparative_benchmark_speed.py`, `deploy/ose.service`)
-- [ ] **Bug in the Sensalis clone, not yet fixed**: its `scripts/auto_tune.py`
-  restarts `knowledge-engine.service` (this engine, port 8000) rather than
-  its own `sensalis-pricing-engine.service` — copied verbatim at clone time.
-  Not scheduled there, so never fired; after this rename it would now just
-  fail the restart and roll back. Fix during the clone's own rename step.
+- [x] Clone's `auto_tune.py` restarted/health-checked the original engine
+  (`knowledge-engine.service`, `:8000`); so did its `comparative_benchmark*.py`
+  and `status_recheck.py` — all now target `ose-sensalis.service` / `:8010`
+  (clone commit `79f9e1c`)
 - [x] Config env prefix `KE_` → `OSE_` (`21fd17e`): effective settings identical
   (51 fields), `OSE_` overrides honored, `KE_` ignored, 172 tests pass
   (`LOGBOOK_09162026_224500.md`)
-- [ ] Sensalis clone rename; backup dir decision; GitHub repo rename (manual,
-  needs the owner — no `gh` token here); laptop folder renames; doc branding
+- [x] Sensalis clone → `~/work/ose_sensalis` / `ose-sensalis.service` (port 8010),
+  venv repaired (was silently pointing at the renamed original), pilot work
+  committed for the first time, `KE_` → `OSE_` (`LOGBOOK_09162026_233000.md`)
+- [ ] **Clone shares production Memgraph `:7687` / Postgres `:5433`** with the
+  original — a clone KG extraction would write into the original's graph
+- [ ] **Clone's judgment set is still the original's search-tech set** — no eval
+  or auto-tune on the clone is meaningful until it has Sensalis judgments
+- [ ] Clone docs (HELP/MANUAL/MASTER/README) still describe the original engine
+- [ ] Backup dir decision; GitHub repo rename (manual, needs the owner — no
+  `gh` token here); laptop folder renames; doc branding
