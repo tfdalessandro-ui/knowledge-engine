@@ -1,5 +1,5 @@
 """Recurring GA parameter search for P2's hybrid fusion, with a permanent
-held-out gate and auto-deploy. Cron'd daily (AUTO_TUNE) so the live
+held-out gate and auto-deploy. Cron'd daily (OSE_AUTO_TUNE) so the live
 service keeps re-optimizing as the corpus/judgment set changes, without
 needing a human to re-run this investigation by hand each time.
 
@@ -26,7 +26,7 @@ investigation this formalizes):
   held-out set by a real margin (DEPLOY_MARGIN), not just numerically --
   avoids flapping the live service on noise between two nearly-identical
   configs.
-- Deploy mechanism: writes KE_HYBRID_* into REPO_ROOT/.env (the anchored
+- Deploy mechanism: writes OSE_HYBRID_* into REPO_ROOT/.env (the anchored
   path both the live service and CLI tools read, see config/__init__.py's
   2026-09-04 fix), restarts the systemd unit, and verifies health + a
   real query before considering the deploy successful. Any verification
@@ -226,13 +226,13 @@ def _current_deployed_genome(settings):
 
 def _env_lines_for(genome) -> str:
     return "\n".join([
-        f"KE_HYBRID_FUSION_MODE={genome['fusion_mode']}",
-        f"KE_HYBRID_RRF_K={genome['rrf_k']}",
-        f"KE_HYBRID_CHUNK_FANOUT={genome['chunk_fanout']}",
-        f"KE_HYBRID_ALPHA_MODE={genome['alpha_mode']}",
-        f"KE_HYBRID_ALPHA={genome['alpha']}",
-        f"KE_HYBRID_ALPHA_BASE={genome['alpha_base']}",
-        f"KE_HYBRID_ALPHA_SLOPE={genome['alpha_slope']}",
+        f"OSE_HYBRID_FUSION_MODE={genome['fusion_mode']}",
+        f"OSE_HYBRID_RRF_K={genome['rrf_k']}",
+        f"OSE_HYBRID_CHUNK_FANOUT={genome['chunk_fanout']}",
+        f"OSE_HYBRID_ALPHA_MODE={genome['alpha_mode']}",
+        f"OSE_HYBRID_ALPHA={genome['alpha']}",
+        f"OSE_HYBRID_ALPHA_BASE={genome['alpha_base']}",
+        f"OSE_HYBRID_ALPHA_SLOPE={genome['alpha_slope']}",
     ]) + "\n"
 
 
@@ -322,7 +322,7 @@ def main():
     log_path = REPO_ROOT / f"LOGBOOK_{ts}.md"
     log_path.write_text(f"""# Logbook — auto_tune.py run ({now.strftime('%Y-%m-%d %H:%M UTC')})
 
-Automated recurring GA search (`scripts/auto_tune.py`, cron `AUTO_TUNE`).
+Automated recurring GA search (`scripts/auto_tune.py`, cron `OSE_AUTO_TUNE`).
 Corpus/judgment-set content changed since the last run (hash differs), so
 this ran a real search rather than skipping.
 

@@ -66,7 +66,7 @@ changed/removed document's old vectors are marked deleted in
 `data/vectors.db` (filtered out of every search) but stay physically in the
 FAISS graph until a **compaction** rebuilds the whole vector index from only
 the live vectors — this fires automatically once the tombstoned fraction
-crosses `KE_VECTOR_COMPACT_THRESHOLD` (default 0.2, i.e. 20%). BM25 (Tantivy)
+crosses `OSE_VECTOR_COMPACT_THRESHOLD` (default 0.2, i.e. 20%). BM25 (Tantivy)
 has no such limitation — it deletes and re-adds cleanly, no tombstoning
 needed. See `src/ingest/index_faiss.py` for the full explanation.
 
@@ -109,7 +109,7 @@ PYTHONPATH=. .venv/bin/uvicorn api.main:app --host 127.0.0.1 --port 8000   # run
 curl "http://127.0.0.1:8000/search?q=bm25+ranking&k=5"
 ```
 
-`KE_HOST` / `KE_PORT` env vars override the default bind address if needed.
+`OSE_HOST` / `OSE_PORT` env vars override the default bind address if needed.
 
 **Running it as a persistent service** (so it survives SSH disconnects and
 reboots, not just a foreground process): a `systemctl --user` unit, not a
@@ -161,7 +161,7 @@ See the comment at the top of `src/ltr/query_log.py` for the full story.
 **Why P3's reranker isn't trained:** the roadmap explicitly flags starting
 LTR before enough logged signal exists as a risk. This repo's query log
 starts empty and stays empty until real usage happens -- `ltr.train` refuses
-to fit a model below `KE_LTR_MIN_INTERACTIONS` (default 500) logged
+to fit a model below `OSE_LTR_MIN_INTERACTIONS` (default 500) logged
 selections and returns a clear "blocked" result instead of training on too
 little data. See `src/ltr/train.py`'s module docstring.
 
@@ -177,7 +177,7 @@ docker run -d --name memgraph_ke -p 127.0.0.1:7687:7687 --restart unless-stopped
 
 Bound to `127.0.0.1` only, matching sensalis-node's existing convention for
 every other Docker service on it (confirmed by inspecting the node before
-adding anything -- see the P4 logbook). `KE_MEMGRAPH_URI` (default
+adding anything -- see the P4 logbook). `OSE_MEMGRAPH_URI` (default
 `bolt://127.0.0.1:7687`) points the pipeline at it; the standard `neo4j`
 Python driver talks to it over Bolt (Memgraph is Bolt-compatible -- no
 Memgraph-specific client library needed).
@@ -213,7 +213,7 @@ once. Start a second container on a different port:
 docker run -d --name memgraph_ke_test -p 127.0.0.1:7688:7687 --restart unless-stopped memgraph/memgraph
 ```
 
-`KE_TEST_MEMGRAPH_URI` (default `bolt://127.0.0.1:7688`, `Settings.
+`OSE_TEST_MEMGRAPH_URI` (default `bolt://127.0.0.1:7688`, `Settings.
 test_memgraph_uri`) points every `tests/kg/*` fixture at it. `tests/kg/
 test_neighbor_retrieval.py`'s fixture asserts `test_memgraph_uri !=
 memgraph_uri` before doing anything destructive, specifically so a future
@@ -266,7 +266,7 @@ parametrized test, so each of the 20 is its own pass/fail line, not one
 bulk assertion.
 
 **These tests wipe the graph.** `MemgraphStore.clear()` runs before and
-after each test that touches Memgraph -- don't point `KE_MEMGRAPH_URI` at
+after each test that touches Memgraph -- don't point `OSE_MEMGRAPH_URI` at
 an instance holding graph content you want to keep.
 
 ## Running the access control / Git connector (P5)
@@ -282,7 +282,7 @@ Bound to `127.0.0.1` on port **5433**, not 5432 -- 5432 was already taken by
 an unrelated Docker workload found running on sensalis-node when this phase
 started (see the P5 logbook). `POSTGRES_PASSWORD` here is a throwaway local
 dev credential for a loopback-only container, not a real secret -- never
-reuse it for anything that isn't this exact local setup. `KE_POSTGRES_DSN`
+reuse it for anything that isn't this exact local setup. `OSE_POSTGRES_DSN`
 (default `postgresql://postgres:ke_dev_password@127.0.0.1:5433/knowledge_engine`)
 points everything at it.
 
@@ -364,7 +364,7 @@ unrelated third user, public visibility, explicit-grant visibility, and
 denial for a non-grantee.
 
 **These tests wipe the ACL store.** `AclStore.clear()` runs before and
-after each test that touches Postgres -- don't point `KE_POSTGRES_DSN` at
+after each test that touches Postgres -- don't point `OSE_POSTGRES_DSN` at
 an instance holding ACL data you want to keep.
 
 ## Running the web crawl (P6)
@@ -462,7 +462,7 @@ without it.** Two things this repo does not manage for you:
    curl -L -o data/models/Qwen2.5-3B-Instruct-Q4_K_M.gguf \
      https://huggingface.co/bartowski/Qwen2.5-3B-Instruct-GGUF/resolve/main/Qwen2.5-3B-Instruct-Q4_K_M.gguf
    ```
-   `KE_LLM_MODEL_PATH` (default `data/models/Qwen2.5-3B-Instruct-Q4_K_M.gguf`)
+   `OSE_LLM_MODEL_PATH` (default `data/models/Qwen2.5-3B-Instruct-Q4_K_M.gguf`)
    points the answer layer at it.
 
 ```bash
@@ -528,7 +528,7 @@ for the non-kg/non-access tests —
 every test that needs an index builds its own throwaway one in a temp
 directory. First run needs network once, for the BGE-Small model download
 (see above); after that it's fully offline. To also run the PDF test:
-`KE_ENABLE_PDF_TESTS=1 PYTHONPATH=src .venv/bin/python -m pytest -q`.
+`OSE_ENABLE_PDF_TESTS=1 PYTHONPATH=src .venv/bin/python -m pytest -q`.
 
 - `tests/eval/test_metrics.py` — known-answer unit tests per metric.
 - `tests/eval/test_harness.py` — real judgment set against the three stubs,
@@ -690,5 +690,5 @@ logbook for why).
    it's fully offline except the one PDF-parsing test, which stays
    gated/skipped by default (see "Network dependencies" above).
 5. Nothing in this repo hardcodes a path, host, or port — `src/config/__init__.py`
-   reads everything from `KE_*` environment variables (or a `.env` file) with
+   reads everything from `OSE_*` environment variables (or a `.env` file) with
    local-relative defaults, so no config edits should be needed for a basic run.

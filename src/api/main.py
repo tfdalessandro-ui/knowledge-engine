@@ -1,7 +1,7 @@
 """FastAPI app exposing hybrid search plus P3's query-log/selection capture.
 Run with:
 
-    uvicorn api.main:app --host <KE_HOST> --port <KE_PORT>   (from src/, with PYTHONPATH=.)
+    uvicorn api.main:app --host <OSE_HOST> --port <OSE_PORT>   (from src/, with PYTHONPATH=.)
 """
 from __future__ import annotations
 

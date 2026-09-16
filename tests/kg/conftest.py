@@ -40,7 +40,7 @@ def pytest_configure(config):
 def pytest_collection_modifyitems(config, items):
     if _REACHABLE:
         return
-    skip = pytest.mark.skip(reason="Memgraph not reachable at KE_MEMGRAPH_URI -- see HELP.md for the docker run command")
+    skip = pytest.mark.skip(reason="Memgraph not reachable at OSE_MEMGRAPH_URI -- see HELP.md for the docker run command")
     for item in items:
         if "requires_memgraph" in item.keywords:
             item.add_marker(skip)

@@ -31,7 +31,7 @@ def pytest_configure(config):
 def pytest_collection_modifyitems(config, items):
     if _REACHABLE:
         return
-    skip = pytest.mark.skip(reason="PostgreSQL not reachable at KE_POSTGRES_DSN -- see HELP.md for the docker run command")
+    skip = pytest.mark.skip(reason="PostgreSQL not reachable at OSE_POSTGRES_DSN -- see HELP.md for the docker run command")
     for item in items:
         if "requires_postgres" in item.keywords:
             item.add_marker(skip)

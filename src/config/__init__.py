@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     # only ever be found by one of the two. Fixed 2026-09-04 while wiring
     # up scripts/auto_tune.py's deploy mechanism, which needs both to
     # reliably read the same .env. See LOGBOOK_09042026_*.md.
-    model_config = SettingsConfigDict(env_prefix="KE_", env_file=str(REPO_ROOT / ".env"), extra="ignore")
+    model_config = SettingsConfigDict(env_prefix="OSE_", env_file=str(REPO_ROOT / ".env"), extra="ignore")
 
     data_dir: Path = REPO_ROOT / "data"
     corpus_dir: Path = REPO_ROOT / "data" / "corpus"
@@ -28,11 +28,11 @@ class Settings(BaseSettings):
     # P2 hybrid fusion params, deployed 2026-09-04 after two rounds of
     # cross-validated GA search (see LOGBOOK_09042026_*.md) -- kept in sync
     # with HybridIndex's own class defaults. fusion_mode="weighted" (score
-    # fusion, KE_HYBRID_FUSION_MODE) beat fusion_mode="rrf" (rank fusion)
-    # on held-out data in 4/5 folds; hybrid_alpha (KE_HYBRID_ALPHA) is the
+    # fusion, OSE_HYBRID_FUSION_MODE) beat fusion_mode="rrf" (rank fusion)
+    # on held-out data in 4/5 folds; hybrid_alpha (OSE_HYBRID_ALPHA) is the
     # weighted-fusion weight on the BM25 side, tightly stable across folds
     # (0.535-0.548 in 4/5). hybrid_rrf_k/hybrid_chunk_fanout
-    # (KE_HYBRID_RRF_K/KE_HYBRID_CHUNK_FANOUT) are kept for fusion_mode="rrf"
+    # (OSE_HYBRID_RRF_K/OSE_HYBRID_CHUNK_FANOUT) are kept for fusion_mode="rrf"
     # (and chunk_fanout is shared by both modes -- it's the candidate-pool
     # depth per side before fusion, not RRF-specific).
     hybrid_rrf_k: int = 1
@@ -41,8 +41,8 @@ class Settings(BaseSettings):
     hybrid_alpha: float = 0.535
     # Adaptive alpha (fork point #3): "fixed" uses hybrid_alpha above as a
     # constant; "adaptive" computes alpha per query via eval.adaptive_alpha
-    # instead (hybrid_alpha_base/hybrid_alpha_slope, KE_HYBRID_ALPHA_MODE /
-    # KE_HYBRID_ALPHA_BASE / KE_HYBRID_ALPHA_SLOPE).
+    # instead (hybrid_alpha_base/hybrid_alpha_slope, OSE_HYBRID_ALPHA_MODE /
+    # OSE_HYBRID_ALPHA_BASE / OSE_HYBRID_ALPHA_SLOPE).
     hybrid_alpha_mode: str = "fixed"
     hybrid_alpha_base: float = 0.535
     hybrid_alpha_slope: float = 0.0

@@ -29,7 +29,7 @@ def pytest_configure(config):
 def pytest_collection_modifyitems(config, items):
     if _AVAILABLE:
         return
-    skip = pytest.mark.skip(reason="llama-cpp-python and/or the GGUF model at KE_LLM_MODEL_PATH is not available -- see HELP.md")
+    skip = pytest.mark.skip(reason="llama-cpp-python and/or the GGUF model at OSE_LLM_MODEL_PATH is not available -- see HELP.md")
     for item in items:
         if "requires_llm" in item.keywords:
             item.add_marker(skip)

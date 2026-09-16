@@ -84,7 +84,7 @@ def main() -> int:
     log_path = Path(__file__).resolve().parents[1] / f"LOGBOOK_{now.strftime('%m%d%Y_%H%M%S')}.md"
     log_path.write_text(f"""# Logbook — research_loop.py decision run ({now.strftime('%Y-%m-%d %H:%M UTC')})
 
-Automated day-14 decision check (`research/loop.py`, cron `KE_RESEARCH_LOOP`).
+Automated day-14 decision check (`research/loop.py`, systemd `ose-research-loop.timer`).
 
 ## Decisions made this run
 {chr(10).join(f'- candidate {cid}: **{outcome}**' for cid, outcome in decisions) if decisions else '- none due'}

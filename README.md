@@ -202,7 +202,7 @@ scripts/      one-time corpus-seeding generators, P2 benchmark script
 PYTHONPATH=src .venv/bin/python -m pytest -q
 ```
 
-One test (PDF parsing) is gated behind `KE_ENABLE_PDF_TESTS=1` because it
+One test (PDF parsing) is gated behind `OSE_ENABLE_PDF_TESTS=1` because it
 triggers a one-time ML model download — see
 [HELP.md](HELP.md#network-dependency-pdf-only) for why. Unlike PDF, the P2
 embedding tests are NOT gated — embeddings are P2's actual deliverable, so
