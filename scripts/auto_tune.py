@@ -240,6 +240,8 @@ def _deploy(genome) -> tuple[bool, str]:
     """Writes .env, restarts the service, verifies health + a real query.
     Rolls back automatically on any verification failure. Returns
     (success, detail_message)."""
+    settings = get_settings()
+    base = settings.api_base_url
     previous_env = ENV_PATH.read_text() if ENV_PATH.exists() else ""
     backup_path = ENV_PATH.with_suffix(f".bak_{int(time.time())}")
     if ENV_PATH.exists():
@@ -247,7 +249,7 @@ def _deploy(genome) -> tuple[bool, str]:
 
     ENV_PATH.write_text(_env_lines_for(genome))
     restart = subprocess.run(
-        ["systemctl", "--user", "restart", "ose.service"],
+        ["systemctl", "--user", "restart", settings.service_name],
         capture_output=True, text=True,
     )
     if restart.returncode != 0:
@@ -255,17 +257,17 @@ def _deploy(genome) -> tuple[bool, str]:
         return False, f"restart command failed: {restart.stderr.strip()} -- rolled back .env"
 
     time.sleep(3)
-    health = subprocess.run(["curl", "-s", "-o", "/dev/null", "-w", "%{http_code}", "http://127.0.0.1:8000/health"], capture_output=True, text=True)
+    health = subprocess.run(["curl", "-s", "-o", "/dev/null", "-w", "%{http_code}", f"{base}/health"], capture_output=True, text=True)
     query_check = subprocess.run(
-        ["curl", "-s", "http://127.0.0.1:8000/search?q=bm25%20ranking&k=3"],
+        ["curl", "-s", "-G", f"{base}/search", "--data-urlencode", f"q={settings.smoke_query}", "--data", "k=3"],
         capture_output=True, text=True,
     )
     ok = health.stdout.strip() == "200" and '"hits"' in query_check.stdout and query_check.stdout.count('"doc_id"') > 0
     if not ok:
         ENV_PATH.write_text(previous_env)
-        subprocess.run(["systemctl", "--user", "restart", "ose.service"], capture_output=True, text=True)
+        subprocess.run(["systemctl", "--user", "restart", settings.service_name], capture_output=True, text=True)
         time.sleep(3)
-        rollback_health = subprocess.run(["curl", "-s", "-o", "/dev/null", "-w", "%{http_code}", "http://127.0.0.1:8000/health"], capture_output=True, text=True)
+        rollback_health = subprocess.run(["curl", "-s", "-o", "/dev/null", "-w", "%{http_code}", f"{base}/health"], capture_output=True, text=True)
         return False, (
             f"post-deploy verification FAILED (health={health.stdout.strip()!r}, "
             f"query had hits: {'\"doc_id\"' in query_check.stdout}) -- rolled back .env "

@@ -49,7 +49,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 JUDGMENTS_PATH = REPO_ROOT / "data" / "judgments" / "judgments.json"
 CORPUS_DIR = REPO_ROOT / "data" / "corpus"
 
-ENGINE_URL = "http://127.0.0.1:8000/search"
+ENGINE_URL = f"{get_settings().api_base_url}/search"
 SEARXNG_URL = "http://127.0.0.1:8888/search"
 OPENSEARCH_URL = "http://127.0.0.1:9200"
 OPENSEARCH_INDEX = "ke_benchmark_corpus"

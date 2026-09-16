@@ -62,7 +62,7 @@ def check_kg_count(settings) -> tuple[bool, str]:
         return False, f"KG check errored (Memgraph unreachable?): {exc}"
 
 
-def check_git_sync() -> tuple[bool, str]:
+def check_git_sync(settings) -> tuple[bool, str]:
     try:
         status = subprocess.run(["git", "status", "--porcelain"], cwd=REPO_ROOT,
                                  capture_output=True, text=True, timeout=15).stdout.strip()
@@ -75,11 +75,23 @@ def check_git_sync() -> tuple[bool, str]:
         problems = []
         if status:
             problems.append(f"uncommitted changes present:\n{status}")
-        if local != remote:
-            problems.append(f"local HEAD ({local[:8]}) != origin/main ({remote[:8]})")
+        if settings.instance_branch == "main":
+            if local != remote:
+                problems.append(f"local HEAD ({local[:8]}) != origin/main ({remote[:8]})")
+            detail = f"clean, HEAD == origin/main ({local[:8]})"
+        else:
+            # An instance branch is in sync when it contains every origin/main
+            # commit; its own instance-only commits on top are expected.
+            contained = subprocess.run(["git", "merge-base", "--is-ancestor", remote, "HEAD"], cwd=REPO_ROOT,
+                                        capture_output=True, timeout=10).returncode == 0
+            if not contained:
+                behind = subprocess.run(["git", "rev-list", "--count", f"HEAD..{remote}"], cwd=REPO_ROOT,
+                                         capture_output=True, text=True, timeout=10).stdout.strip()
+                problems.append(f"instance branch is {behind} commit(s) behind origin/main ({remote[:8]})")
+            detail = f"clean, {settings.instance_branch} contains origin/main ({remote[:8]})"
         if problems:
             return False, "; ".join(problems)
-        return True, f"clean, HEAD == origin/main ({local[:8]})"
+        return True, detail
     except Exception as exc:  # noqa: BLE001
         return False, f"git check errored: {exc}"
 
@@ -106,9 +118,9 @@ def check_judgment_set() -> tuple[bool, str]:
     return True, f"{n_rows} rows / {n_queries} queries (was {last_rows})"
 
 
-def check_live_api() -> tuple[bool, str]:
+def check_live_api(settings) -> tuple[bool, str]:
     try:
-        r = httpx.get("http://127.0.0.1:8000/search", params={"q": "okapi bm25 ranking", "k": 1}, timeout=15.0)
+        r = httpx.get(f"{settings.api_base_url}/search", params={"q": settings.smoke_query, "k": 1}, timeout=15.0)
         r.raise_for_status()
         hits = r.json().get("hits", [])
         if not hits:
@@ -122,9 +134,9 @@ def main() -> int:
     settings = get_settings()
     checks = {
         "kg_count": check_kg_count(settings),
-        "git_sync": check_git_sync(),
+        "git_sync": check_git_sync(settings),
         "judgment_set": check_judgment_set(),
-        "live_api": check_live_api(),
+        "live_api": check_live_api(settings),
     }
 
     all_ok = True

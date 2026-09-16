@@ -15,7 +15,24 @@ class Settings(BaseSettings):
     # only ever be found by one of the two. Fixed 2026-09-04 while wiring
     # up scripts/auto_tune.py's deploy mechanism, which needs both to
     # reliably read the same .env. See LOGBOOK_09042026_*.md.
-    model_config = SettingsConfigDict(env_prefix="OSE_", env_file=str(REPO_ROOT / ".env"), extra="ignore")
+    # instance.env holds instance identity (committed on instance branches,
+    # absent on main); .env holds auto_tune's deployed tuning and is
+    # rewritten wholesale by scripts/auto_tune.py, so identity must not live
+    # there. Later files win on overlapping keys.
+    model_config = SettingsConfigDict(
+        env_prefix="OSE_",
+        env_file=(str(REPO_ROOT / "instance.env"), str(REPO_ROOT / ".env")),
+        extra="ignore",
+    )
+
+    # Instance identity. Defaults describe the original OSE instance, so shared
+    # code (auto_tune, benchmarks, status_recheck) never hardcodes a service,
+    # port, smoke query or branch -- that hardcoding is exactly what made the
+    # Sensalis instance's scripts silently target the original engine.
+    instance_name: str = "ose"
+    service_name: str = "ose.service"
+    smoke_query: str = "okapi bm25 ranking"
+    instance_branch: str = "main"
 
     data_dir: Path = REPO_ROOT / "data"
     corpus_dir: Path = REPO_ROOT / "data" / "corpus"
@@ -119,6 +136,10 @@ class Settings(BaseSettings):
     bench_log_dir: Path = REPO_ROOT / "data" / "bench_logs"
     host: str = "127.0.0.1"
     port: int = 8000
+
+    @property
+    def api_base_url(self) -> str:
+        return f"http://{self.host}:{self.port}"
 
 
 def get_settings() -> Settings:
