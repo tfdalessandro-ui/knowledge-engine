@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily OSE forward sync for instance %i
+
+[Timer]
+# After the source instance's own nightly jobs (crawl 03:00 ... research-loop 04:30).
+OnCalendar=*-*-* 05:15:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=OSE forward sync main -> instance %i (rolls back on regression)
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/sensalis/work/%i
+Environment=PYTHONPATH=/home/sensalis/work/%i/src
+ExecStart=/home/sensalis/work/%i/.venv/bin/python scripts/sync_instance.py
+StandardOutput=append:/home/sensalis/work/%i/log/sync_instance_timer.log
+StandardError=append:/home/sensalis/work/%i/log/sync_instance_timer.log

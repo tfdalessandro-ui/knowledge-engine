@@ -33,6 +33,11 @@ class Settings(BaseSettings):
     service_name: str = "ose.service"
     smoke_query: str = "okapi bm25 ranking"
     instance_branch: str = "main"
+    # Paths an instance branch may differ from main in (see src/instance_sync).
+    instance_paths: list[str] = []
+    # Queries whose top-5 ranking scripts/sync_instance.py pins across a sync,
+    # in addition to smoke_query.
+    sync_smoke_queries: list[str] = []
 
     data_dir: Path = REPO_ROOT / "data"
     corpus_dir: Path = REPO_ROOT / "data" / "corpus"
