@@ -282,7 +282,7 @@ actually pass the tuned settings through. Full story and verification in
 - [x] `~/work/knowledge_engine` → `~/work/ose` (+ venv shebang/`pyvenv.cfg` repair)
 - [x] Found + restored `src/research/`, `src/discovery/`, `src/eval/adaptive_alpha.py`
   lost in the 14 Sep migration (`LOGBOOK_09162026_220500.md`)
-- [x] Crontab `KE_AUTO_TUNE` repointed to `~/work/ose` (marker name itself not yet renamed)
+- [x] Crontab auto-tune line repointed to `~/work/ose`; marker renamed `KE_AUTO_TUNE` → `OSE_AUTO_TUNE`
 - [x] systemd: `ke-{crawl,kg-extract,research-crawl,research-loop,status-recheck}` →
   `ose-*` (timer stamps carried over, next-fire times unchanged);
   `knowledge-engine.service` → `ose.service` (+ `auto_tune.py`,
@@ -292,6 +292,8 @@ actually pass the tuned settings through. Full story and verification in
   its own `sensalis-pricing-engine.service` — copied verbatim at clone time.
   Not scheduled there, so never fired; after this rename it would now just
   fail the restart and roll back. Fix during the clone's own rename step.
-- [ ] `config` env prefix `KE_` → `OSE_`; cron marker `KE_AUTO_TUNE`
+- [x] Config env prefix `KE_` → `OSE_` (`21fd17e`): effective settings identical
+  (51 fields), `OSE_` overrides honored, `KE_` ignored, 172 tests pass
+  (`LOGBOOK_09162026_224500.md`)
 - [ ] Sensalis clone rename; backup dir decision; GitHub repo rename (manual,
   needs the owner — no `gh` token here); laptop folder renames; doc branding
