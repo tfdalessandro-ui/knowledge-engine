@@ -88,7 +88,15 @@ def check_git_sync(settings) -> tuple[bool, str]:
                 behind = subprocess.run(["git", "rev-list", "--count", f"HEAD..{remote}"], cwd=REPO_ROOT,
                                          capture_output=True, text=True, timeout=10).stdout.strip()
                 problems.append(f"instance branch is {behind} commit(s) behind origin/main ({remote[:8]})")
-            detail = f"clean, {settings.instance_branch} contains origin/main ({remote[:8]})"
+            else:
+                from instance_sync import shared_paths
+
+                changed = subprocess.run(["git", "diff", "--name-only", remote, "HEAD"], cwd=REPO_ROOT,
+                                          capture_output=True, text=True, timeout=10).stdout.split()
+                unpromoted = shared_paths(changed, settings.instance_paths)
+                if unpromoted:
+                    problems.append(f"unpromoted shared-code changes on the instance (run promote_check.py): {unpromoted}")
+            detail = f"clean, {settings.instance_branch} contains origin/main ({remote[:8]}), no unpromoted shared changes"
         if problems:
             return False, "; ".join(problems)
         return True, detail

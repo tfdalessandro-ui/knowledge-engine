@@ -46,6 +46,16 @@ def git(*args: str, check: bool = True) -> subprocess.CompletedProcess:
     return subprocess.run(["git", *args], cwd=REPO_ROOT, capture_output=True, text=True, check=check)
 
 
+def changed_since(source: str) -> list[str]:
+    """Paths the instance branch changed relative to the source ref. Diffs the
+    merged tree against the source tree, not merge-base..HEAD: once main is
+    merged in, main's own changes would otherwise count as instance changes."""
+    if git("merge-base", "--is-ancestor", source, "HEAD", check=False).returncode == 0:
+        return [p for p in git("diff", "--name-only", source, "HEAD").stdout.splitlines() if p]
+    base = git("merge-base", "HEAD", source).stdout.strip()
+    return [p for p in git("diff", "--name-only", base, "HEAD").stdout.splitlines() if p]
+
+
 def run_tests(junit_path: Path) -> dict[str, str]:
     subprocess.run(
         [sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", "--ignore=tests/eval",
@@ -103,17 +113,16 @@ def main(argv: list[str] | None = None) -> int:
     if args.source_ref.startswith("origin/"):
         git("fetch", "-q", "origin")
     source = git("rev-parse", args.source_ref).stdout.strip()
-    if git("merge-base", "--is-ancestor", source, "HEAD", check=False).returncode == 0:
-        log(f"UP-TO-DATE: {settings.instance_name} already contains {args.source_ref} ({source[:8]})")
-        return 0
-
-    base = git("merge-base", "HEAD", source).stdout.strip()
-    changed = [p for p in git("diff", "--name-only", base, "HEAD").stdout.splitlines() if p]
-    divergent = shared_paths(changed, settings.instance_paths)
+    # Checked before "up to date": an instance that already contains main can
+    # still carry unpromoted shared-code changes, and those must surface.
+    divergent = shared_paths(changed_since(source), settings.instance_paths)
     if divergent:
         log(f"DIVERGENT: {settings.instance_name} changes shared paths not on main, not merging: {divergent} "
             f"-- run scripts/promote_check.py")
         return 3
+    if git("merge-base", "--is-ancestor", source, "HEAD", check=False).returncode == 0:
+        log(f"UP-TO-DATE: {settings.instance_name} already contains {args.source_ref} ({source[:8]})")
+        return 0
 
     pre = git("rev-parse", "HEAD").stdout.strip()
     behind = git("rev-list", "--count", f"HEAD..{source}").stdout.strip()
