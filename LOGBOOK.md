@@ -19,7 +19,6 @@ still open as of this index's creation.
 | Logbook file | Title |
 |---|---|
 | `LOGBOOK_09162026_224500.md` | Logbook — OSE rename: config env prefix KE_ → OSE_ |
-| `LOGBOOK_09162026_224500.md` | Logbook — OSE rename: config env prefix KE_ → OSE_ |
 | `LOGBOOK_09162026_221500.md` | Logbook — OSE rename: systemd units renamed one at a time, each with a regression check |
 | `LOGBOOK_09162026_220500.md` | Logbook — Three packages silently lost in the 14 Sep migration; found by the OSE-rename regression check, restored |
 | `LOGBOOK_09162026_052659.md` | Logbook — P7 fabricated-passage bug: root-caused and fixed, real inference verified |
