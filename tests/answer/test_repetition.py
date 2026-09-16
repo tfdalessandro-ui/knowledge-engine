@@ -1,4 +1,4 @@
-from answer.repetition import truncate_on_repeat
+from answer.repetition import truncate_on_fabricated_passage, truncate_on_repeat
 
 
 def test_leaves_normal_answer_unchanged():
@@ -28,3 +28,41 @@ def test_truncates_a_run_that_reaches_the_very_end_mid_token():
 
 def test_empty_string_is_unchanged():
     assert truncate_on_repeat("") == ""
+
+
+def test_leaves_normal_answer_with_paragraph_citation_unchanged():
+    # Real, valid P7 output (2026-09-15 batch): a legitimate citation
+    # starting a fresh paragraph, with more real prose after it -- must
+    # NOT be truncated just because it starts a new line.
+    text = "Chunking splits documents before indexing them effectively.\n\n[doc20_web_crawling::0] This lets each piece be scored independently."
+    assert truncate_on_fabricated_passage(text) == text
+
+
+def test_truncates_a_real_fabricated_passage_block():
+    # Real P7 output (2026-09-15 batch, "layered proximity graph structure
+    # for nearest neighbor search"): a correct answer followed by an
+    # entirely invented extra "passage" in build_prompt's own format.
+    text = (
+        "This structure allows searches starting from a high-level node, "
+        "moving towards closer neighbors until reaching promising candidates "
+        "[doc09_vector_embeddings::0]. This strategy is described as greedy "
+        "navigation where locally better nodes are chosen repeatedly using "
+        "graph structures.\n\n"
+        "[https_en_wikipedia_org_wiki_Curse_of_dimensionality_86754123::9] "
+        "(from https_en_wikipedia_org_wiki_Curse_of_dimensionality_86754123):\n"
+        "In mathematics, computer science and statistics the curse of "
+        "dimensionality refers to..."
+    )
+    result = truncate_on_fabricated_passage(text)
+    assert result == (
+        "This structure allows searches starting from a high-level node, "
+        "moving towards closer neighbors until reaching promising candidates "
+        "[doc09_vector_embeddings::0]. This strategy is described as greedy "
+        "navigation where locally better nodes are chosen repeatedly using "
+        "graph structures."
+    )
+    assert "Curse_of_dimensionality" not in result
+
+
+def test_empty_string_is_unchanged_for_fabricated_passage_check():
+    assert truncate_on_fabricated_passage("") == ""

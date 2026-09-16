@@ -82,11 +82,29 @@ re-tested it.
   sometimes echo it verbatim (`[chunk_id bm25::0]`), which the validator
   correctly rejected. Fixed the instruction's example; verified with real
   (non-mocked) LLM inference, both `test_answer_pipeline.py` tests now
-  pass (previously failing). This plausibly improves the 2/3 number above
-  — it removes one concrete, reproducible failure mode — but the
-  20-query batch that produced 2/3 hasn't been re-run (~3-4h on this
-  hardware at 9-11 min/query). **Open follow-up: re-run the P7 batch and
-  get a real, current number instead of assuming this fixed it.**
+  pass (previously failing).
+- [x] **Re-ran the full 20-query P7 batch 2026-09-15** (not just the 2
+  unit tests) to get the real current number rather than assume the fix
+  above generalized — it didn't cleanly: aggregate structural
+  trace-validity was **77/100 citations valid**, actually *worse* than
+  the old buggy run's 468/483 (though the two runs produce very
+  differently-shaped answers — ~5 citations/query now vs. ~24/query
+  then — so not a clean apples-to-apples number). Digging in surfaced a
+  *different*, more serious bug: the model fabricating entire fake extra
+  "passages" (invented doc_ids + plausible content that was never
+  retrieved) once it finishes a real answer with token budget left over,
+  mimicking `build_prompt`'s own passage-block format. Root-caused, fixed,
+  and verified with real inference in `LOGBOOK_09162026_052659.md` — see
+  that file for the fix (`answer/model.py` stop sequences +
+  `truncate_on_fabricated_passage()`) and its one honestly-unresolved
+  detail (the exact stop mechanism on the verification run wasn't fully
+  isolated from the earlier prompt-wording change).
+- [ ] **Still open: the full 20-query batch has not been re-run with the
+  fabrication fix.** Only the single worst-offending query was verified
+  with real inference (clean result). A full re-run (~20h on this
+  hardware based on the 2026-09-15 run's actual pace, not the older
+  9-11 min/query baseline) would give a real, current aggregate number
+  instead of one data point — not assumed to generalize from it.
 
 ## 5. KG entity/relation count — [x] root-caused and fixed 2026-09-14
 

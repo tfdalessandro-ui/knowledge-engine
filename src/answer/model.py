@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from answer.repetition import truncate_on_repeat
+from answer.repetition import truncate_on_fabricated_passage, truncate_on_repeat
 
 _model = None
 _model_path = None
@@ -37,6 +37,15 @@ def generate(
         max_tokens=max_tokens,
         temperature=temperature,
         repeat_penalty=repeat_penalty,
-        stop=["\n\nQuestion:", "\n\nPassages:"],
+        # "\nAnswer:"/"\n\nAnswer:" -- model restarting a whole new fake Q&A
+        # turn. "] (from " -- the exact phrase only build_prompt's own
+        # passage block uses; stops most of a fabricated-passage cascade
+        # before it goes further (see repetition.py's
+        # truncate_on_fabricated_passage, the post-hoc cleanup for the one
+        # fabricated citation that's already been emitted by the time this
+        # matches).
+        stop=["\n\nQuestion:", "\n\nPassages:", "\nAnswer:", "\n\nAnswer:", "] (from "],
     )
-    return truncate_on_repeat(result["choices"][0]["text"].strip())
+    text = result["choices"][0]["text"].strip()
+    text = truncate_on_fabricated_passage(text)
+    return truncate_on_repeat(text)
