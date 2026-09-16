@@ -247,7 +247,7 @@ def _deploy(genome) -> tuple[bool, str]:
 
     ENV_PATH.write_text(_env_lines_for(genome))
     restart = subprocess.run(
-        ["systemctl", "--user", "restart", "knowledge-engine.service"],
+        ["systemctl", "--user", "restart", "ose.service"],
         capture_output=True, text=True,
     )
     if restart.returncode != 0:
@@ -263,7 +263,7 @@ def _deploy(genome) -> tuple[bool, str]:
     ok = health.stdout.strip() == "200" and '"hits"' in query_check.stdout and query_check.stdout.count('"doc_id"') > 0
     if not ok:
         ENV_PATH.write_text(previous_env)
-        subprocess.run(["systemctl", "--user", "restart", "knowledge-engine.service"], capture_output=True, text=True)
+        subprocess.run(["systemctl", "--user", "restart", "ose.service"], capture_output=True, text=True)
         time.sleep(3)
         rollback_health = subprocess.run(["curl", "-s", "-o", "/dev/null", "-w", "%{http_code}", "http://127.0.0.1:8000/health"], capture_output=True, text=True)
         return False, (

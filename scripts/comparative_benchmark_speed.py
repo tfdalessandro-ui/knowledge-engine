@@ -29,7 +29,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 def _engine_pid() -> str | None:
     try:
         out = subprocess.run(
-            ["systemctl", "--user", "show", "knowledge-engine.service", "-p", "MainPID"],
+            ["systemctl", "--user", "show", "ose.service", "-p", "MainPID"],
             capture_output=True, text=True, timeout=5,
         ).stdout.strip()
         pid = out.split("=", 1)[1]

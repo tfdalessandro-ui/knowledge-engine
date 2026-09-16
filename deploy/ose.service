@@ -1,0 +1,13 @@
+[Unit]
+Description=OSE API (FastAPI/uvicorn)
+After=network.target
+
+[Service]
+WorkingDirectory=/home/sensalis/work/ose/src
+Environment=PYTHONPATH=/home/sensalis/work/ose/src
+ExecStart=/home/sensalis/work/ose/.venv/bin/uvicorn api.main:app --host 127.0.0.1 --port 8000
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
