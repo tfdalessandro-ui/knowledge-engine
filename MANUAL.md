@@ -55,7 +55,7 @@ Three checks, from simplest to most detailed:
 
 2. **Is the service itself running, and for how long:**
    ```
-   systemctl --user status knowledge-engine.service
+   systemctl --user status ose.service
    ```
    Look for `Active: active (running) since ...` — that timestamp is how
    long it's been continuously up.

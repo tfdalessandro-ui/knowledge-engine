@@ -29,7 +29,7 @@ in `README.md` and `HELP.md`.
   has 2 shared CPU cores; any future research-to-production loop /
   GA-swarm tuning / on-demand discovery work competes with live
   query-serving on the same box.
-- **Service is live right now**: `knowledge-engine.service` (systemd
+- **Service is live right now**: `ose.service` (systemd
   --user, enabled), active since 2026-09-10 05:32:30 UTC — 4 days
   uninterrupted uptime as of this write-up. `/health` → `{"status":"ok"}`.
   `/search?q=okapi+bm25+ranking&k=2` returns real ranked hits (BM25+vector
@@ -73,7 +73,7 @@ in `README.md` and `HELP.md`.
   **honestly not built** — `access.connectors` reports all four
   `NOT_CONFIGURED` with an explicit reason (no Microsoft Graph API Azure
   AD credentials), confirmed still true today.
-- **P6** (web crawl): done, live, running daily. `ke-crawl.timer`
+- **P6** (web crawl): done, live, running daily. `ose-crawl.timer`
   (03:00 UTC) re-fetches the 12-URL allowlist with real TTL/re-fetch
   logic — verified live today (`rechecked_changed=10` on this session's
   own manual run).
@@ -91,10 +91,10 @@ in `README.md` and `HELP.md`.
 All of the following are live, running on their own schedule, verified
 today:
 
-- **Continuous crawler** (Step 1) — `ke-crawl.timer`, daily 03:00 UTC.
+- **Continuous crawler** (Step 1) — `ose-crawl.timer`, daily 03:00 UTC.
   Real re-fetch/TTL (`DEFAULT_TTL_DAYS=1.0`), not just a timer firing.
-- **Research-to-production loop** (Step 2) — `ke-research-crawl.timer`
-  (04:00) + `ke-research-loop.timer` (04:30), both daily. One candidate
+- **Research-to-production loop** (Step 2) — `ose-research-crawl.timer`
+  (04:00) + `ose-research-loop.timer` (04:30), both daily. One candidate
   registered (`smaller_chunks_lower_overlap`, 0.9091→0.9177 nDCG@10),
   `status=pending`, `decision_date=2026-09-20` — 6 days out as of this
   write-up, not yet due. No rollback ever triggered (nothing has been

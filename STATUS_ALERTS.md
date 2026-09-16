@@ -1,7 +1,7 @@
 # Status Alerts
 
 Append-only log of `scripts/status_recheck.py` failures (weekly cron,
-`ke-status-recheck.timer`). Each entry is appended automatically by the
+`ose-status-recheck.timer`). Each entry is appended automatically by the
 script when a check fails; **committing the append is a manual step**,
 deliberately not automated, so a false alarm can't quietly rewrite
 history unsupervised.

@@ -120,11 +120,11 @@ all:
 
 ```bash
 mkdir -p ~/.config/systemd/user
-cp deploy/knowledge-engine.service ~/.config/systemd/user/   # adjust paths inside if your checkout isn't at ~/work/knowledge_engine
+cp deploy/ose.service ~/.config/systemd/user/   # adjust paths inside if your checkout isn't at ~/work/ose
 systemctl --user daemon-reload
-systemctl --user enable --now knowledge-engine.service
+systemctl --user enable --now ose.service
 loginctl enable-linger $(whoami)   # survives logout/reboot; succeeded without sudo on this node
-systemctl --user status knowledge-engine.service --no-pager
+systemctl --user status ose.service --no-pager
 ```
 
 Verify it's actually live, not just "should work": `ps aux | grep uvicorn`,
@@ -195,7 +195,7 @@ merge_candidates_queued=..`. Unlike `ingest.pipeline`, this always does a
 full pass -- entity resolution needs to see the whole corpus's entity set,
 not one file in isolation, and P4's corpus-scale makes that cheap.
 
-In production this runs on a schedule (`ke-kg-extract.timer`, systemd
+In production this runs on a schedule (`ose-kg-extract.timer`, systemd
 `--user`, daily 03:15 UTC on sensalis-node) rather than only on manual
 invocation -- added 2026-09-14 after `run_kg_extraction()` was found to
 have no production caller at all (see TODO.md item 5), which is also why
