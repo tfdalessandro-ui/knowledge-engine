@@ -18,6 +18,7 @@ still open as of this index's creation.
 
 | Logbook file | Title |
 |---|---|
+| `LOGBOOK_09172026_000500.md` | Logbook — OSE rename: laptop folders renamed; laptop venv repaired (including damage I caused) |
 | `LOGBOOK_09162026_233500.md` | Logbook — Instance sync: original ↔ instances, built and verified live |
 | `LOGBOOK_09162026_233000.md` | Logbook — OSE rename: Sensalis clone → `ose_sensalis` / `ose-sensalis.service` |
 | `LOGBOOK_09162026_224500.md` | Logbook — OSE rename: config env prefix KE_ → OSE_ |

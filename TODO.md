@@ -301,9 +301,13 @@ actually pass the tuned settings through. Full story and verification in
   original — a clone KG extraction would write into the original's graph
 - [ ] **Clone's judgment set is still the original's search-tech set** — no eval
   or auto-tune on the clone is meaningful until it has Sensalis judgments
-- [ ] Clone docs (HELP/MANUAL/MASTER/README) still describe the original engine
+- [x] Clone docs: resolved by the instance model — the instance now carries
+  main's docs plus its own `INSTANCE.md`
+- [x] Laptop folders: `...\200 Micro Data Centre\Old School Crawler` → `...\ose`,
+  `...\Sensalis\0 Scripts\sensalis-pricing-engine` → `...\ose_sensalis`
+  (`LOGBOOK_09172026_000500.md`)
 - [ ] Backup dir decision; GitHub repo rename (manual, needs the owner — no
-  `gh` token here); laptop folder renames; doc branding
+  `gh` token here); doc branding
 - [ ] `tests/access/*` connect to `Settings.postgres_dsn` — the production
   `postgres_ose` ACL store, not a test instance (same class of bug as the
   Memgraph test isolation fixed 2026-09-14, item 5). Found 2026-09-16 while
