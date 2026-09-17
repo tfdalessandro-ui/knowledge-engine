@@ -1,0 +1,2 @@
+# Byte-exact reference copies; never normalize line endings.
+recovery/** -text

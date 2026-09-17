@@ -18,6 +18,8 @@ still open as of this index's creation.
 
 | Logbook file | Title |
 |---|---|
+| `LOGBOOK_09172026_041500.md` | Logbook — Backup dir decision: keep it; it holds production features the 14 Sep migration silently lost |
+| `LOGBOOK_09172026_033002.md` | Logbook — auto_tune.py run (2026-09-17 03:30 UTC) |
 | `LOGBOOK_09172026_000500.md` | Logbook — OSE rename: laptop folders renamed; laptop venv repaired (including damage I caused) |
 | `LOGBOOK_09162026_233500.md` | Logbook — Instance sync: original ↔ instances, built and verified live |
 | `LOGBOOK_09162026_233000.md` | Logbook — OSE rename: Sensalis clone → `ose_sensalis` / `ose-sensalis.service` |

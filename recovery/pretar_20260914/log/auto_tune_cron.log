@@ -1,0 +1,14 @@
+No change detected -- skipped.
+No change detected -- skipped.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Precomputing candidates for 126 queries (106 tuning, 20 permanent holdout)...
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 16705.36it/s]
+Logged: /home/sensalis/work/knowledge_engine/LOGBOOK_09072026_033003.md
+Held-out: champion=+4.56% deployed=+4.38% -> not deployed
+No change detected -- skipped.
+No change detected -- skipped.
+No change detected -- skipped.
+No change detected -- skipped.
+No change detected -- skipped.
+No change detected -- skipped.
+No change detected -- skipped.

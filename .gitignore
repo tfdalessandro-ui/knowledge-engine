@@ -1,5 +1,6 @@
 .venv/
 log/
+!recovery/pretar_20260914/log/
 __pycache__/
 *.pyc
 .pytest_cache/

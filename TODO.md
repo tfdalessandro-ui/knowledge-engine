@@ -306,8 +306,23 @@ actually pass the tuned settings through. Full story and verification in
 - [x] Laptop folders: `...\200 Micro Data Centre\Old School Crawler` → `...\ose`,
   `...\Sensalis\0 Scripts\sensalis-pricing-engine` → `...\ose_sensalis`
   (`LOGBOOK_09172026_000500.md`)
-- [ ] Backup dir decision; GitHub repo rename (manual, needs the owner — no
-  `gh` token here); doc branding
+- [x] Backup dir decision: **keep** `~/work/knowledge_engine_pretar_backup_20260914`
+  (read-only, name unchanged since logbooks cite it); its 27 meaningful unique
+  files preserved in git under `recovery/pretar_20260914/` (`LOGBOOK_09172026_041500.md`)
+- [ ] GitHub repo rename (manual, needs the owner — no `gh` token here); doc branding
+
+## 13. Production features lost in the 14 Sep migration (found 2026-09-17)
+
+Found while deciding the backup dir's fate. Node-only edits *inside* files that
+were in git were silently dropped (not just whole node-only files, which were
+restored 16 Sep). Reference copies + manifest: `recovery/pretar_20260914/RECOVERY.md`.
+Port each onto current code, one at a time, each with a regression test:
+
+- [ ] **Crawl TTL re-fetch + content-hash change detection** — the live
+  "continuous crawler" has not re-fetched anything since 14 Sep (highest impact)
+- [ ] **7 crawl allowlist entries** (live list 12 URLs)
+- [ ] **`/search` sparse-result → on-demand discovery trigger** (`discovery_enabled` currently dead config)
+- [ ] **Adaptive alpha** in `HybridIndex` / `eval.run` / API (also item 10)
 - [ ] `tests/access/*` connect to `Settings.postgres_dsn` — the production
   `postgres_ose` ACL store, not a test instance (same class of bug as the
   Memgraph test isolation fixed 2026-09-14, item 5). Found 2026-09-16 while

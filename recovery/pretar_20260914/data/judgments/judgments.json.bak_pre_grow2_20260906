@@ -1,0 +1,1107 @@
+[
+  {
+    "query": "what is bm25 ranking algorithm",
+    "doc_id": "doc01_bm25",
+    "relevance": 3
+  },
+  {
+    "query": "what is bm25 ranking algorithm",
+    "doc_id": "https_en_wikipedia_org_wiki_Okapi_BM25_da69a5a0",
+    "relevance": 3
+  },
+  {
+    "query": "what is bm25 ranking algorithm",
+    "doc_id": "doc02_tfidf",
+    "relevance": 2
+  },
+  {
+    "query": "what is bm25 ranking algorithm",
+    "doc_id": "https_en_wikipedia_org_wiki_Tf_E2_80_93idf_245bc05f",
+    "relevance": 2
+  },
+  {
+    "query": "what is bm25 ranking algorithm",
+    "doc_id": "doc06_sqlite_fts5",
+    "relevance": 1
+  },
+  {
+    "query": "what is bm25 ranking algorithm",
+    "doc_id": "doc22_evaluation_harness",
+    "relevance": 1
+  },
+  {
+    "query": "what is bm25 ranking algorithm",
+    "doc_id": "doc16_rss_memory",
+    "relevance": 0
+  },
+  {
+    "query": "how does ndcg measure search quality",
+    "doc_id": "doc03_ndcg",
+    "relevance": 3
+  },
+  {
+    "query": "how does ndcg measure search quality",
+    "doc_id": "doc22_evaluation_harness",
+    "relevance": 2
+  },
+  {
+    "query": "how does ndcg measure search quality",
+    "doc_id": "doc04_mrr",
+    "relevance": 1
+  },
+  {
+    "query": "how does ndcg measure search quality",
+    "doc_id": "doc05_recall",
+    "relevance": 1
+  },
+  {
+    "query": "how does ndcg measure search quality",
+    "doc_id": "doc17_latency_percentiles",
+    "relevance": 0
+  },
+  {
+    "query": "sqlite full text search",
+    "doc_id": "doc06_sqlite_fts5",
+    "relevance": 3
+  },
+  {
+    "query": "sqlite full text search",
+    "doc_id": "https_sqlite_org_fts5_html_8acf991e",
+    "relevance": 3
+  },
+  {
+    "query": "sqlite full text search",
+    "doc_id": "doc01_bm25",
+    "relevance": 1
+  },
+  {
+    "query": "sqlite full text search",
+    "doc_id": "doc14_pip_pinning",
+    "relevance": 0
+  },
+  {
+    "query": "sqlite full text search",
+    "doc_id": "https_docs_python_org_3_library_sqlite3_html_cf11cb89",
+    "relevance": 0
+  },
+  {
+    "query": "fastapi framework basics",
+    "doc_id": "doc07_fastapi",
+    "relevance": 3
+  },
+  {
+    "query": "fastapi framework basics",
+    "doc_id": "doc13_python_venv",
+    "relevance": 0
+  },
+  {
+    "query": "knowledge graph vs vector search",
+    "doc_id": "doc08_knowledge_graph",
+    "relevance": 3
+  },
+  {
+    "query": "knowledge graph vs vector search",
+    "doc_id": "https_en_wikipedia_org_wiki_Knowledge_graph_869581c6",
+    "relevance": 3
+  },
+  {
+    "query": "knowledge graph vs vector search",
+    "doc_id": "doc09_vector_embeddings",
+    "relevance": 3
+  },
+  {
+    "query": "knowledge graph vs vector search",
+    "doc_id": "https_en_wikipedia_org_wiki_Vector_database_a8d0a318",
+    "relevance": 3
+  },
+  {
+    "query": "knowledge graph vs vector search",
+    "doc_id": "doc10_hybrid_search",
+    "relevance": 2
+  },
+  {
+    "query": "knowledge graph vs vector search",
+    "doc_id": "doc23_reciprocal_rank_fusion",
+    "relevance": 1
+  },
+  {
+    "query": "cpu efficient machine learning inference",
+    "doc_id": "doc12_cpu_inference",
+    "relevance": 3
+  },
+  {
+    "query": "cpu efficient machine learning inference",
+    "doc_id": "doc24_quantized_models",
+    "relevance": 3
+  },
+  {
+    "query": "cpu efficient machine learning inference",
+    "doc_id": "doc15_hetzner_ccx",
+    "relevance": 1
+  },
+  {
+    "query": "cpu efficient machine learning inference",
+    "doc_id": "doc16_rss_memory",
+    "relevance": 0
+  },
+  {
+    "query": "python virtual environments",
+    "doc_id": "doc13_python_venv",
+    "relevance": 3
+  },
+  {
+    "query": "python virtual environments",
+    "doc_id": "https_docs_python_org_3_library_venv_html_378bbfd6",
+    "relevance": 3
+  },
+  {
+    "query": "python virtual environments",
+    "doc_id": "doc14_pip_pinning",
+    "relevance": 2
+  },
+  {
+    "query": "python virtual environments",
+    "doc_id": "doc18_ubuntu_2404",
+    "relevance": 1
+  },
+  {
+    "query": "hetzner cloud server specs",
+    "doc_id": "doc15_hetzner_ccx",
+    "relevance": 3
+  },
+  {
+    "query": "hetzner cloud server specs",
+    "doc_id": "doc18_ubuntu_2404",
+    "relevance": 1
+  },
+  {
+    "query": "hetzner cloud server specs",
+    "doc_id": "doc16_rss_memory",
+    "relevance": 0
+  },
+  {
+    "query": "resident memory rss measurement",
+    "doc_id": "doc16_rss_memory",
+    "relevance": 3
+  },
+  {
+    "query": "resident memory rss measurement",
+    "doc_id": "doc17_latency_percentiles",
+    "relevance": 1
+  },
+  {
+    "query": "resident memory rss measurement",
+    "doc_id": "doc12_cpu_inference",
+    "relevance": 0
+  },
+  {
+    "query": "recall and precision in information retrieval",
+    "doc_id": "doc05_recall",
+    "relevance": 3
+  },
+  {
+    "query": "recall and precision in information retrieval",
+    "doc_id": "doc21_precision",
+    "relevance": 3
+  },
+  {
+    "query": "recall and precision in information retrieval",
+    "doc_id": "doc03_ndcg",
+    "relevance": 1
+  },
+  {
+    "query": "recall and precision in information retrieval",
+    "doc_id": "doc22_evaluation_harness",
+    "relevance": 1
+  },
+  {
+    "query": "ubuntu 24.04 python version",
+    "doc_id": "doc18_ubuntu_2404",
+    "relevance": 3
+  },
+  {
+    "query": "ubuntu 24.04 python version",
+    "doc_id": "doc14_pip_pinning",
+    "relevance": 1
+  },
+  {
+    "query": "ubuntu 24.04 python version",
+    "doc_id": "doc13_python_venv",
+    "relevance": 1
+  },
+  {
+    "query": "hybrid search combining keyword and vector",
+    "doc_id": "doc10_hybrid_search",
+    "relevance": 3
+  },
+  {
+    "query": "hybrid search combining keyword and vector",
+    "doc_id": "doc23_reciprocal_rank_fusion",
+    "relevance": 2
+  },
+  {
+    "query": "hybrid search combining keyword and vector",
+    "doc_id": "doc09_vector_embeddings",
+    "relevance": 2
+  },
+  {
+    "query": "hybrid search combining keyword and vector",
+    "doc_id": "doc01_bm25",
+    "relevance": 1
+  },
+  {
+    "query": "reciprocal rank fusion",
+    "doc_id": "doc23_reciprocal_rank_fusion",
+    "relevance": 3
+  },
+  {
+    "query": "reciprocal rank fusion",
+    "doc_id": "doc10_hybrid_search",
+    "relevance": 2
+  },
+  {
+    "query": "reciprocal rank fusion",
+    "doc_id": "doc04_mrr",
+    "relevance": 1
+  },
+  {
+    "query": "document chunking for indexing",
+    "doc_id": "doc19_document_chunking",
+    "relevance": 3
+  },
+  {
+    "query": "document chunking for indexing",
+    "doc_id": "doc25_index_freshness",
+    "relevance": 1
+  },
+  {
+    "query": "document chunking for indexing",
+    "doc_id": "doc20_web_crawling",
+    "relevance": 0
+  },
+  {
+    "query": "web crawling and robots.txt",
+    "doc_id": "doc20_web_crawling",
+    "relevance": 3
+  },
+  {
+    "query": "web crawling and robots.txt",
+    "doc_id": "doc25_index_freshness",
+    "relevance": 0
+  },
+  {
+    "query": "mean reciprocal rank metric",
+    "doc_id": "doc04_mrr",
+    "relevance": 3
+  },
+  {
+    "query": "mean reciprocal rank metric",
+    "doc_id": "doc03_ndcg",
+    "relevance": 1
+  },
+  {
+    "query": "mean reciprocal rank metric",
+    "doc_id": "doc22_evaluation_harness",
+    "relevance": 1
+  },
+  {
+    "query": "learning to rank with labeled judgments",
+    "doc_id": "doc11_learning_to_rank",
+    "relevance": 3
+  },
+  {
+    "query": "learning to rank with labeled judgments",
+    "doc_id": "https_en_wikipedia_org_wiki_Learning_to_rank_5a074481",
+    "relevance": 3
+  },
+  {
+    "query": "learning to rank with labeled judgments",
+    "doc_id": "doc22_evaluation_harness",
+    "relevance": 2
+  },
+  {
+    "query": "learning to rank with labeled judgments",
+    "doc_id": "doc01_bm25",
+    "relevance": 1
+  },
+  {
+    "query": "quantized language models on cpu",
+    "doc_id": "doc24_quantized_models",
+    "relevance": 3
+  },
+  {
+    "query": "quantized language models on cpu",
+    "doc_id": "doc12_cpu_inference",
+    "relevance": 2
+  },
+  {
+    "query": "p50 p95 latency percentiles",
+    "doc_id": "doc17_latency_percentiles",
+    "relevance": 3
+  },
+  {
+    "query": "p50 p95 latency percentiles",
+    "doc_id": "doc16_rss_memory",
+    "relevance": 1
+  },
+  {
+    "query": "index freshness incremental updates",
+    "doc_id": "doc25_index_freshness",
+    "relevance": 3
+  },
+  {
+    "query": "index freshness incremental updates",
+    "doc_id": "doc19_document_chunking",
+    "relevance": 0
+  },
+  {
+    "query": "hierarchical navigable small world graph search",
+    "doc_id": "doc26_hnsw",
+    "relevance": 3
+  },
+  {
+    "query": "hierarchical navigable small world graph search",
+    "doc_id": "https_en_wikipedia_org_wiki_Hierarchical_navigable_small_wor_dee97aa9",
+    "relevance": 3
+  },
+  {
+    "query": "hierarchical navigable small world graph search",
+    "doc_id": "doc09_vector_embeddings",
+    "relevance": 1
+  },
+  {
+    "query": "robots exclusion protocol crawler rules",
+    "doc_id": "doc27_robots_protocol",
+    "relevance": 3
+  },
+  {
+    "query": "robots exclusion protocol crawler rules",
+    "doc_id": "doc20_web_crawling",
+    "relevance": 2
+  },
+  {
+    "query": "compare server vcpu and ram specs",
+    "doc_id": "doc28_server_comparison",
+    "relevance": 3
+  },
+  {
+    "query": "compare server vcpu and ram specs",
+    "doc_id": "doc15_hetzner_ccx",
+    "relevance": 1
+  },
+  {
+    "query": "project manifest json metadata",
+    "doc_id": "doc29_project_manifest",
+    "relevance": 3
+  },
+  {
+    "query": "project manifest json metadata",
+    "doc_id": "doc14_pip_pinning",
+    "relevance": 0
+  },
+  {
+    "query": "sitemap xml for crawler prioritization",
+    "doc_id": "doc30_sitemap_structure",
+    "relevance": 3
+  },
+  {
+    "query": "sitemap xml for crawler prioritization",
+    "doc_id": "doc20_web_crawling",
+    "relevance": 1
+  },
+  {
+    "query": "docling unified document parsing library",
+    "doc_id": "doc31_docling_parsers",
+    "relevance": 3
+  },
+  {
+    "query": "docling unified document parsing library",
+    "doc_id": "doc22_evaluation_harness",
+    "relevance": 0
+  },
+  {
+    "query": "benchmark results spreadsheet p50 p95",
+    "doc_id": "doc32_benchmark_results",
+    "relevance": 3
+  },
+  {
+    "query": "benchmark results spreadsheet p50 p95",
+    "doc_id": "doc17_latency_percentiles",
+    "relevance": 2
+  },
+  {
+    "query": "roadmap phases and hard gates",
+    "doc_id": "doc33_roadmap_overview",
+    "relevance": 3
+  },
+  {
+    "query": "roadmap phases and hard gates",
+    "doc_id": "doc22_evaluation_harness",
+    "relevance": 1
+  },
+  {
+    "query": "named entity recognition for knowledge graphs",
+    "doc_id": "https_en_wikipedia_org_wiki_Named_entity_recognition_f12f0a34",
+    "relevance": 3
+  },
+  {
+    "query": "named entity recognition for knowledge graphs",
+    "doc_id": "doc34_kg_relations_demo",
+    "relevance": 1
+  },
+  {
+    "query": "named entity recognition for knowledge graphs",
+    "doc_id": "doc08_knowledge_graph",
+    "relevance": 1
+  },
+  {
+    "query": "what is a large language model",
+    "doc_id": "https_en_wikipedia_org_wiki_Large_language_model_affed6bf",
+    "relevance": 3
+  },
+  {
+    "query": "what is a large language model",
+    "doc_id": "doc24_quantized_models",
+    "relevance": 2
+  },
+  {
+    "query": "what is a large language model",
+    "doc_id": "doc12_cpu_inference",
+    "relevance": 1
+  },
+  {
+    "query": "bm25 term frequency saturation and length normalization",
+    "doc_id": "doc01_bm25",
+    "relevance": 3
+  },
+  {
+    "query": "bm25 term frequency saturation and length normalization",
+    "doc_id": "doc02_tfidf",
+    "relevance": 1
+  },
+  {
+    "query": "term frequency inverse document frequency weighting",
+    "doc_id": "doc02_tfidf",
+    "relevance": 3
+  },
+  {
+    "query": "term frequency inverse document frequency weighting",
+    "doc_id": "doc01_bm25",
+    "relevance": 1
+  },
+  {
+    "query": "logarithmic discount for ranking relevance near the top",
+    "doc_id": "doc03_ndcg",
+    "relevance": 3
+  },
+  {
+    "query": "logarithmic discount for ranking relevance near the top",
+    "doc_id": "doc21_precision",
+    "relevance": 1
+  },
+  {
+    "query": "first relevant result rank scoring for question answering",
+    "doc_id": "doc04_mrr",
+    "relevance": 3
+  },
+  {
+    "query": "fraction of all relevant documents retrieved",
+    "doc_id": "doc05_recall",
+    "relevance": 3
+  },
+  {
+    "query": "fraction of all relevant documents retrieved",
+    "doc_id": "doc21_precision",
+    "relevance": 1
+  },
+  {
+    "query": "bm25 ranking built into a sqlite extension",
+    "doc_id": "doc06_sqlite_fts5",
+    "relevance": 3
+  },
+  {
+    "query": "bm25 ranking built into a sqlite extension",
+    "doc_id": "doc01_bm25",
+    "relevance": 1
+  },
+  {
+    "query": "openapi documentation generated from type annotations",
+    "doc_id": "doc07_fastapi",
+    "relevance": 3
+  },
+  {
+    "query": "entities and relationships as graph nodes and edges",
+    "doc_id": "doc08_knowledge_graph",
+    "relevance": 3
+  },
+  {
+    "query": "entities and relationships as graph nodes and edges",
+    "doc_id": "https_en_wikipedia_org_wiki_Knowledge_graph_869581c6",
+    "relevance": 2
+  },
+  {
+    "query": "approximate nearest neighbor search over embeddings",
+    "doc_id": "doc09_vector_embeddings",
+    "relevance": 3
+  },
+  {
+    "query": "approximate nearest neighbor search over embeddings",
+    "doc_id": "doc26_hnsw",
+    "relevance": 1
+  },
+  {
+    "query": "merging lexical and semantic ranked result lists",
+    "doc_id": "doc10_hybrid_search",
+    "relevance": 3
+  },
+  {
+    "query": "merging lexical and semantic ranked result lists",
+    "doc_id": "doc23_reciprocal_rank_fusion",
+    "relevance": 2
+  },
+  {
+    "query": "training a reranker on labeled judgment pairs",
+    "doc_id": "doc11_learning_to_rank",
+    "relevance": 3
+  },
+  {
+    "query": "running small language models without a gpu",
+    "doc_id": "doc12_cpu_inference",
+    "relevance": 3
+  },
+  {
+    "query": "running small language models without a gpu",
+    "doc_id": "doc24_quantized_models",
+    "relevance": 2
+  },
+  {
+    "query": "isolating project dependencies from system python",
+    "doc_id": "doc13_python_venv",
+    "relevance": 3
+  },
+  {
+    "query": "pip freeze for a reproducible requirements file",
+    "doc_id": "doc14_pip_pinning",
+    "relevance": 3
+  },
+  {
+    "query": "pip freeze for a reproducible requirements file",
+    "doc_id": "doc13_python_venv",
+    "relevance": 1
+  },
+  {
+    "query": "dedicated vcpu versus shared vcpu cloud instance",
+    "doc_id": "doc15_hetzner_ccx",
+    "relevance": 3
+  },
+  {
+    "query": "dedicated vcpu versus shared vcpu cloud instance",
+    "doc_id": "doc28_server_comparison",
+    "relevance": 1
+  },
+  {
+    "query": "physical ram usage during a benchmark run",
+    "doc_id": "doc16_rss_memory",
+    "relevance": 3
+  },
+  {
+    "query": "tail latency versus average response time",
+    "doc_id": "doc17_latency_percentiles",
+    "relevance": 3
+  },
+  {
+    "query": "long term support release with years of security updates",
+    "doc_id": "doc18_ubuntu_2404",
+    "relevance": 3
+  },
+  {
+    "query": "splitting long text into passages before indexing",
+    "doc_id": "doc19_document_chunking",
+    "relevance": 3
+  },
+  {
+    "query": "fetching pages from seed urls while respecting robots.txt",
+    "doc_id": "doc20_web_crawling",
+    "relevance": 3
+  },
+  {
+    "query": "fetching pages from seed urls while respecting robots.txt",
+    "doc_id": "doc27_robots_protocol",
+    "relevance": 2
+  },
+  {
+    "query": "fraction of retrieved results that are actually relevant",
+    "doc_id": "doc21_precision",
+    "relevance": 3
+  },
+  {
+    "query": "fraction of retrieved results that are actually relevant",
+    "doc_id": "doc05_recall",
+    "relevance": 1
+  },
+  {
+    "query": "running judgment pairs against a search backend to compute metrics",
+    "doc_id": "doc22_evaluation_harness",
+    "relevance": 3
+  },
+  {
+    "query": "running judgment pairs against a search backend to compute metrics",
+    "doc_id": "doc03_ndcg",
+    "relevance": 1
+  },
+  {
+    "query": "combining ranked lists with no score calibration needed",
+    "doc_id": "doc23_reciprocal_rank_fusion",
+    "relevance": 3
+  },
+  {
+    "query": "combining ranked lists with no score calibration needed",
+    "doc_id": "doc10_hybrid_search",
+    "relevance": 2
+  },
+  {
+    "query": "reducing neural network weight precision for cpu speed",
+    "doc_id": "doc24_quantized_models",
+    "relevance": 3
+  },
+  {
+    "query": "reducing neural network weight precision for cpu speed",
+    "doc_id": "doc12_cpu_inference",
+    "relevance": 2
+  },
+  {
+    "query": "how quickly a search index reflects document changes",
+    "doc_id": "doc25_index_freshness",
+    "relevance": 3
+  },
+  {
+    "query": "how quickly a search index reflects document changes",
+    "doc_id": "doc19_document_chunking",
+    "relevance": 1
+  },
+  {
+    "query": "multi layer graph for sub linear vector search",
+    "doc_id": "doc26_hnsw",
+    "relevance": 3
+  },
+  {
+    "query": "multi layer graph for sub linear vector search",
+    "doc_id": "doc09_vector_embeddings",
+    "relevance": 1
+  },
+  {
+    "query": "advisory crawl rules published at a site root",
+    "doc_id": "doc27_robots_protocol",
+    "relevance": 3
+  },
+  {
+    "query": "advisory crawl rules published at a site root",
+    "doc_id": "doc20_web_crawling",
+    "relevance": 1
+  },
+  {
+    "query": "vcpu ram and disk specs compared across servers",
+    "doc_id": "doc28_server_comparison",
+    "relevance": 3
+  },
+  {
+    "query": "vcpu ram and disk specs compared across servers",
+    "doc_id": "doc15_hetzner_ccx",
+    "relevance": 1
+  },
+  {
+    "query": "json file describing project components and phase",
+    "doc_id": "doc29_project_manifest",
+    "relevance": 3
+  },
+  {
+    "query": "canonical urls with last modified dates for crawler priority",
+    "doc_id": "doc30_sitemap_structure",
+    "relevance": 3
+  },
+  {
+    "query": "canonical urls with last modified dates for crawler priority",
+    "doc_id": "doc20_web_crawling",
+    "relevance": 1
+  },
+  {
+    "query": "one library for parsing pdf docx xlsx and pptx",
+    "doc_id": "doc31_docling_parsers",
+    "relevance": 3
+  },
+  {
+    "query": "p50 p95 latency numbers in a spreadsheet",
+    "doc_id": "doc32_benchmark_results",
+    "relevance": 3
+  },
+  {
+    "query": "p50 p95 latency numbers in a spreadsheet",
+    "doc_id": "doc17_latency_percentiles",
+    "relevance": 1
+  },
+  {
+    "query": "phased roadmap with hard gate milestones",
+    "doc_id": "doc33_roadmap_overview",
+    "relevance": 3
+  },
+  {
+    "query": "fastapi built on starlette with pydantic validation",
+    "doc_id": "doc34_kg_relations_demo",
+    "relevance": 3
+  },
+  {
+    "query": "fastapi built on starlette with pydantic validation",
+    "doc_id": "doc07_fastapi",
+    "relevance": 2
+  },
+  {
+    "query": "tantivy spacy memgraph and lightgbm in one pipeline",
+    "doc_id": "doc35_kg_more_technologies",
+    "relevance": 3
+  },
+  {
+    "query": "tantivy spacy memgraph and lightgbm in one pipeline",
+    "doc_id": "doc08_knowledge_graph",
+    "relevance": 1
+  },
+  {
+    "query": "probabilistic relevance model developed in the 1970s and 1980s",
+    "doc_id": "https_en_wikipedia_org_wiki_Okapi_BM25_da69a5a0",
+    "relevance": 3
+  },
+  {
+    "query": "probabilistic relevance model developed in the 1970s and 1980s",
+    "doc_id": "doc01_bm25",
+    "relevance": 2
+  },
+  {
+    "query": "a term weighting scheme historically derived from tf-idf",
+    "doc_id": "https_en_wikipedia_org_wiki_Tf_E2_80_93idf_245bc05f",
+    "relevance": 3
+  },
+  {
+    "query": "a term weighting scheme historically derived from tf-idf",
+    "doc_id": "doc02_tfidf",
+    "relevance": 2
+  },
+  {
+    "query": "layered proximity graph structure for nearest neighbor search",
+    "doc_id": "https_en_wikipedia_org_wiki_Hierarchical_navigable_small_wor_dee97aa9",
+    "relevance": 3
+  },
+  {
+    "query": "layered proximity graph structure for nearest neighbor search",
+    "doc_id": "doc26_hnsw",
+    "relevance": 2
+  },
+  {
+    "query": "a linked data model representing real world entities",
+    "doc_id": "https_en_wikipedia_org_wiki_Knowledge_graph_869581c6",
+    "relevance": 3
+  },
+  {
+    "query": "a linked data model representing real world entities",
+    "doc_id": "doc08_knowledge_graph",
+    "relevance": 2
+  },
+  {
+    "query": "pointwise pairwise and listwise ranking approaches",
+    "doc_id": "https_en_wikipedia_org_wiki_Learning_to_rank_5a074481",
+    "relevance": 3
+  },
+  {
+    "query": "pointwise pairwise and listwise ranking approaches",
+    "doc_id": "doc11_learning_to_rank",
+    "relevance": 2
+  },
+  {
+    "query": "identifying people organizations and locations in text",
+    "doc_id": "https_en_wikipedia_org_wiki_Named_entity_recognition_f12f0a34",
+    "relevance": 3
+  },
+  {
+    "query": "a model trained on very large text corpora for language tasks",
+    "doc_id": "https_en_wikipedia_org_wiki_Large_language_model_affed6bf",
+    "relevance": 3
+  },
+  {
+    "query": "a model trained on very large text corpora for language tasks",
+    "doc_id": "doc12_cpu_inference",
+    "relevance": 1
+  },
+  {
+    "query": "a specialized database for storing and querying embeddings",
+    "doc_id": "https_en_wikipedia_org_wiki_Vector_database_a8d0a318",
+    "relevance": 3
+  },
+  {
+    "query": "a specialized database for storing and querying embeddings",
+    "doc_id": "doc09_vector_embeddings",
+    "relevance": 2
+  },
+  {
+    "query": "the bm25 auxiliary function inside sqlite full text search",
+    "doc_id": "https_sqlite_org_fts5_html_8acf991e",
+    "relevance": 3
+  },
+  {
+    "query": "the bm25 auxiliary function inside sqlite full text search",
+    "doc_id": "doc06_sqlite_fts5",
+    "relevance": 2
+  },
+  {
+    "query": "official python documentation for creating a virtual environment",
+    "doc_id": "https_docs_python_org_3_library_venv_html_378bbfd6",
+    "relevance": 3
+  },
+  {
+    "query": "official python documentation for creating a virtual environment",
+    "doc_id": "doc13_python_venv",
+    "relevance": 2
+  },
+  {
+    "query": "python standard library module for sqlite databases",
+    "doc_id": "https_docs_python_org_3_library_sqlite3_html_cf11cb89",
+    "relevance": 3
+  },
+  {
+    "query": "python standard library module for sqlite databases",
+    "doc_id": "doc06_sqlite_fts5",
+    "relevance": 1
+  },
+  {
+    "query": "write ahead logging mode for sqlite concurrency",
+    "doc_id": "https_sqlite_org_wal_html_9329d5b7",
+    "relevance": 3
+  },
+  {
+    "query": "write ahead logging mode for sqlite concurrency",
+    "doc_id": "https_docs_python_org_3_library_sqlite3_html_cf11cb89",
+    "relevance": 1
+  },
+  {
+    "query": "how does bm25 differ from tf-idf",
+    "doc_id": "doc01_bm25",
+    "relevance": 3
+  },
+  {
+    "query": "how does bm25 differ from tf-idf",
+    "doc_id": "doc02_tfidf",
+    "relevance": 3
+  },
+  {
+    "query": "best metric when a user only needs one correct answer",
+    "doc_id": "doc04_mrr",
+    "relevance": 3
+  },
+  {
+    "query": "best metric when a user only needs one correct answer",
+    "doc_id": "doc03_ndcg",
+    "relevance": 1
+  },
+  {
+    "query": "difference between precision and recall",
+    "doc_id": "doc21_precision",
+    "relevance": 3
+  },
+  {
+    "query": "difference between precision and recall",
+    "doc_id": "doc05_recall",
+    "relevance": 3
+  },
+  {
+    "query": "why choose dedicated vcpu over shared vcpu",
+    "doc_id": "doc15_hetzner_ccx",
+    "relevance": 3
+  },
+  {
+    "query": "measuring peak memory footprint of a running process",
+    "doc_id": "doc16_rss_memory",
+    "relevance": 3
+  },
+  {
+    "query": "measuring peak memory footprint of a running process",
+    "doc_id": "doc17_latency_percentiles",
+    "relevance": 1
+  },
+  {
+    "query": "chunk size tradeoff between context and relevance dilution",
+    "doc_id": "doc19_document_chunking",
+    "relevance": 3
+  },
+  {
+    "query": "crawler seed urls and per domain rate limiting",
+    "doc_id": "doc20_web_crawling",
+    "relevance": 3
+  },
+  {
+    "query": "why hybrid search beats keyword only search",
+    "doc_id": "doc10_hybrid_search",
+    "relevance": 3
+  },
+  {
+    "query": "why hybrid search beats keyword only search",
+    "doc_id": "doc09_vector_embeddings",
+    "relevance": 2
+  },
+  {
+    "query": "reranking search results with a trained model",
+    "doc_id": "doc11_learning_to_rank",
+    "relevance": 3
+  },
+  {
+    "query": "reranking search results with a trained model",
+    "doc_id": "doc22_evaluation_harness",
+    "relevance": 1
+  },
+  {
+    "query": "8-bit integer quantization for faster cpu inference",
+    "doc_id": "doc24_quantized_models",
+    "relevance": 3
+  },
+  {
+    "query": "8-bit integer quantization for faster cpu inference",
+    "doc_id": "doc12_cpu_inference",
+    "relevance": 2
+  },
+  {
+    "query": "batch rebuilt versus incrementally updated search index",
+    "doc_id": "doc25_index_freshness",
+    "relevance": 3
+  },
+  {
+    "query": "sub linear query time at the cost of exact recall",
+    "doc_id": "doc26_hnsw",
+    "relevance": 3
+  },
+  {
+    "query": "robots.txt is advisory and not enforced by protocol",
+    "doc_id": "doc27_robots_protocol",
+    "relevance": 3
+  },
+  {
+    "query": "comparison table of cpu ram disk and region across servers",
+    "doc_id": "doc28_server_comparison",
+    "relevance": 3
+  },
+  {
+    "query": "project phase and component list stored as json",
+    "doc_id": "doc29_project_manifest",
+    "relevance": 3
+  },
+  {
+    "query": "sitemap xml helps a crawler prioritize changed pages",
+    "doc_id": "doc30_sitemap_structure",
+    "relevance": 3
+  },
+  {
+    "query": "sitemap xml helps a crawler prioritize changed pages",
+    "doc_id": "doc27_robots_protocol",
+    "relevance": 1
+  },
+  {
+    "query": "a spreadsheet documenting benchmark latency results",
+    "doc_id": "doc32_benchmark_results",
+    "relevance": 3
+  },
+  {
+    "query": "a roadmap with phases that can gate later progress",
+    "doc_id": "doc33_roadmap_overview",
+    "relevance": 3
+  },
+  {
+    "query": "a roadmap with phases that can gate later progress",
+    "doc_id": "doc29_project_manifest",
+    "relevance": 1
+  },
+  {
+    "query": "starlette and pydantic used together in a web framework",
+    "doc_id": "doc07_fastapi",
+    "relevance": 3
+  },
+  {
+    "query": "starlette and pydantic used together in a web framework",
+    "doc_id": "doc34_kg_relations_demo",
+    "relevance": 2
+  },
+  {
+    "query": "spacy for entity recognition alongside a memgraph graph store",
+    "doc_id": "doc35_kg_more_technologies",
+    "relevance": 3
+  },
+  {
+    "query": "spacy for entity recognition alongside a memgraph graph store",
+    "doc_id": "doc08_knowledge_graph",
+    "relevance": 1
+  },
+  {
+    "query": "python virtual environment versus the system python install",
+    "doc_id": "doc13_python_venv",
+    "relevance": 3
+  },
+  {
+    "query": "python virtual environment versus the system python install",
+    "doc_id": "https_docs_python_org_3_library_venv_html_378bbfd6",
+    "relevance": 2
+  },
+  {
+    "query": "reproducible dependency versions across different machines",
+    "doc_id": "doc14_pip_pinning",
+    "relevance": 3
+  },
+  {
+    "query": "a cheap keyword baseline before a learning-to-rank layer",
+    "doc_id": "doc01_bm25",
+    "relevance": 3
+  },
+  {
+    "query": "a cheap keyword baseline before a learning-to-rank layer",
+    "doc_id": "doc11_learning_to_rank",
+    "relevance": 1
+  },
+  {
+    "query": "semantically similar text ending up close together in vector space",
+    "doc_id": "doc09_vector_embeddings",
+    "relevance": 3
+  },
+  {
+    "query": "semantically similar text ending up close together in vector space",
+    "doc_id": "https_en_wikipedia_org_wiki_Vector_database_a8d0a318",
+    "relevance": 2
+  },
+  {
+    "query": "combining bm25 score vector score click history and freshness signals",
+    "doc_id": "doc11_learning_to_rank",
+    "relevance": 3
+  },
+  {
+    "query": "combining bm25 score vector score click history and freshness signals",
+    "doc_id": "doc23_reciprocal_rank_fusion",
+    "relevance": 1
+  },
+  {
+    "query": "why cpu-first design favors lexical search over large transformers",
+    "doc_id": "doc12_cpu_inference",
+    "relevance": 3
+  },
+  {
+    "query": "why cpu-first design favors lexical search over large transformers",
+    "doc_id": "doc01_bm25",
+    "relevance": 1
+  },
+  {
+    "query": "ubuntu noble numbat default system python version",
+    "doc_id": "doc18_ubuntu_2404",
+    "relevance": 3
+  },
+  {
+    "query": "normalizing against the ideal ordering for comparable scores",
+    "doc_id": "doc03_ndcg",
+    "relevance": 3
+  },
+  {
+    "query": "reciprocal of the rank of the first relevant result",
+    "doc_id": "doc04_mrr",
+    "relevance": 3
+  }
+]

@@ -1,0 +1,43 @@
+fetched=0 skipped_duplicate=12 skipped_robots_disallowed=0 errors=0
+elapsed=0.0s budget=60s -> WITHIN BUDGET
+ingest: scanned=12 added=0 updated=0 unchanged=12
+fetched=0 rechecked_unchanged=0 rechecked_changed=0 skipped_duplicate=12 skipped_robots_disallowed=0 errors=0
+elapsed=0.0s budget=60s -> WITHIN BUDGET
+ingest: scanned=12 added=0 updated=0 unchanged=12
+Clashing hyperlinks: 'https://en.wikipedia.org/wiki/Compute_(machine_learning)' and 'https://en.wikipedia.org/wiki/AI_training'! Chose 'https://en.wikipedia.org/wiki/AI_training'
+Clashing hyperlinks: '#cite_note-IYm4Q-92' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+Clashing hyperlinks: '#cite_note-IYm4Q-92' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+Clashing hyperlinks: '#cite_note-IYm4Q-92' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+fetched=0 rechecked_unchanged=4 rechecked_changed=8 skipped_duplicate=0 skipped_robots_disallowed=0 errors=0
+elapsed=22.9s budget=60s -> WITHIN BUDGET
+ingest: scanned=12 added=0 updated=8 unchanged=4
+fetched=0 rechecked_unchanged=0 rechecked_changed=0 skipped_duplicate=12 skipped_robots_disallowed=0 errors=0
+elapsed=0.0s budget=60s -> WITHIN BUDGET
+ingest: scanned=12 added=0 updated=0 unchanged=12
+Clashing hyperlinks: 'https://en.wikipedia.org/wiki/Compute_(machine_learning)' and 'https://en.wikipedia.org/wiki/AI_training'! Chose 'https://en.wikipedia.org/wiki/AI_training'
+Clashing hyperlinks: '#cite_note-IYm4Q-97' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+Clashing hyperlinks: '#cite_note-IYm4Q-97' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+Clashing hyperlinks: '#cite_note-IYm4Q-97' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+fetched=0 rechecked_unchanged=2 rechecked_changed=10 skipped_duplicate=0 skipped_robots_disallowed=0 errors=0
+elapsed=22.4s budget=60s -> WITHIN BUDGET
+ingest: scanned=12 added=0 updated=10 unchanged=2
+Clashing hyperlinks: 'https://en.wikipedia.org/wiki/Compute_(machine_learning)' and 'https://en.wikipedia.org/wiki/AI_training'! Chose 'https://en.wikipedia.org/wiki/AI_training'
+Clashing hyperlinks: '#cite_note-IYm4Q-97' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+Clashing hyperlinks: '#cite_note-IYm4Q-97' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+Clashing hyperlinks: '#cite_note-IYm4Q-97' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+fetched=0 rechecked_unchanged=5 rechecked_changed=7 skipped_duplicate=0 skipped_robots_disallowed=0 errors=0
+elapsed=22.5s budget=60s -> WITHIN BUDGET
+ingest: scanned=12 added=0 updated=7 unchanged=5
+fetched=0 rechecked_unchanged=0 rechecked_changed=0 skipped_duplicate=12 skipped_robots_disallowed=0 errors=0
+elapsed=0.0s budget=60s -> WITHIN BUDGET
+ingest: scanned=12 added=0 updated=0 unchanged=12
+Clashing hyperlinks: 'https://en.wikipedia.org/wiki/Compute_(machine_learning)' and 'https://en.wikipedia.org/wiki/AI_training'! Chose 'https://en.wikipedia.org/wiki/AI_training'
+Clashing hyperlinks: '#cite_note-IYm4Q-97' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+Clashing hyperlinks: '#cite_note-IYm4Q-97' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+Clashing hyperlinks: '#cite_note-IYm4Q-97' and 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'! Chose 'https://en.wikipedia.org/wiki/Broken_Neural_Scaling_Law'
+fetched=0 rechecked_unchanged=2 rechecked_changed=10 skipped_duplicate=0 skipped_robots_disallowed=0 errors=0
+elapsed=22.4s budget=60s -> WITHIN BUDGET
+ingest: scanned=12 added=0 updated=10 unchanged=2
+fetched=0 rechecked_unchanged=0 rechecked_changed=0 skipped_duplicate=12 skipped_robots_disallowed=0 errors=0
+elapsed=0.0s budget=60s -> WITHIN BUDGET
+ingest: scanned=12 added=0 updated=0 unchanged=12
